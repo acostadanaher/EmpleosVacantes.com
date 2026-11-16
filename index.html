@@ -148,13 +148,13 @@
             display: none;
         }
 
-        /* Panel Principal de la App (Altura fija exacta 100vh sin scroll en la página) */
+        /* Panel Principal de la App (Estructura Unificada con un solo Scroll Vertical General) */
         #app-section {
             display: flex;
             flex-direction: column;
             height: 100vh;
             width: 100vw;
-            overflow: hidden !important;
+            overflow: hidden;
         }
 
         header {
@@ -162,14 +162,13 @@
             border-bottom: 1px solid var(--border-color);
             flex-shrink: 0;
             z-index: 100;
-            height: 70px;
         }
 
         .header-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 100%;
+            height: 70px;
         }
 
         .brand-logo {
@@ -383,13 +382,13 @@
             background-color: var(--primary);
         }
 
-        /* Contenedor central con scroll interno unificado y altura específica restante */
+        /* Contenedor con altura determinada y scroll interno directo para evitar múltiples scrolls */
         .tab-content-area {
             flex: 1;
-            height: calc(100vh - 70px - 53px); /* Altura exacta restando header y tabs */
+            height: calc(100vh - 130px); /* Altura determinada para que ocupe exactamente el espacio sin desbordar */
             overflow-y: auto !important;
             overflow-x: hidden;
-            padding: 40px 24px;
+            padding: 30px 24px;
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
@@ -513,76 +512,69 @@
             margin-top: 16px;
         }
 
-        /* Nueva sección de vista detallada interna (reemplaza ventana flotante modal) */
+        /* Sección de Detalle en línea (reemplaza a la ventana superpuesta modal para Novedades y Avisos) */
         .detail-view-container {
             display: none;
             background: #ffffff;
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 0;
-            animation: fadeIn 0.3s ease-in-out;
+            padding: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .detail-view-container.active {
             display: block;
         }
 
-        .detail-header-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .btn-back-detail {
+        .detail-back-btn {
             background: #f4f6f8;
             border: none;
             color: var(--text-color);
             font-weight: 600;
-            padding: 10px 18px;
+            padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
+            margin-bottom: 20px;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: background 0.2s;
         }
 
-        .btn-back-detail:hover {
+        .detail-back-btn:hover {
             background: #e2e8f0;
         }
 
         .detail-content-box img {
             width: 100%;
-            max-height: 400px;
+            max-height: 350px;
             object-fit: cover;
             border-radius: 8px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
-        .detail-content-box h2 {
-            font-size: 28px;
+        .detail-content-box h3 {
+            font-size: 26px;
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             color: var(--text-color);
         }
 
         .detail-content-box p {
             font-size: 16px;
             color: var(--text-muted);
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            line-height: 1.7;
+            margin-bottom: 16px;
         }
 
         @media (max-width: 768px) {
             .cards-grid {
                 grid-template-columns: 1fr;
+            }
+            .tab-content-area {
+                height: calc(100vh - 120px);
+                padding: 20px 16px;
             }
         }
     </style>
@@ -697,27 +689,37 @@
             </ul>
         </nav>
 
-        <!-- Contenido Central con scroll interno estricto -->
+        <!-- Contenedor Central con scroll interno directo y altura determinada -->
         <main class="tab-content-area">
 
-            <!-- TAB 1: NOVEDADES -->
+            <!-- TAB 1: NOVEDADES (Con sección de detalle en línea integrada) -->
             <div id="tab-novedades" class="tab-pane active">
-                <div id="novedades-list-view">
+                <div id="novedades-main-view">
                     <h2 class="section-title">Novedades del Mercado Laboral</h2>
                     <p class="section-desc">Últimas actualizaciones, tendencias y noticias de empleo adaptadas a tus intereses.</p>
                     <div class="cards-grid" id="novedades-grid"></div>
                 </div>
-                <div id="novedades-detail-view" class="detail-view-container"></div>
+
+                <!-- Contenedor de detalle en línea para Novedades -->
+                <div id="novedades-detail-view" class="detail-view-container">
+                    <button class="detail-back-btn" onclick="cerrarDetalleNovedad()">&larr; Volver atrás</button>
+                    <div class="detail-content-box" id="novedades-detail-content"></div>
+                </div>
             </div>
 
-            <!-- TAB 2: AVISOS EXCLUSIVOS -->
+            <!-- TAB 2: AVISOS EXCLUSIVOS (Con sección de detalle en línea integrada) -->
             <div id="tab-avisos" class="tab-pane">
-                <div id="avisos-list-view">
+                <div id="avisos-main-view">
                     <h2 class="section-title">Avisos Exclusivos por Categorías</h2>
                     <p class="section-desc">Búsquedas filtradas automáticamente según tus intereses y disponibilidad.</p>
                     <div class="cards-grid" id="avisos-grid"></div>
                 </div>
-                <div id="avisos-detail-view" class="detail-view-container"></div>
+
+                <!-- Contenedor de detalle en línea para Avisos Exclusivos -->
+                <div id="avisos-detail-view" class="detail-view-container">
+                    <button class="detail-back-btn" onclick="cerrarDetalleAviso()">&larr; Volver atrás</button>
+                    <div class="detail-content-box" id="avisos-detail-content"></div>
+                </div>
             </div>
 
             <!-- TAB 3: MODELOS DE CV (ELFSIGHT) -->
@@ -728,7 +730,7 @@
                 <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
             </div>
 
-            <!-- TAB 4: ASESORAMIENTO (Con deslizamiento suave) -->
+            <!-- TAB 4: ASESORAMIENTO (Con efecto de deslizamiento para abrir/cerrar formularios) -->
             <div id="tab-asesoramiento" class="tab-pane">
                 <h2 class="section-title">Asesoramiento Exclusivo para Miembros</h2>
                 <p class="section-desc">Beneficios incluidos en tu membresía mensual para potenciar tu empleabilidad.</p>
@@ -814,7 +816,7 @@
                     category: "supermercados",
                     image: "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&w=600&q=80",
                     desc: "Análisis sobre la alta demanda de personal operativo y logístico en cadenas de retail.",
-                    fullText: "El sector de supermercados experimenta una transformación digital y logística sin precedentes. La demanda de puestos operativos con flexibilidad horaria y turnos mañana lidera el ranking de contratación en Capital Federal y GBA. Las empresas valoran fuertemente la adaptabilidad y el compromiso diario de cada postulante en los distintos puntos de venta y centros de distribución."
+                    fullText: "El sector de supermercados experimenta una transformación digital y logística sin precedentes. La demanda de puestos operativos con flexibilidad horaria y turnos mañana lidera el ranking de contratación en Capital Federal y GBA. Las empresas valoran fuertemente la adaptabilidad y el compromiso diario de sus equipos de trabajo."
                 },
                 {
                     id: 202,
@@ -822,7 +824,7 @@
                     category: "digital",
                     image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80",
                     desc: "Cómo la automatización reconfigura los puestos administrativos de lunes a viernes.",
-                    fullText: "Los perfiles administrativos tradicionales incorporan herramientas digitales avanzadas. Las empresas buscan talentos capaces de gestionar planillas inteligentes y procesos automatizados manteniendo el esquema clásico de lunes a viernes en jornada full-time, optimizando tiempos y reduciendo márgenes de error operativo."
+                    fullText: "Los perfiles administrativos tradicionales incorporan herramientas digitales avanzadas. Las empresas buscan talentos capaces de gestionar planillas inteligentes y procesos automatizados manteniendo el esquema clásico de lunes a viernes en jornada full-time dentro de un entorno corporativo dinámico."
                 },
                 {
                     id: 203,
@@ -1086,7 +1088,7 @@
                                 <span class="item-tag">Novedad Laboral</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="showDetailView(${item.id}, 'novedad')">Leer noticia</button>
+                                <button class="btn-card-action" onclick="verDetalleNovedad(${item.id})">Leer noticia</button>
                             </div>
                         `;
                         novedadesGrid.appendChild(card);
@@ -1110,7 +1112,7 @@
                                 <span class="item-tag">Exclusivo Miembro</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="showDetailView(${item.id}, 'aviso')">Ver aviso</button>
+                                <button class="btn-card-action" onclick="verDetalleAviso(${item.id})">Ver aviso</button>
                             </div>
                         `;
                         avisosGrid.appendChild(card);
@@ -1118,62 +1120,61 @@
                 }
             }
 
-            // Vistas detalladas internas por sección (sin ventanas flotantes modales)
-            window.showDetailView = function(id, tipo) {
-                let item = null;
-                let listView = null;
-                let detailView = null;
+            // Funciones de visualización en línea (sin ventanas superpuestas / modales)
+            window.verDetalleNovedad = function(id) {
+                const item = novedadesData.find(n => n.id === id);
+                if (!item) return;
 
-                if(tipo === 'novedad') {
-                    item = novedadesData.find(n => n.id === id);
-                    listView = document.getElementById('novedades-list-view');
-                    detailView = document.getElementById('novedades-detail-view');
-                } else {
-                    item = avisosExclusivosData.find(a => a.id === id);
-                    listView = document.getElementById('avisos-list-view');
-                    detailView = document.getElementById('avisos-detail-view');
-                }
+                document.getElementById('novedades-main-view').classList.add('hidden');
+                const detailView = document.getElementById('novedades-detail-view');
+                const contentBox = document.getElementById('novedades-detail-content');
 
-                if (!item || !listView || !detailView) return;
+                contentBox.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <h3>${item.title}</h3>
+                    <p><strong>Detalle completo de la novedad:</strong></p>
+                    <p>${item.fullText}</p>
+                `;
+                detailView.classList.add('active');
+                
+                // Asegurar scroll al inicio del contenedor interno
+                document.querySelector('.tab-content-area').scrollTop = 0;
+            }
 
-                listView.classList.add('hidden');
-                detailView.innerHTML = `
-                    <div class="detail-header-bar">
-                        <button class="btn-back-detail" onclick="hideDetailView('${tipo}')">&larr; Volver atrás</button>
-                        <span style="font-size: 14px; font-weight: 600; color: var(--text-muted);">Detalle de ${tipo === 'novedad' ? 'Novedad' : 'Aviso Exclusivo'}</span>
-                    </div>
-                    <div class="detail-content-box">
-                        <img src="${item.image}" alt="${item.title}">
-                        <h2>${item.title}</h2>
-                        <p>${item.fullText}</p>
-                        ${item.contacto ? `<p style="margin-top: 16px;"><strong>Contacto empleador:</strong> <a href="mailto:${item.contacto}" style="color: var(--primary);">${item.contacto}</a></p>` : ''}
-                        ${tipo === 'aviso' ? `<div style="margin-top: 24px;"><a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; display: inline-block; width: auto; padding: 12px 24px;">Contactar con el empleador</a></div>` : ''}
+            window.cerrarDetalleNovedad = function() {
+                document.getElementById('novedades-detail-view').classList.remove('active');
+                document.getElementById('novedades-main-view').classList.remove('hidden');
+                document.querySelector('.tab-content-area').scrollTop = 0;
+            }
+
+            window.verDetalleAviso = function(id) {
+                const item = avisosExclusivosData.find(a => a.id === id);
+                if (!item) return;
+
+                document.getElementById('avisos-main-view').classList.add('hidden');
+                const detailView = document.getElementById('avisos-detail-view');
+                const contentBox = document.getElementById('avisos-detail-content');
+
+                contentBox.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}">
+                    <h3>${item.title}</h3>
+                    <p><strong>Detalle completo del aviso laboral:</strong></p>
+                    <p>${item.fullText}</p>
+                    <p style="margin-top: 16px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>
+                    <div style="margin-top: 20px;">
+                        <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 12px 24px; display: inline-block; text-align: center;">Contactar con el empleador</a>
                     </div>
                 `;
                 detailView.classList.add('active');
 
-                // Mantener el scroll al inicio del contenedor interior
-                const contentArea = document.querySelector('.tab-content-area');
-                if(contentArea) contentArea.scrollTop = 0;
+                // Asegurar scroll al inicio del contenedor interno
+                document.querySelector('.tab-content-area').scrollTop = 0;
             }
 
-            window.hideDetailView = function(tipo) {
-                let listView = null;
-                let detailView = null;
-
-                if(tipo === 'novedad') {
-                    listView = document.getElementById('novedades-list-view');
-                    detailView = document.getElementById('novedades-detail-view');
-                } else {
-                    listView = document.getElementById('avisos-list-view');
-                    detailView = document.getElementById('avisos-detail-view');
-                }
-
-                if(detailView) detailView.classList.remove('active');
-                if(listView) listView.classList.remove('hidden');
-
-                const contentArea = document.querySelector('.tab-content-area');
-                if(contentArea) contentArea.scrollTop = 0;
+            window.cerrarDetalleAviso = function() {
+                document.getElementById('avisos-detail-view').classList.remove('active');
+                document.getElementById('avisos-main-view').classList.remove('hidden');
+                document.querySelector('.tab-content-area').scrollTop = 0;
             }
         });
     </script>
