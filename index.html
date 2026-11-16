@@ -28,36 +28,64 @@
             overflow: hidden !important;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .hidden { display: none !important; }
 
         .container {
             width: 100%;
-            padding: 0 24px;
+            padding: 0 16px;
             max-width: 1400px;
             margin: 0 auto;
+        }
+
+        /* Contenedor principal adaptable para celulares (máximo 700px de altura fija con scroll interno exclusivo) */
+        #app-wrapper-mobile {
+            width: 100%;
+            max-width: 480px;
+            height: 100%;
+            max-height: 700px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (min-width: 769px) {
+            #app-wrapper-mobile {
+                height: 700px;
+                max-height: 700px;
+            }
         }
 
         /* Pantalla de Login / Registro */
         #auth-section {
             width: 100%;
-            height: 100vh;
-            padding: 40px 24px;
+            height: 100%;
+            max-height: 700px;
+            max-width: 480px;
+            padding: 30px 20px;
             display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            overflow-y: auto;
+            flex-direction: column;
+            justify-content: center;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow-y: auto !important;
         }
 
         .auth-card {
             width: 100%;
-            max-width: 440px;
-            background: #ffffff;
         }
 
         .auth-card h2 {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 700;
             margin-bottom: 8px;
             color: var(--text-color);
@@ -65,26 +93,26 @@
 
         .auth-card p.subtitle {
             color: var(--text-muted);
-            margin-bottom: 24px;
-            font-size: 15px;
+            margin-bottom: 20px;
+            font-size: 14px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             position: relative;
         }
 
         .form-group label {
             display: block;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .form-group input {
             width: 100%;
-            padding: 14px 45px 14px 16px;
-            font-size: 16px;
+            padding: 12px 40px 12px 14px;
+            font-size: 15px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             outline: none;
@@ -97,13 +125,13 @@
 
         .toggle-password {
             position: absolute;
-            right: 14px;
-            top: 42px;
+            right: 12px;
+            top: 38px;
             background: none;
             border: none;
             cursor: pointer;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
         }
 
@@ -112,8 +140,8 @@
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 14px;
-            font-size: 16px;
+            padding: 12px;
+            font-size: 15px;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
@@ -125,9 +153,9 @@
         }
 
         .auth-footer {
-            margin-top: 24px;
+            margin-top: 20px;
             text-align: left;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
         }
 
@@ -137,23 +165,19 @@
             font-weight: 600;
         }
 
-        .auth-footer a:hover {
-            text-decoration: underline;
-        }
-
         .error-msg {
             color: #d93838;
-            font-size: 14px;
-            margin-bottom: 16px;
+            font-size: 13px;
+            margin-bottom: 12px;
             display: none;
         }
 
-        /* Panel Principal de la App (Estructura Unificada con altura determinada y scroll interno directo) */
+        /* Panel Principal de la App */
         #app-section {
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            width: 100vw;
+            height: 100%;
+            width: 100%;
             overflow: hidden;
         }
 
@@ -168,11 +192,12 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 70px;
+            height: 60px;
+            padding: 0 16px;
         }
 
         .brand-logo {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
@@ -181,7 +206,7 @@
         .user-nav-area {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         .menu-toggle {
@@ -191,45 +216,42 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            width: 26px;
-            height: 20px;
+            width: 24px;
+            height: 18px;
             padding: 0;
         }
 
         .menu-toggle span {
             display: block;
             width: 100%;
-            height: 3px;
+            height: 2px;
             background-color: var(--text-color);
             border-radius: 2px;
-            transition: 0.3s;
         }
 
         #menu-backdrop {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.4);
             z-index: 998;
             display: none;
         }
 
         .sidebar-menu {
-            position: fixed;
+            position: absolute;
             top: 0;
-            right: -380px;
-            width: 380px;
-            max-width: 90vw;
-            height: 100vh;
+            right: -100%;
+            width: 100%;
+            height: 100%;
             background: #ffffff;
             z-index: 999;
-            box-shadow: -5px 0 25px rgba(0,0,0,0.1);
             transition: right 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
-            padding: 24px;
+            padding: 20px;
             overflow-y: auto !important;
         }
 
@@ -241,29 +263,29 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
             border-bottom: 1px solid var(--border-color);
         }
 
         .sidebar-header h3 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
         }
 
         .close-sidebar {
             background: none;
             border: none;
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
             color: var(--text-muted);
         }
 
         .account-details {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 24px;
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
 
         .account-details strong {
@@ -275,51 +297,44 @@
             display: inline-block;
             background: #f8fafc;
             border: 1px solid var(--border-color);
-            padding: 5px 12px;
-            border-radius: 16px;
-            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 11px;
             font-weight: 500;
             color: var(--text-color);
-            margin: 3px 4px;
+            margin: 2px 2px;
         }
 
         .sidebar-actions {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin-top: auto;
-            padding-top: 20px;
+            padding-top: 16px;
             border-top: 1px solid var(--border-color);
         }
 
         .btn-sidebar-action {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: #f4f6f8;
             border: none;
             border-radius: 6px;
             font-weight: 600;
+            font-size: 13px;
             color: var(--text-color);
             cursor: pointer;
             text-align: left;
-            transition: background 0.2s;
-        }
-
-        .btn-sidebar-action:hover {
-            background: #e2e8f0;
         }
 
         .btn-logout {
             color: #d93838;
             background: #fdf2f2;
         }
-        .btn-logout:hover {
-            background: #fce8e8;
-        }
 
         .account-subview {
             display: none;
-            padding: 24px 0;
+            padding: 16px 0;
         }
 
         .account-subview.active {
@@ -332,8 +347,8 @@
             color: var(--primary);
             font-weight: 600;
             cursor: pointer;
-            margin-bottom: 16px;
-            font-size: 14px;
+            margin-bottom: 12px;
+            font-size: 13px;
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -342,15 +357,13 @@
         .main-nav-tabs {
             background: #ffffff;
             border-bottom: 1px solid var(--border-color);
-            padding: 0 24px;
+            padding: 0 16px;
             flex-shrink: 0;
         }
 
         .tabs-list {
             display: flex;
-            gap: 32px;
-            max-width: 1400px;
-            margin: 0 auto;
+            gap: 20px;
             list-style: none;
             overflow-x: auto;
         }
@@ -358,14 +371,13 @@
         .tab-btn {
             background: none;
             border: none;
-            padding: 16px 0;
-            font-size: 15px;
+            padding: 12px 0;
+            font-size: 14px;
             font-weight: 600;
             color: var(--text-muted);
             cursor: pointer;
             position: relative;
             white-space: nowrap;
-            transition: color 0.2s;
         }
 
         .tab-btn:hover, .tab-btn.active {
@@ -382,17 +394,14 @@
             background-color: var(--primary);
         }
 
-        /* Contenedor con scroll interno unificado y altura determinada para evitar doble scroll en la página */
+        /* Área de contenido con scroll interno único y exclusivo */
         .tab-content-area {
             flex: 1;
-            height: calc(100vh - 125px);
             overflow-y: auto !important;
             overflow-x: hidden;
-            padding: 40px 24px;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 20px 16px;
             width: 100%;
-            -webkit-overflow-scrolling: touch;
+            background: #fcfcfc;
         }
 
         .tab-pane {
@@ -404,390 +413,350 @@
         }
 
         .section-title {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .section-desc {
             color: var(--text-muted);
-            margin-bottom: 32px;
-            font-size: 15px;
+            margin-bottom: 20px;
+            font-size: 13px;
         }
 
         .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .item-card {
             background: #ffffff;
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .item-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
 
         .item-card img {
             width: 100%;
-            height: 180px;
+            height: 150px;
             object-fit: cover;
             background: #f0f0f0;
         }
 
         .item-card-body {
-            padding: 20px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            flex: 1;
         }
 
         .item-tag {
             display: inline-block;
             background: #eef4ff;
             color: var(--primary);
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 20px;
-            margin-bottom: 12px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-bottom: 8px;
             align-self: flex-start;
         }
 
         .item-card h4 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: var(--text-color);
         }
 
         .item-card p {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
-            margin-bottom: 16px;
-            line-height: 1.5;
-            flex: 1;
+            margin-bottom: 12px;
+            line-height: 1.4;
         }
 
         .btn-card-action {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 10px 16px;
-            font-size: 14px;
+            padding: 10px 14px;
+            font-size: 13px;
             font-weight: 600;
             border-radius: 6px;
             cursor: pointer;
             text-align: center;
-            transition: background 0.2s;
         }
 
-        .btn-card-action:hover {
-            background-color: var(--primary-hover);
+        /* Vista de Detalle embebida (Estilo Asesoramiento / Sin ventana superpuesta) */
+        .detail-view {
+            display: none;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 16px;
+            animation: fadeIn 0.2s ease-in-out;
         }
 
-        /* Estilos de expansión/deslizamiento suave para formularios de asesoramiento */
+        .detail-view.active {
+            display: block;
+        }
+
+        .detail-view img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 14px;
+        }
+
+        .detail-view h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .detail-view p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .btn-back-detail {
+            background: #f4f6f8;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Deslizamiento suave para formularios de asesoramiento */
         .service-embed-container {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
             border: 0 solid var(--border-color);
             border-radius: 8px;
-            padding: 0 16px;
+            padding: 0 14px;
             margin-top: 0;
             background: #fafafa;
         }
 
         .service-embed-container.expanded {
-            max-height: 800px;
+            max-height: 600px;
             border: 1px solid var(--border-color);
-            padding: 16px;
-            margin-top: 16px;
-        }
-
-        /* Vistas de Detalle Integradas (Sustituyen la ventana superpuesta o modal por una vista interna deslizante/reemplazante con opción de volver) */
-        .detail-view-container {
-            display: none;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 16px;
-            border: 1px solid var(--border-color);
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .detail-view-container.active {
-            display: block;
-        }
-
-        .detail-header-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .detail-header-bar h3 {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-color);
-        }
-
-        .btn-back-detail {
-            background: #f4f6f8;
-            border: none;
-            color: var(--text-color);
-            font-weight: 600;
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: background 0.2s;
-        }
-
-        .btn-back-detail:hover {
-            background: #e2e8f0;
-        }
-
-        .detail-content-body img {
-            width: 100%;
-            max-height: 350px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            background: #f0f0f0;
-        }
-
-        .detail-content-body p {
-            font-size: 16px;
-            color: var(--text-muted);
-            line-height: 1.7;
-            margin-bottom: 20px;
+            padding: 14px;
+            margin-top: 12px;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 768px) {
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ================= SECCIÓN DE INICIO DE SESIÓN ================= -->
-    <section id="auth-section">
-        <div class="auth-card">
-            <h2>Iniciar Sesión</h2>
-            <p class="subtitle">Ingresa con tu correo electrónico y contraseña</p>
+    <div id="app-wrapper-mobile">
+
+        <!-- ================= SECCIÓN DE INICIO DE SESIÓN ================= -->
+        <section id="auth-section">
+            <div class="auth-card">
+                <h2>Iniciar Sesión</h2>
+                <p class="subtitle">Ingresa con tu correo electrónico y contraseña</p>
+                
+                <div id="login-error" class="error-msg">Correo o contraseña incorrectos.</div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-user">Correo electrónico</label>
+                        <input type="text" id="login-user" required placeholder="ejemplo@empleosvacantes.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-pass">Contraseña</label>
+                        <input type="password" id="login-pass" required placeholder="Ingresa tu contraseña">
+                        <button type="button" class="toggle-password" id="toggle-pass-btn">Ver</button>
+                    </div>
+                    <button type="submit" class="btn-primary">Ingresar</button>
+                </form>
+
+                <div class="auth-footer">
+                    ¿No tienes una cuenta? <a href="https://www.empleosvacantes.com/p/crear-mi-cuenta.html" target="_blank">Crear cuenta</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PANEL PRINCIPAL ================= -->
+        <section id="app-section" class="hidden">
             
-            <div id="login-error" class="error-msg">Correo o contraseña incorrectos.</div>
+            <!-- Backdrop para bloquear clics exteriores -->
+            <div id="menu-backdrop"></div>
 
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="login-user">Correo electrónico</label>
-                    <input type="text" id="login-user" required placeholder="ejemplo@empleosvacantes.com">
-                </div>
-                <div class="form-group">
-                    <label for="login-pass">Contraseña</label>
-                    <input type="password" id="login-pass" required placeholder="Ingresa tu contraseña">
-                    <button type="button" class="toggle-password" id="toggle-pass-btn">Ver</button>
-                </div>
-                <button type="submit" class="btn-primary">Ingresar</button>
-            </form>
-
-            <div class="auth-footer">
-                ¿No tienes una cuenta? <a href="https://www.empleosvacantes.com/p/crear-mi-cuenta.html" target="_blank">Crear cuenta</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ================= PANEL PRINCIPAL ================= -->
-    <section id="app-section" class="hidden">
-        
-        <!-- Backdrop para bloquear clics exteriores -->
-        <div id="menu-backdrop"></div>
-
-        <!-- Header Superior -->
-        <header>
-            <div class="container header-content">
-                <a href="#" class="brand-logo" id="header-greeting-title">Hola, Mauricio David</a>
-                <div class="user-nav-area">
-                    <button class="menu-toggle" id="menu-toggle-btn" aria-label="Menú">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Menú Lateral Desplegable -->
-        <div class="sidebar-menu" id="sidebar-menu">
-            <div class="sidebar-header">
-                <h3>Menú de Cuenta</h3>
-                <button class="close-sidebar" id="close-sidebar-btn">&times;</button>
-            </div>
-
-            <!-- Vista Principal del Menú -->
-            <div id="sidebar-main-view">
-                <!-- Banner de Membresía -->
-                <div style="background: #eef4ff; border-left: 4px solid var(--primary); padding: 12px 14px; border-radius: 0 6px 6px 0; margin-bottom: 20px;">
-                    <p style="font-size: 13px; color: var(--text-color); line-height: 1.4;">
-                        🚀 <strong>¡Buenas noticias!</strong> Mantendremos tu membresía exclusiva a solo <strong>$990 por mes</strong> para potenciar tu carrera.
-                    </p>
-                </div>
-
-                <div class="account-details">
-                    <p><strong>Nombre:</strong> <span id="acc-name">Mauricio David</span></p>
-                    <p><strong>Apellido:</strong> <span id="acc-lastname">Acosta Danaher</span></p>
-                    <p><strong>Ubicación:</strong> <span id="acc-location">Capital Federal</span></p>
-                    <p><strong>Correo electrónico:</strong> <span id="acc-email">mauricioacostacom@gmail.com</span></p>
-                    <p style="margin-top: 8px;"><strong>Temas de interés:</strong><br><span id="acc-interests"></span></p>
-                    <p style="margin-top: 8px;"><strong>Medio de Pago:</strong> Mercado Pago</p>
-                    <p><strong>Próximo débito:</strong> <span id="acc-next-debit">1 de diciembre de 2026</span></p>
-                    <p><strong>Estado de la cuenta:</strong> <span id="acc-status-box"><span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span></span></p>
-                </div>
-
-                <div class="sidebar-actions">
-                    <button class="btn-sidebar-action" id="nav-update-data">Actualizar o modificar datos</button>
-                    <button class="btn-sidebar-action" id="nav-delete-account">Eliminar cuenta</button>
-                    <button class="btn-sidebar-action btn-logout" id="btn-logout">Cerrar sesión</button>
-                </div>
-            </div>
-
-            <!-- Vista: Actualizar Datos -->
-            <div id="sidebar-update-view" class="account-subview">
-                <button class="btn-back-account" id="back-from-update">&larr; Volver atrás</button>
-                <h4 style="margin-bottom: 16px;">Actualizar Datos</h4>
-                <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div class="elfsight-app-25c50845-bf94-4f9b-9879-2f5da5469520" data-elfsight-app-lazy></div>
-            </div>
-
-            <!-- Vista: Eliminar Cuenta -->
-            <div id="sidebar-delete-view" class="account-subview">
-                <button class="btn-back-account" id="back-from-delete">&larr; Volver atrás</button>
-                <h4 style="margin-bottom: 16px; color: #d93838;">Eliminar Cuenta</h4>
-                <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div class="elfsight-app-25c50845-bf94-4f9b-9879-2f5da5469520" data-elfsight-app-lazy></div>
-            </div>
-        </div>
-
-        <!-- Navegación de Secciones (Tabs) -->
-        <nav class="main-nav-tabs">
-            <ul class="tabs-list">
-                <li><button class="tab-btn active" data-target="tab-novedades">Novedades</button></li>
-                <li><button class="tab-btn" data-target="tab-avisos">Avisos Exclusivos</button></li>
-                <li><button class="tab-btn" data-target="tab-cvs">Modelos de CV</button></li>
-                <li><button class="tab-btn" data-target="tab-asesoramiento">Asesoramiento</button></li>
-            </ul>
-        </nav>
-
-        <!-- Contenido Central con scroll interno directo unificado y altura determinada -->
-        <main class="tab-content-area">
-
-            <!-- TAB 1: NOVEDADES -->
-            <div id="tab-novedades" class="tab-pane active">
-                <div id="novedades-main-view">
-                    <h2 class="section-title">Novedades del Mercado Laboral</h2>
-                    <p class="section-desc">Últimas actualizaciones, tendencias y noticias de empleo adaptadas a tus intereses.</p>
-                    <div class="cards-grid" id="novedades-grid"></div>
-                </div>
-                <!-- Vista de Detalle Interna (Sustituye la ventana superpuesta) -->
-                <div id="novedades-detail-view" class="detail-view-container">
-                    <div class="detail-header-bar">
-                        <button class="btn-back-detail" id="btn-back-novedades">&larr; Volver</button>
-                        <h3 id="novedad-detail-title">Título de la Novedad</h3>
+            <!-- Header Superior -->
+            <header>
+                <div class="header-content">
+                    <a href="#" class="brand-logo" id="header-greeting-title">Hola, Mauricio David</a>
+                    <div class="user-nav-area">
+                        <button class="menu-toggle" id="menu-toggle-btn" aria-label="Menú">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
                     </div>
-                    <div class="detail-content-body" id="novedad-detail-body"></div>
                 </div>
-            </div>
+            </header>
 
-            <!-- TAB 2: AVISOS EXCLUSIVOS -->
-            <div id="tab-avisos" class="tab-pane">
-                <div id="avisos-main-view">
-                    <h2 class="section-title">Avisos Exclusivos por Categorías</h2>
-                    <p class="section-desc">Búsquedas filtradas automáticamente según tus intereses y disponibilidad.</p>
-                    <div class="cards-grid" id="avisos-grid"></div>
+            <!-- Menú Lateral Desplegable -->
+            <div class="sidebar-menu" id="sidebar-menu">
+                <div class="sidebar-header">
+                    <h3>Menú de Cuenta</h3>
+                    <button class="close-sidebar" id="close-sidebar-btn">&times;</button>
                 </div>
-                <!-- Vista de Detalle Interna (Sustituye la ventana superpuesta) -->
-                <div id="avisos-detail-view" class="detail-view-container">
-                    <div class="detail-header-bar">
-                        <button class="btn-back-detail" id="btn-back-avisos">&larr; Volver</button>
-                        <h3 id="aviso-detail-title">Título del Aviso</h3>
+
+                <!-- Vista Principal del Menú -->
+                <div id="sidebar-main-view">
+                    <!-- Banner de Membresía -->
+                    <div style="background: #eef4ff; border-left: 4px solid var(--primary); padding: 10px 12px; border-radius: 0 6px 6px 0; margin-bottom: 16px;">
+                        <p style="font-size: 12px; color: var(--text-color); line-height: 1.4;">
+                            🚀 <strong>¡Buenas noticias!</strong> Tu membresía exclusiva a solo <strong>$990/mes</strong>.
+                        </p>
                     </div>
-                    <div class="detail-content-body" id="aviso-detail-body"></div>
+
+                    <div class="account-details">
+                        <p><strong>Nombre:</strong> <span id="acc-name">Mauricio David</span></p>
+                        <p><strong>Apellido:</strong> <span id="acc-lastname">Acosta Danaher</span></p>
+                        <p><strong>Ubicación:</strong> <span id="acc-location">Capital Federal</span></p>
+                        <p><strong>Correo electrónico:</strong> <span id="acc-email">mauricioacostacom@gmail.com</span></p>
+                        <p style="margin-top: 6px;"><strong>Temas de interés:</strong><br><span id="acc-interests"></span></p>
+                        <p style="margin-top: 6px;"><strong>Medio de Pago:</strong> Mercado Pago</p>
+                        <p><strong>Próximo débito:</strong> <span id="acc-next-debit">1 de diciembre de 2026</span></p>
+                        <p><strong>Estado:</strong> <span id="acc-status-box"><span style="color: #0d8a3e; font-weight: 600;">Al día</span></span></p>
+                    </div>
+
+                    <div class="sidebar-actions">
+                        <button class="btn-sidebar-action" id="nav-update-data">Actualizar o modificar datos</button>
+                        <button class="btn-sidebar-action" id="nav-delete-account">Eliminar cuenta</button>
+                        <button class="btn-sidebar-action btn-logout" id="btn-logout">Cerrar sesión</button>
+                    </div>
+                </div>
+
+                <!-- Vista: Actualizar Datos -->
+                <div id="sidebar-update-view" class="account-subview">
+                    <button class="btn-back-account" id="back-from-update">&larr; Volver atrás</button>
+                    <h4 style="margin-bottom: 14px; font-size: 15px;">Actualizar Datos</h4>
+                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                    <div class="elfsight-app-25c50845-bf94-4f9b-9879-2f5da5469520" data-elfsight-app-lazy></div>
+                </div>
+
+                <!-- Vista: Eliminar Cuenta -->
+                <div id="sidebar-delete-view" class="account-subview">
+                    <button class="btn-back-account" id="back-from-delete">&larr; Volver atrás</button>
+                    <h4 style="margin-bottom: 14px; font-size: 15px; color: #d93838;">Eliminar Cuenta</h4>
+                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                    <div class="elfsight-app-25c50845-bf94-4f9b-9879-2f5da5469520" data-elfsight-app-lazy></div>
                 </div>
             </div>
 
-            <!-- TAB 3: MODELOS DE CV (ELFSIGHT) -->
-            <div id="tab-cvs" class="tab-pane">
-                <h2 class="section-title">Modelos de CV Listos para Descargar</h2>
-                <p class="section-desc">Formatos profesionales diseñados por expertos en recursos humanos para distintos perfiles.</p>
-                <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
-            </div>
+            <!-- Navegación de Secciones (Tabs) -->
+            <nav class="main-nav-tabs">
+                <ul class="tabs-list">
+                    <li><button class="tab-btn active" data-target="tab-novedades">Novedades</button></li>
+                    <li><button class="tab-btn" data-target="tab-avisos">Avisos Exclusivos</button></li>
+                    <li><button class="tab-btn" data-target="tab-cvs">Modelos de CV</button></li>
+                    <li><button class="tab-btn" data-target="tab-asesoramiento">Asesoramiento</button></li>
+                </ul>
+            </nav>
 
-            <!-- TAB 4: ASESORAMIENTO (Con efecto de deslizamiento para abrir/cerrar formularios) -->
-            <div id="tab-asesoramiento" class="tab-pane">
-                <h2 class="section-title">Asesoramiento Exclusivo para Miembros</h2>
-                <p class="section-desc">Beneficios incluidos en tu membresía mensual para potenciar tu empleabilidad.</p>
-                <div class="cards-grid">
-                    
-                    <!-- Tarjeta Revisión de Currículum -->
-                    <div class="item-card">
-                        <div class="item-card-body">
-                            <span class="item-tag">3 Revisiones / mes</span>
-                            <h4>Revisión de Currículum</h4>
-                            <p>Envía tu CV actual y recibe devoluciones detalladas. Te quedan <strong id="cv-count-display">3</strong> revisiones disponibles este mes.</p>
-                            <button class="btn-card-action" id="btn-toggle-cv-form">Solicitar Revisión</button>
-                            
-                            <div id="cv-form-embed-wrapper" class="service-embed-container">
-                                <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Completa el formulario para enviar tu CV a revisión:</p>
-                                <script src="https://elfsightcdn.com/platform.js" async></script>
-                                <div class="elfsight-app-79c64a07-6a5d-4ed6-9c22-934db37640e2" data-elfsight-app-lazy></div>
+            <!-- Contenido Central con scroll interno único -->
+            <main class="tab-content-area" id="main-scroll-container">
+
+                <!-- TAB 1: NOVEDADES (Con vista interna sin modal flotante) -->
+                <div id="tab-novedades" class="tab-pane active">
+                    <div id="novedades-list-view">
+                        <h2 class="section-title">Novedades del Mercado Laboral</h2>
+                        <p class="section-desc">Actualizaciones y tendencias adaptadas a tus intereses.</p>
+                        <div class="cards-grid" id="novedades-grid"></div>
+                    </div>
+                    <div id="novedades-detail-view" class="detail-view">
+                        <button class="btn-back-detail" onclick="cerrarDetalleNovedad()">&larr; Volver a novedades</button>
+                        <div id="novedades-detail-content" style="margin-top: 14px;"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: AVISOS EXCLUSIVOS (Con vista interna sin modal flotante) -->
+                <div id="tab-avisos" class="tab-pane">
+                    <div id="avisos-list-view">
+                        <h2 class="section-title">Avisos Exclusivos por Categorías</h2>
+                        <p class="section-desc">Búsquedas filtradas automáticamente según tus intereses.</p>
+                        <div class="cards-grid" id="avisos-grid"></div>
+                    </div>
+                    <div id="avisos-detail-view" class="detail-view">
+                        <button class="btn-back-detail" onclick="cerrarDetalleAviso()">&larr; Volver a avisos</button>
+                        <div id="avisos-detail-content" style="margin-top: 14px;"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: MODELOS DE CV -->
+                <div id="tab-cvs" class="tab-pane">
+                    <h2 class="section-title">Modelos de CV Listos para Descargar</h2>
+                    <p class="section-desc">Formatos profesionales diseñados por expertos en rrhh.</p>
+                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                    <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
+                </div>
+
+                <!-- TAB 4: ASESORAMIENTO -->
+                <div id="tab-asesoramiento" class="tab-pane">
+                    <h2 class="section-title">Asesoramiento Exclusivo para Miembros</h2>
+                    <p class="section-desc">Beneficios incluidos en tu membresía mensual.</p>
+                    <div class="cards-grid">
+                        
+                        <!-- Tarjeta Revisión de Currículum -->
+                        <div class="item-card">
+                            <div class="item-card-body">
+                                <span class="item-tag">3 Revisiones / mes</span>
+                                <h4>Revisión de Currículum</h4>
+                                <p>Envía tu CV actual y recibe devoluciones detalladas. Te quedan <strong id="cv-count-display">3</strong> revisiones disponibles este mes.</p>
+                                <button class="btn-card-action" id="btn-toggle-cv-form">Solicitar Revisión</button>
+                                
+                                <div id="cv-form-embed-wrapper" class="service-embed-container">
+                                    <p style="font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">Completa el formulario para enviar tu CV a revisión:</p>
+                                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                                    <div class="elfsight-app-79c64a07-6a5d-4ed6-9c22-934db37640e2" data-elfsight-app-lazy></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Tarjeta Simulacro de Entrevista -->
-                    <div class="item-card">
-                        <div class="item-card-body">
-                            <span class="item-tag">1 Sesión / mes</span>
-                            <h4>Simulacro de Entrevista y Asesoramiento Online</h4>
-                            <p>Práctica personalizada y técnicas de oratoria. Te queda <strong id="booking-count-display">1</strong> sesión disponible este mes.</p>
-                            <button class="btn-card-action" id="btn-toggle-booking-form">Agendar Sesión</button>
-                            
-                            <div id="booking-form-embed-wrapper" class="service-embed-container">
-                                <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Selecciona día y horario para tu simulación online:</p>
-                                <script src="https://elfsightcdn.com/platform.js" async></script>
-                                <div class="elfsight-app-ffa002ec-4da5-4992-a45b-2feebb7e7fbf" data-elfsight-app-lazy></div>
+                        <!-- Tarjeta Simulacro de Entrevista -->
+                        <div class="item-card">
+                            <div class="item-card-body">
+                                <span class="item-tag">1 Sesión / mes</span>
+                                <h4>Simulacro de Entrevista y Asesoramiento Online</h4>
+                                <p>Práctica personalizada y técnicas de oratoria. Te queda <strong id="booking-count-display">1</strong> sesión disponible este mes.</p>
+                                <button class="btn-card-action" id="btn-toggle-booking-form">Agendar Sesión</button>
+                                
+                                <div id="booking-form-embed-wrapper" class="service-embed-container">
+                                    <p style="font-size: 12px; margin-bottom: 8px; color: var(--text-muted);">Selecciona día y horario para tu simulación online:</p>
+                                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                                    <div class="elfsight-app-ffa002ec-4da5-4992-a45b-2feebb7e7fbf" data-elfsight-app-lazy></div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
-
                 </div>
-            </div>
 
-        </main>
-    </section>
+            </main>
+        </section>
+
+    </div>
 
     <!-- ================= JAVASCRIPT ================= -->
     <script>
@@ -806,12 +775,11 @@
                 sesionesAgendarRestantes: 1
             };
 
-            // Función para capitalizar la primera letra de cada tema de interés
+            // Capitalizar primera letra de cada tema de interés
             function capitalizarTexto(texto) {
                 return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
             }
 
-            // Renderizar intereses con iniciales en mayúscula
             const interestsContainer = document.getElementById('acc-interests');
             if (interestsContainer) {
                 interestsContainer.innerHTML = '';
@@ -823,7 +791,6 @@
                 });
             }
 
-            // Base de datos de Novedades filtrables por categoría
             const novedadesData = [
                 {
                     id: 201,
@@ -851,7 +818,6 @@
                 }
             ];
 
-            // Base de datos de Avisos Exclusivos filtrables por categoría
             const avisosExclusivosData = [
                 {
                     id: 101,
@@ -891,7 +857,7 @@
                 }
             ];
 
-            // Cálculo dinámico del próximo débito con año actual
+            // Próximo débito dinámico
             function calcularProximoDebito() {
                 const now = new Date();
                 let mes = now.getMonth() + 1;
@@ -906,33 +872,7 @@
             const debitEl = document.getElementById('acc-next-debit');
             if(debitEl) debitEl.textContent = calcularProximoDebito();
 
-            // Renderizar estado de cuenta
-            const statusBox = document.getElementById('acc-status-box');
-            if(statusBox) {
-                if (userData.mesesAdeudados > 0) {
-                    statusBox.innerHTML = `
-                        <span style="color: #d93838; font-weight: 600; display: block; margin-top: 4px;">Tienes un pago pendiente de $${userData.montoDeuda} (${userData.mesesAdeudados} meses)</span>
-                        <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
-                            <button class="btn-primary" style="padding: 8px; font-size: 13px;" onclick="alert('Redirigiendo a Mercado Pago para regularizar cuenta...');">Pagar con Mercado Pago</button>
-                            <div style="font-size: 12px; color: var(--text-muted); background: #f4f6f8; padding: 8px; border-radius: 6px;">
-                                <strong>Pagar por transferencia CVU:</strong><br>
-                                Alias: <code>empleosvacantes.com</code><br>
-                                <em>Si ya transferiste, envianos tu comprobante a:</em><br>
-                                <a href="mailto:empleosvacantes.com@gmail.com" style="color: var(--primary);">empleosvacantes.com@gmail.com</a>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    statusBox.innerHTML = `<span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span>`;
-                }
-            }
-
-            const cvCountEl = document.getElementById('cv-count-display');
-            const bookingCountEl = document.getElementById('booking-count-display');
-            if(cvCountEl) cvCountEl.textContent = userData.revisionesCvRestantes;
-            if(bookingCountEl) bookingCountEl.textContent = userData.sesionesAgendarRestantes;
-
-            // Efecto de deslizamiento con botón dinámico ("Solicitar Revisión" / "Cerrar solicitud")
+            // Deslizamiento suave para formularios de asesoramiento
             const btnToggleCv = document.getElementById('btn-toggle-cv-form');
             const cvWrapper = document.getElementById('cv-form-embed-wrapper');
             if(btnToggleCv && cvWrapper) {
@@ -1084,7 +1024,6 @@
                 });
             });
 
-            // Función de renderizado filtrada por las categorías/intereses del usuario
             function renderContent() {
                 // Renderizar Novedades filtradas
                 const novedadesGrid = document.getElementById('novedades-grid');
@@ -1103,7 +1042,7 @@
                                 <span class="item-tag">Novedad Laboral</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="openDetalleNovedad(${item.id})">Leer noticia</button>
+                                <button class="btn-card-action" onclick="verDetalleNovedad(${item.id})">Leer noticia</button>
                             </div>
                         `;
                         novedadesGrid.appendChild(card);
@@ -1127,7 +1066,7 @@
                                 <span class="item-tag">Exclusivo Miembro</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="openDetalleAviso(${item.id})">Ver aviso</button>
+                                <button class="btn-card-action" onclick="verDetalleAviso(${item.id})">Ver aviso</button>
                             </div>
                         `;
                         avisosGrid.appendChild(card);
@@ -1135,49 +1074,63 @@
                 }
             }
 
-            // Navegación interna para Novedades (Estilo Asesoramiento)
-            window.openDetalleNovedad = function(id) {
+            // Sistema de navegación interno para Novedades (Sin ventana superpuesta)
+            window.verDetalleNovedad = function(id) {
                 const item = novedadesData.find(n => n.id === id);
                 if (!item) return;
 
-                document.getElementById('novedades-main-view').classList.add('hidden');
-                document.getElementById('novedad-detail-title').textContent = item.title;
-                document.getElementById('novedad-detail-body').innerHTML = `
+                const listView = document.getElementById('novedades-list-view');
+                const detailView = document.getElementById('novedades-detail-view');
+                const detailContent = document.getElementById('novedades-detail-content');
+
+                listView.classList.add('hidden');
+                detailContent.innerHTML = `
                     <img src="${item.image}" alt="${item.title}">
-                    <p><strong>Detalle completo de la novedad:</strong></p>
+                    <h3>${item.title}</h3>
                     <p>${item.fullText}</p>
                 `;
-                document.getElementById('novedades-detail-view').classList.add('active');
+                detailView.classList.add('active');
+                document.getElementById('main-scroll-container').scrollTop = 0;
             }
 
-            document.getElementById('btn-back-novedades').addEventListener('click', function() {
-                document.getElementById('novedades-detail-view').classList.remove('active');
-                document.getElementById('novedades-main-view').classList.remove('hidden');
-            });
+            window.cerrarDetalleNovedad = function() {
+                const listView = document.getElementById('novedades-list-view');
+                const detailView = document.getElementById('novedades-detail-view');
 
-            // Navegación interna para Avisos Exclusivos (Estilo Asesoramiento)
-            window.openDetalleAviso = function(id) {
+                detailView.classList.remove('active');
+                listView.classList.remove('hidden');
+                document.getElementById('main-scroll-container').scrollTop = 0;
+            }
+
+            // Sistema de navegación interno para Avisos (Sin ventana superpuesta)
+            window.verDetalleAviso = function(id) {
                 const item = avisosExclusivosData.find(a => a.id === id);
                 if (!item) return;
 
-                document.getElementById('avisos-main-view').classList.add('hidden');
-                document.getElementById('aviso-detail-title').textContent = item.title;
-                document.getElementById('aviso-detail-body').innerHTML = `
+                const listView = document.getElementById('avisos-list-view');
+                const detailView = document.getElementById('avisos-detail-view');
+                const detailContent = document.getElementById('avisos-detail-content');
+
+                listView.classList.add('hidden');
+                detailContent.innerHTML = `
                     <img src="${item.image}" alt="${item.title}">
-                    <p><strong>Detalle completo del aviso laboral:</strong></p>
+                    <h3>${item.title}</h3>
                     <p>${item.fullText}</p>
-                    <p style="margin-top: 16px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>
-                    <div style="margin-top: 20px;">
-                        <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 12px 24px; display: inline-block; text-align: center;">Contactar con el empleador</a>
-                    </div>
+                    <p style="margin-top: 12px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>
+                    <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 10px 16px; display: inline-block; text-align: center; margin-top: 10px;">Contactar con el empleador</a>
                 `;
-                document.getElementById('avisos-detail-view').classList.add('active');
+                detailView.classList.add('active');
+                document.getElementById('main-scroll-container').scrollTop = 0;
             }
 
-            document.getElementById('btn-back-avisos').addEventListener('click', function() {
-                document.getElementById('avisos-detail-view').classList.remove('active');
-                document.getElementById('avisos-main-view').classList.remove('hidden');
-            });
+            window.cerrarDetalleAviso = function() {
+                const listView = document.getElementById('avisos-list-view');
+                const detailView = document.getElementById('avisos-detail-view');
+
+                detailView.classList.remove('active');
+                listView.classList.remove('hidden');
+                document.getElementById('main-scroll-container').scrollTop = 0;
+            }
         });
     </script>
 </body>
