@@ -21,16 +21,15 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* Bloqueo total del scroll externo de la página */
+        /* Permitir scroll natural y fluido en toda la página y eliminar bloqueos o recortes */
         body, html {
             background-color: var(--bg-color) !important;
             color: var(--text-color) !important;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden !important;
-            position: fixed;
-            top: 0;
-            left: 0;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+            position: relative;
         }
 
         .hidden { display: none !important; }
@@ -42,20 +41,15 @@
             margin: 0 auto;
         }
 
-        /* Pantalla de Login / Registro con scroll interno propio */
+        /* Pantalla de Login / Registro */
         #auth-section {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            min-height: 100vh;
             padding: 40px 24px;
             display: flex;
             justify-content: flex-start;
             align-items: flex-start;
-            overflow-y: auto !important;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: #ffffff;
-            z-index: 1000;
+            overflow-y: visible;
         }
 
         .auth-card {
@@ -156,16 +150,13 @@
             display: none;
         }
 
-        /* Panel Principal de la App (Estructura rígida sin scroll de página) */
+        /* Panel Principal de la App con altura infinita y scroll fluido vertical */
         #app-section {
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden !important;
-            position: absolute;
-            top: 0;
-            left: 0;
+            min-height: 100vh;
+            width: 100%;
+            overflow: visible !important;
         }
 
         header {
@@ -173,6 +164,8 @@
             border-bottom: 1px solid var(--border-color);
             flex-shrink: 0;
             z-index: 100;
+            position: sticky;
+            top: 0;
         }
 
         .header-content {
@@ -281,7 +274,6 @@
             color: var(--text-color);
         }
 
-        /* Estilo de botones para Temas de Interés (Capitalizados) */
         .interest-badge {
             display: inline-block;
             background: #f8fafc;
@@ -355,6 +347,9 @@
             border-bottom: 1px solid var(--border-color);
             padding: 0 24px;
             flex-shrink: 0;
+            position: sticky;
+            top: 70px;
+            z-index: 90;
         }
 
         .tabs-list {
@@ -364,6 +359,7 @@
             margin: 0 auto;
             list-style: none;
             overflow-x: auto;
+            overflow-y: hidden;
         }
 
         .tab-btn {
@@ -393,11 +389,10 @@
             background-color: var(--primary);
         }
 
-        /* Contenedor con scroll interno exclusivo (único punto de scroll vertical de la app) */
+        /* Contenido con altura y scroll natural ilimitado */
         .tab-content-area {
             flex: 1;
-            overflow-y: auto !important;
-            overflow-x: hidden;
+            overflow: visible !important;
             padding: 40px 24px;
             max-width: 1400px;
             margin: 0 auto;
@@ -437,6 +432,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
@@ -503,6 +499,61 @@
             background-color: var(--primary-hover);
         }
 
+        /* Sección de Detalle Completo en Pantalla Completa (en lugar de ventana flotante) */
+        #detail-view-section {
+            display: none;
+            padding: 40px 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #detail-view-section.active {
+            display: block;
+        }
+
+        .detail-back-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+            margin-bottom: 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-card-full {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .detail-card-full img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .detail-card-full h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-color);
+        }
+
+        .detail-card-full p {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
         /* Estilos de expansión/deslizamiento suave para formularios de asesoramiento */
         .service-embed-container {
             max-height: 0;
@@ -522,83 +573,6 @@
             margin-top: 16px;
         }
 
-        /* Modal Superpuesto genérico para Avisos y Novedades */
-        #modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal-box {
-            background: #ffffff;
-            width: 100%;
-            max-width: 600px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            display: flex;
-            flex-direction: column;
-            max-height: 90vh;
-        }
-
-        .modal-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h3 {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .modal-close-btn {
-            background: none;
-            border: none;
-            font-size: 22px;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        .modal-body {
-            padding: 24px;
-            overflow-y: auto !important;
-        }
-
-        .modal-body img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 16px;
-        }
-
-        .modal-body p {
-            font-size: 15px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--border-color);
-            background: #fafafa;
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
-        }
-
         @media (max-width: 768px) {
             .cards-grid {
                 grid-template-columns: 1fr;
@@ -610,7 +584,7 @@
 
     <!-- ================= SECCIÓN DE INICIO DE SESIÓN ================= -->
     <section id="auth-section">
-        <div class="auth-card">
+        <div class="container auth-card">
             <h2>Iniciar Sesión</h2>
             <p class="subtitle">Ingresa con tu correo electrónico y contraseña</p>
             
@@ -716,17 +690,17 @@
             </ul>
         </nav>
 
-        <!-- Contenido Central con scroll interno exclusivo -->
-        <main class="tab-content-area">
+        <!-- Contenido Central con scroll natural y altura infinita -->
+        <main class="tab-content-area" id="main-content-container">
 
-            <!-- TAB 1: NOVEDADES (Filtradas por categorías del usuario y con apertura en Modal estilo pantalla grande) -->
+            <!-- TAB 1: NOVEDADES -->
             <div id="tab-novedades" class="tab-pane active">
                 <h2 class="section-title">Novedades del Mercado Laboral</h2>
                 <p class="section-desc">Últimas actualizaciones, tendencias y noticias de empleo adaptadas a tus intereses.</p>
                 <div class="cards-grid" id="novedades-grid"></div>
             </div>
 
-            <!-- TAB 2: AVISOS EXCLUSIVOS (Filtrados por categorías del usuario) -->
+            <!-- TAB 2: AVISOS EXCLUSIVOS -->
             <div id="tab-avisos" class="tab-pane">
                 <h2 class="section-title">Avisos Exclusivos por Categorías</h2>
                 <p class="section-desc">Búsquedas filtradas automáticamente según tus intereses y disponibilidad.</p>
@@ -741,14 +715,14 @@
                 <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
             </div>
 
-            <!-- TAB 4: ASESORAMIENTO (Con efecto de deslizamiento para abrir/cerrar formularios) -->
+            <!-- TAB 4: ASESORAMIENTO -->
             <div id="tab-asesoramiento" class="tab-pane">
                 <h2 class="section-title">Asesoramiento Exclusivo para Miembros</h2>
                 <p class="section-desc">Beneficios incluidos en tu membresía mensual para potenciar tu empleabilidad.</p>
                 <div class="cards-grid">
                     
                     <!-- Tarjeta Revisión de Currículum -->
-                    <div class="item-card">
+                    <div class="item-card" style="cursor: default;">
                         <div class="item-card-body">
                             <span class="item-tag">3 Revisiones / mes</span>
                             <h4>Revisión de Currículum</h4>
@@ -764,7 +738,7 @@
                     </div>
 
                     <!-- Tarjeta Simulacro de Entrevista -->
-                    <div class="item-card">
+                    <div class="item-card" style="cursor: default;">
                         <div class="item-card-body">
                             <span class="item-tag">1 Sesión / mes</span>
                             <h4>Simulacro de Entrevista y Asesoramiento Online</h4>
@@ -782,20 +756,14 @@
                 </div>
             </div>
 
+            <!-- VISTA DE DETALLE COMPLETO (Sección integrada con botón Volver atrás) -->
+            <div id="detail-view-section">
+                <button class="detail-back-btn" id="btn-back-to-list">&larr; Volver atrás</button>
+                <div class="detail-card-full" id="detail-content-box"></div>
+            </div>
+
         </main>
     </section>
-
-    <!-- ================= MODAL SUPERPUESTO ================= -->
-    <div id="modal-overlay">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3 id="modal-title">Título</h3>
-                <button class="modal-close-btn" id="modal-close">&times;</button>
-            </div>
-            <div class="modal-body" id="modal-body-content"></div>
-            <div class="modal-footer" id="modal-footer-actions"></div>
-        </div>
-    </div>
 
     <!-- ================= JAVASCRIPT ================= -->
     <script>
@@ -1083,8 +1051,13 @@
                 btn.addEventListener('click', () => {
                     const targetId = btn.getAttribute('data-target');
                     
+                    // Ocultar sección de detalle si estaba abierta al cambiar de tab
+                    document.getElementById('detail-view-section').classList.remove('active');
+
                     tabBtns.forEach(b => b.classList.remove('active'));
-                    tabPanes.forEach(p => p.classList.remove('active'));
+                    tabPanes.forEach(p => {
+                        if (p.id !== 'detail-view-section') p.classList.remove('active');
+                    });
 
                     btn.classList.add('active');
                     const targetPane = document.getElementById(targetId);
@@ -1105,13 +1078,15 @@
                     novedadesFiltradas.forEach(item => {
                         const card = document.createElement('div');
                         card.className = 'item-card';
+                        // Clic en cualquier parte de la tarjeta abre la sección completa
+                        card.addEventListener('click', () => openDetailView(item.id, 'novedad'));
                         card.innerHTML = `
                             <img src="${item.image}" alt="${item.title}">
                             <div class="item-card-body">
                                 <span class="item-tag">Novedad Laboral</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="openModalDetalle(${item.id}, 'novedad')">Leer noticia</button>
+                                <button class="btn-card-action" type="button">Leer noticia</button>
                             </div>
                         `;
                         novedadesGrid.appendChild(card);
@@ -1129,13 +1104,15 @@
                     avisosFiltrados.forEach(item => {
                         const card = document.createElement('div');
                         card.className = 'item-card';
+                        // Clic en cualquier parte de la tarjeta abre la sección completa
+                        card.addEventListener('click', () => openDetailView(item.id, 'aviso'));
                         card.innerHTML = `
                             <img src="${item.image}" alt="${item.title}">
                             <div class="item-card-body">
                                 <span class="item-tag">Exclusivo Miembro</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="openModalDetalle(${item.id}, 'aviso')">Ver aviso</button>
+                                <button class="btn-card-action" type="button">Ver aviso</button>
                             </div>
                         `;
                         avisosGrid.appendChild(card);
@@ -1143,14 +1120,12 @@
                 }
             }
 
-            // Modales unificados con opción de volver y visualización completa
-            const modalOverlay = document.getElementById('modal-overlay');
-            const modalTitle = document.getElementById('modal-title');
-            const modalBodyContent = document.getElementById('modal-body-content');
-            const modalFooterActions = document.getElementById('modal-footer-actions');
-            const modalClose = document.getElementById('modal-close');
+            // Apertura de Detalle en Sección Completa (en lugar de ventana flotante)
+            const detailViewSection = document.getElementById('detail-view-section');
+            const detailContentBox = document.getElementById('detail-content-box');
+            const btnBackToList = document.getElementById('btn-back-to-list');
 
-            window.openModalDetalle = function(id, tipo) {
+            window.openDetailView = function(id, tipo) {
                 let item = null;
                 if(tipo === 'novedad') {
                     item = novedadesData.find(n => n.id === id);
@@ -1159,38 +1134,37 @@
                 }
                 if (!item) return;
 
-                if(modalTitle) modalTitle.textContent = item.title;
-                if(modalBodyContent) {
-                    modalBodyContent.innerHTML = `
+                // Ocultar todas las pestañas activas
+                tabPanes.forEach(p => p.classList.remove('active'));
+
+                // Mostrar la sección de detalle completo
+                if(detailContentBox) {
+                    detailContentBox.innerHTML = `
                         <img src="${item.image}" alt="${item.title}">
+                        <h2>${item.title}</h2>
                         <p><strong>Detalle completo:</strong></p>
                         <p>${item.fullText}</p>
-                        ${item.contacto ? `<p style="margin-top: 12px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>` : ''}
+                        ${item.contacto ? `<p style="margin-top: 16px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>` : ''}
+                        ${tipo === 'aviso' ? `<div style="margin-top: 24px;"><a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 12px 24px; display: inline-block; text-align: center; width: auto;">Contactar con el empleador</a></div>` : ''}
                     `;
                 }
-                if(modalFooterActions) {
-                    if(tipo === 'aviso') {
-                        modalFooterActions.innerHTML = `
-                            <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 10px 20px; display: inline-block; text-align: center;">Contactar con el empleador</a>
-                            <button class="btn-sidebar-action" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Volver atrás</button>
-                        `;
-                    } else {
-                        modalFooterActions.innerHTML = `
-                            <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Volver atrás</button>
-                        `;
-                    }
+                if(detailViewSection) {
+                    detailViewSection.classList.add('active');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
-                if(modalOverlay) modalOverlay.style.display = 'flex';
             }
 
-            window.closeModal = function() {
-                if(modalOverlay) modalOverlay.style.display = 'none';
-            }
-
-            if(modalClose) modalClose.addEventListener('click', closeModal);
-            if(modalOverlay) {
-                modalOverlay.addEventListener('click', (e) => {
-                    if (e.target === modalOverlay) closeModal();
+            if(btnBackToList) {
+                btnBackToList.addEventListener('click', () => {
+                    if(detailViewSection) detailViewSection.classList.remove('active');
+                    // Restaurar la pestaña activa correspondiente
+                    const activeTabBtn = document.querySelector('.tab-btn.active');
+                    if(activeTabBtn) {
+                        const targetId = activeTabBtn.getAttribute('data-target');
+                        const targetPane = document.getElementById(targetId);
+                        if(targetPane) targetPane.classList.add('active');
+                    }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             }
         });
