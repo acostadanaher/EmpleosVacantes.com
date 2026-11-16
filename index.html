@@ -862,6 +862,28 @@
                 sesionesAgendarRestantes: 1
             };
 
+            const userData = {
+                usuario: "zamiramartinez38@gmail.com",
+                contrasena: "romeo1998",
+                nombre: "Gabriela",
+                apellido: "Martinez",
+                ubicacion: "Buenos Aires",
+                intereses: ["trabajo", "fulltime"],
+                
+                // CONTROL DE ESTADO DE MEMBRESÍA:
+                // Opciones: 
+                // "habilitado"   -> Acceso total al contenido
+                // "no_abonado"   -> Se registró pero nunca abonó (Muestra: "Aboná tu membresía y accedé al contenido")
+                // "vencido"      -> Se le venció la membresía y no abonó (Muestra: "Regularizá tu membresía para acceder al contenido")
+                estadoMembresia: "no_abonado",
+
+                activo: true,
+                mesesAdeudados: 0, 
+                montoDeuda: 990,
+                revisionesCvRestantes: 3,
+                sesionesAgendarRestantes: 1
+            };
+
             function capitalizarTexto(texto) {
                 return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
             }
