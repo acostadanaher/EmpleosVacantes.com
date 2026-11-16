@@ -479,19 +479,26 @@
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            align-items: center;
             margin-bottom: 12px;
         }
 
-        /* Estilo idéntico para insignia de miembro y etiqueta de categoría */
+        /* Tamaño y altura idénticos para insignia de miembro y etiqueta de categoría */
         .item-tag {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            height: 26px;
+            line-height: 1;
             background: #eef4ff;
             color: var(--primary);
             font-size: 12px;
             font-weight: 600;
-            padding: 4px 10px;
+            padding: 0 11px;
             border-radius: 20px;
-            align-self: flex-start;
+            white-space: nowrap;
+            vertical-align: middle;
         }
 
         .item-card h4 {
@@ -685,7 +692,7 @@
         <!-- Header Superior -->
         <header>
             <div class="container header-content">
-                <a href="#" class="brand-logo" id="header-greeting-title">Hola, Mauricio David</a>
+                <a href="#" class="brand-logo" id="header-greeting-title">Hola, Usuario</a>
                 <div class="user-nav-area">
                     <!-- Botón de casita reemplazando a las 3 rayitas -->
                     <button class="menu-toggle" id="menu-toggle-btn" aria-label="Menú principal">
@@ -712,14 +719,14 @@
                 </div>
 
                 <div class="account-details">
-                    <p><strong>Nombre:</strong> <span id="acc-name">Mauricio David</span></p>
-                    <p><strong>Apellido:</strong> <span id="acc-lastname">Acosta Danaher</span></p>
-                    <p><strong>Ubicación:</strong> <span id="acc-location">Capital Federal</span></p>
-                    <p><strong>Correo electrónico:</strong> <span id="acc-email">mauricioacostacom@gmail.com</span></p>
+                    <p><strong>Nombre:</strong> <span id="acc-name"></span></p>
+                    <p><strong>Apellido:</strong> <span id="acc-lastname"></span></p>
+                    <p><strong>Ubicación:</strong> <span id="acc-location"></span></p>
+                    <p><strong>Correo electrónico:</strong> <span id="acc-email"></span></p>
                     <p style="margin-top: 8px;"><strong>Temas de interés:</strong><br><span id="acc-interests"></span></p>
                     <p style="margin-top: 8px;"><strong>Medio de Pago:</strong> Mercado Pago</p>
                     <p><strong>Próximo débito:</strong> <span id="acc-next-debit">1 de diciembre de 2026</span></p>
-                    <p><strong>Estado de la cuenta:</strong> <span id="acc-status-box"><span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span></span></p>
+                    <p><strong>Estado de la cuenta:</strong> <span id="acc-status-box"></span></p>
                 </div>
 
                 <div class="sidebar-actions">
@@ -793,7 +800,7 @@
                         <!-- Tarjeta Revisión de Currículum -->
                         <div class="item-card" style="cursor: default;">
                             <div class="item-card-body">
-                                <span class="item-tag">3 Revisiones / mes</span>
+                                <span class="item-tag" style="margin-bottom: 12px; align-self: flex-start;">3 Revisiones / mes</span>
                                 <h4>Revisión de Currículum</h4>
                                 <p>Envía tu CV actual y recibe devoluciones detalladas. Te quedan <strong id="cv-count-display">3</strong> revisiones disponibles este mes.</p>
                                 <button class="btn-card-action" id="btn-toggle-cv-form">Solicitar Revisión</button>
@@ -809,7 +816,7 @@
                         <!-- Tarjeta Simulacro de Entrevista -->
                         <div class="item-card" style="cursor: default;">
                             <div class="item-card-body">
-                                <span class="item-tag">1 Sesión / mes</span>
+                                <span class="item-tag" style="margin-bottom: 12px; align-self: flex-start;">1 Sesión / mes</span>
                                 <h4>Simulacro de Entrevista y Asesoramiento Online</h4>
                                 <p>Práctica personalizada y técnicas de oratoria. Te queda <strong id="booking-count-display">1</strong> sesión disponible este mes.</p>
                                 <button class="btn-card-action" id="btn-toggle-booking-form">Agendar Sesión</button>
@@ -840,64 +847,56 @@
         document.addEventListener("DOMContentLoaded", function() {
             const MP_LINK = "https://mpago.la/1oNLzRZ";
 
-            const userData = {
-                usuario: "mauricioacostacom@gmail.com",
-                contrasena: "auto333",
-                nombre: "Mauricio David",
-                apellido: "Acosta Danaher",
-                ubicacion: "Capital Federal",
-                intereses: ["supermercados", "digital", "lunes a viernes", "fulltime", "turno mañana", "empresas", "administrativo"],
-                
-                // CONTROL DE ESTADO DE MEMBRESÍA:
-                // Opciones: 
-                // "habilitado"   -> Acceso total al contenido
-                // "no_abonado"   -> Se registró pero nunca abonó (Muestra: "Aboná tu membresía y accedé al contenido")
-                // "vencido"      -> Se le venció la membresía y no abonó (Muestra: "Regularizá tu membresía para acceder al contenido")
-                estadoMembresia: "habilitado",
+            // =========================================================================
+            // BASE DE DATOS DE USUARIOS (Agrega aquí todos los usuarios que necesites)
+            // =========================================================================
+            // Opciones para estadoMembresia:
+            // "habilitado"   -> Acceso total al contenido
+            // "no_abonado"   -> Se registró pero nunca abonó ("Aboná tu membresía y accedé al contenido")
+            // "vencido"      -> Se le venció la membresía y no abonó ("Regularizá tu membresía para acceder al contenido")
+            const usuariosDB = [
+                {
+                    usuario: "mauricioacostacom@gmail.com",
+                    contrasena: "auto333",
+                    nombre: "Mauricio David",
+                    apellido: "Acosta Danaher",
+                    ubicacion: "Capital Federal",
+                    intereses: ["supermercados", "digital", "lunes a viernes", "fulltime", "turno mañana", "empresas", "administrativo"],
+                    estadoMembresia: "habilitado",
+                    mesesAdeudados: 0,
+                    montoDeuda: 0,
+                    revisionesCvRestantes: 3,
+                    sesionesAgendarRestantes: 1
+                },
+                {
+                    usuario: "maximoantonioacosta@hotmail.com",
+                    contrasena: "casa0534",
+                    nombre: "Máximo Antonio",
+                    apellido: "Acosta",
+                    ubicacion: "Buenos Aires",
+                    intereses: ["fulltime"],
+                    estadoMembresia: "habilitado",
+                    mesesAdeudados: 0,
+                    montoDeuda: 0,
+                    revisionesCvRestantes: 3,
+                    sesionesAgendarRestantes: 1
+                },
+                {
+                    usuario: "zamiramartinez38@gmail.com",
+                    contrasena: "romeo1998",
+                    nombre: "Gabriela",
+                    apellido: "Martinez",
+                    ubicacion: "Buenos Aires",
+                    intereses: ["trabajo", "fulltime"],
+                    estadoMembresia: "no_abonado",
+                    mesesAdeudados: 0,
+                    montoDeuda: 990,
+                    revisionesCvRestantes: 3,
+                    sesionesAgendarRestantes: 1
+                }
+            ];
 
-                activo: true,
-                mesesAdeudados: 0, 
-                montoDeuda: 1980,
-                revisionesCvRestantes: 3,
-                sesionesAgendarRestantes: 1
-            };
-
-            const userData = {
-                usuario: "zamiramartinez38@gmail.com",
-                contrasena: "romeo1998",
-                nombre: "Gabriela",
-                apellido: "Martinez",
-                ubicacion: "Buenos Aires",
-                intereses: ["trabajo", "fulltime"],
-                
-                // CONTROL DE ESTADO DE MEMBRESÍA:
-                // Opciones: 
-                // "habilitado"   -> Acceso total al contenido
-                // "no_abonado"   -> Se registró pero nunca abonó (Muestra: "Aboná tu membresía y accedé al contenido")
-                // "vencido"      -> Se le venció la membresía y no abonó (Muestra: "Regularizá tu membresía para acceder al contenido")
-                estadoMembresia: "no_abonado",
-
-                activo: true,
-                mesesAdeudados: 0, 
-                montoDeuda: 990,
-                revisionesCvRestantes: 3,
-                sesionesAgendarRestantes: 1
-            };
-
-            function capitalizarTexto(texto) {
-                return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
-            }
-
-            const interestsContainer = document.getElementById('acc-interests');
-            if (interestsContainer) {
-                interestsContainer.innerHTML = '';
-                userData.intereses.forEach(interes => {
-                    const badge = document.createElement('span');
-                    badge.className = 'interest-badge';
-                    badge.textContent = capitalizarTexto(interes);
-                    interestsContainer.appendChild(badge);
-                });
-            }
+            let currentUser = null;
 
             const novedadesData = [
                 {
@@ -905,6 +904,7 @@
                     title: "Tendencias de Empleo en el sector de Supermercados para 2026",
                     category: "supermercados",
                     categoryName: "Supermercados",
+                    tags: ["supermercados", "fulltime", "turno mañana", "trabajo", "empresas"],
                     image: "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&w=600&q=80",
                     desc: "Análisis sobre la alta demanda de personal operativo y logístico en cadenas de retail.",
                     fullText: "El sector de supermercados experimenta una transformación digital y logística sin precedentes. La demanda de puestos operativos con flexibilidad horaria y turnos mañana lidera el ranking de contratación en Capital Federal y GBA. Las empresas valoran fuertemente la adaptabilidad y el compromiso."
@@ -914,6 +914,7 @@
                     title: "Transformación Digital y Nuevos Roles Administrativos",
                     category: "digital",
                     categoryName: "Digital",
+                    tags: ["digital", "administrativo", "lunes a viernes", "fulltime", "trabajo", "empresas"],
                     image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80",
                     desc: "Cómo la automatización reconfigura los puestos administrativos de lunes a viernes.",
                     fullText: "Los perfiles administrativos tradicionales incorporan herramientas digitales avanzadas. Las empresas buscan talentos capaces de gestionar planillas inteligentes y procesos automatizados manteniendo el esquema clásico de lunes a viernes en jornada full-time."
@@ -923,9 +924,10 @@
                     title: "Oportunidades laborales en Apps de Delivery",
                     category: "delivery",
                     categoryName: "Delivery",
+                    tags: ["delivery", "trabajo"],
                     image: "https://images.unsplash.com/photo-1526367460867-13a5a4b1bb12?auto=format&fit=crop&w=600&q=80",
                     desc: "Nuevas condiciones y beneficios para repartidores en la región metropolitana.",
-                    fullText: "El mercado de aplicaciones de delivery ofrece esquicios flexibles de horarios y ganancias competitivas."
+                    fullText: "El mercado de aplicaciones de delivery ofrece esquemas flexibles de horarios y ganancias competitivas."
                 }
             ];
 
@@ -935,9 +937,10 @@
                     title: "Administrativo Comercial FullTime - Turno Mañana",
                     category: "administrativo",
                     categoryName: "Administrativo",
+                    tags: ["administrativo", "fulltime", "lunes a viernes", "turno mañana", "empresas", "trabajo"],
                     image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=600&q=80",
                     desc: "Importante empresa corporativa busca administrativo con Lunes a Viernes de 8 a 17 hs.",
-                    fullText: "Buscamos colaborador para el área administrativa con sólida experiencia en gestión de órdenes, atención a proveedores y manejo de planillas. Requisitos: Residencia en Capital Federal, modalidad FullTime, turno mañana.",
+                    fullText: "Buscamos colaborador para el área administrativa con sólida experiencia en gestión de órdenes, atención a proveedores y manejo de planillas. Requisitos: Residencia en Capital Federal o GBA, modalidad FullTime, turno mañana.",
                     contacto: "rrhh@empresadigital.com.ar"
                 },
                 {
@@ -945,6 +948,7 @@
                     title: "Operario de Logística y Supermercados",
                     category: "supermercados",
                     categoryName: "Supermercados",
+                    tags: ["supermercados", "fulltime", "lunes a viernes", "turno mañana", "empresas", "trabajo"],
                     image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80",
                     desc: "Selección para cadena de supermercados líder. Turno mañana, Lunes a Viernes.",
                     fullText: "Incorporación inmediata para tareas de control de stock, recepción de mercadería y atención en salón. Jornada laboral FullTime en turno matutino.",
@@ -955,6 +959,7 @@
                     title: "Asistente Digital Administrativo Remoto/Presencial",
                     category: "digital",
                     categoryName: "Digital",
+                    tags: ["digital", "administrativo", "fulltime", "turno mañana", "empresas", "trabajo"],
                     image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80",
                     desc: "Puesto enfocado en transformación digital para empresas de servicios.",
                     fullText: "Empresa de tecnología busca asistente administrativo digital. Requisitos excluyentes: manejo fluido de herramientas informáticas y disponibilidad en turno mañana.",
@@ -965,12 +970,23 @@
                     title: "Delivery Staff - Apps de Reparto y Logística Express",
                     category: "delivery",
                     categoryName: "Delivery",
+                    tags: ["delivery", "trabajo"],
                     image: "https://images.unsplash.com/photo-1617347454431-f4987ff5fc3b?auto=format&fit=crop&w=600&q=80",
                     desc: "Búsqueda activa de repartidores con vehículo propio para aplicaciones de delivery.",
                     fullText: "Seleccionamos repartidores para importante app de delivery con excelentes incentivos por objetivos.",
                     contacto: "empleo@deliveryexpress.com.ar"
                 }
             ];
+
+            // Guardar copia original de los contenedores de CV y Asesoramiento para restaurarlos al cambiar de usuario
+            const cvsWrapper = document.getElementById('cvs-content-wrapper');
+            const asesoramientoWrapper = document.getElementById('asesoramiento-content-wrapper');
+            const originalCvsHtml = cvsWrapper ? cvsWrapper.innerHTML : '';
+            const originalAsesoramientoHtml = asesoramientoWrapper ? asesoramientoWrapper.innerHTML : '';
+
+            function capitalizarTexto(texto) {
+                return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+            }
 
             function calcularProximoDebito() {
                 const now = new Date();
@@ -983,41 +999,82 @@
                 const mesesNombres = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
                 return `1 de ${mesesNombres[mes]} de ${anio}`;
             }
-            const debitEl = document.getElementById('acc-next-debit');
-            if(debitEl) debitEl.textContent = calcularProximoDebito();
 
-            const statusBox = document.getElementById('acc-status-box');
-            if(statusBox) {
-                if (userData.estadoMembresia === "no_abonado") {
-                    statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Pendiente de activación (No abonado)</span>`;
-                } else if (userData.estadoMembresia === "vencido" || userData.mesesAdeudados > 0) {
-                    statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Membresía vencida / Pago pendiente</span>`;
-                } else {
-                    statusBox.innerHTML = `<span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span>`;
+            function inicializarEventosAsesoramiento() {
+                const btnToggleCv = document.getElementById('btn-toggle-cv-form');
+                const cvWrapper = document.getElementById('cv-form-embed-wrapper');
+                if(btnToggleCv && cvWrapper) {
+                    btnToggleCv.onclick = () => {
+                        const isOpen = cvWrapper.classList.toggle('expanded');
+                        btnToggleCv.textContent = isOpen ? 'Cerrar solicitud' : 'Solicitar Revisión';
+                    };
+                }
+
+                const btnToggleBooking = document.getElementById('btn-toggle-booking-form');
+                const bookingWrapper = document.getElementById('booking-form-embed-wrapper');
+                if(btnToggleBooking && bookingWrapper) {
+                    btnToggleBooking.onclick = () => {
+                        const isOpen = bookingWrapper.classList.toggle('expanded');
+                        btnToggleBooking.textContent = isOpen ? 'Cerrar solicitud' : 'Agendar Sesión';
+                    };
                 }
             }
 
-            const cvCountEl = document.getElementById('cv-count-display');
-            const bookingCountEl = document.getElementById('booking-count-display');
-            if(cvCountEl) cvCountEl.textContent = userData.revisionesCvRestantes;
-            if(bookingCountEl) bookingCountEl.textContent = userData.sesionesAgendarRestantes;
+            function cargarDatosUsuario(user) {
+                currentUser = user;
 
-            const btnToggleCv = document.getElementById('btn-toggle-cv-form');
-            const cvWrapper = document.getElementById('cv-form-embed-wrapper');
-            if(btnToggleCv && cvWrapper) {
-                btnToggleCv.addEventListener('click', () => {
-                    const isOpen = cvWrapper.classList.toggle('expanded');
-                    btnToggleCv.textContent = isOpen ? 'Cerrar solicitud' : 'Solicitar Revisión';
-                });
-            }
+                // Actualizar saludo superior
+                const greetingEl = document.getElementById('header-greeting-title');
+                if(greetingEl) greetingEl.textContent = `Hola, ${user.nombre}`;
 
-            const btnToggleBooking = document.getElementById('btn-toggle-booking-form');
-            const bookingWrapper = document.getElementById('booking-form-embed-wrapper');
-            if(btnToggleBooking && bookingWrapper) {
-                btnToggleBooking.addEventListener('click', () => {
-                    const isOpen = bookingWrapper.classList.toggle('expanded');
-                    btnToggleBooking.textContent = isOpen ? 'Cerrar solicitud' : 'Agendar Sesión';
-                });
+                // Actualizar datos en el menú lateral
+                const nameEl = document.getElementById('acc-name');
+                const lastNameEl = document.getElementById('acc-lastname');
+                const locEl = document.getElementById('acc-location');
+                const emailEl = document.getElementById('acc-email');
+                const debitEl = document.getElementById('acc-next-debit');
+
+                if(nameEl) nameEl.textContent = user.nombre;
+                if(lastNameEl) lastNameEl.textContent = user.apellido;
+                if(locEl) locEl.textContent = user.ubicacion;
+                if(emailEl) emailEl.textContent = user.usuario;
+                if(debitEl) debitEl.textContent = calcularProximoDebito();
+
+                // Cargar temas de interés
+                const interestsContainer = document.getElementById('acc-interests');
+                if (interestsContainer) {
+                    interestsContainer.innerHTML = '';
+                    user.intereses.forEach(interes => {
+                        const badge = document.createElement('span');
+                        badge.className = 'interest-badge';
+                        badge.textContent = capitalizarTexto(interes);
+                        interestsContainer.appendChild(badge);
+                    });
+                }
+
+                // Actualizar estado de cuenta
+                const statusBox = document.getElementById('acc-status-box');
+                if(statusBox) {
+                    if (user.estadoMembresia === "no_abonado") {
+                        statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Pendiente de activación (No abonado)</span>`;
+                    } else if (user.estadoMembresia === "vencido" || user.mesesAdeudados > 0) {
+                        statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Membresía vencida / Pago pendiente</span>`;
+                    } else {
+                        statusBox.innerHTML = `<span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span>`;
+                    }
+                }
+
+                // Restaurar contenido original de CVs y Asesoramiento antes de evaluar estado
+                if (cvsWrapper) cvsWrapper.innerHTML = originalCvsHtml;
+                if (asesoramientoWrapper) asesoramientoWrapper.innerHTML = originalAsesoramientoHtml;
+
+                const cvCountEl = document.getElementById('cv-count-display');
+                const bookingCountEl = document.getElementById('booking-count-display');
+                if(cvCountEl) cvCountEl.textContent = user.revisionesCvRestantes;
+                if(bookingCountEl) bookingCountEl.textContent = user.sesionesAgendarRestantes;
+
+                inicializarEventosAsesoramiento();
+                renderContent();
             }
 
             const togglePassBtn = document.getElementById('toggle-pass-btn');
@@ -1040,10 +1097,17 @@
             const loginUser = document.getElementById('login-user');
             const loginError = document.getElementById('login-error');
 
-            if (localStorage.getItem('empleos_session_active') === 'true') {
-                authSection.classList.add('hidden');
-                appSection.classList.remove('hidden');
-                renderContent();
+            // Verificar si hay sesión guardada y cargar el usuario correspondiente
+            const savedUserEmail = localStorage.getItem('empleos_session_user');
+            if (savedUserEmail) {
+                const foundSavedUser = usuariosDB.find(u => u.usuario.toLowerCase() === savedUserEmail.toLowerCase());
+                if (foundSavedUser) {
+                    authSection.classList.add('hidden');
+                    appSection.classList.remove('hidden');
+                    cargarDatosUsuario(foundSavedUser);
+                } else {
+                    localStorage.removeItem('empleos_session_user');
+                }
             }
 
             if(loginForm) {
@@ -1052,11 +1116,17 @@
                     const userVal = loginUser.value.trim().toLowerCase();
                     const passVal = loginPassInput.value.trim();
 
-                    if ((userVal === userData.usuario || userVal === "mauricio david") && passVal === userData.contrasena) {
-                        localStorage.setItem('empleos_session_active', 'true');
+                    const matchedUser = usuariosDB.find(u => 
+                        (u.usuario.toLowerCase() === userVal || u.nombre.toLowerCase() === userVal) && 
+                        u.contrasena === passVal
+                    );
+
+                    if (matchedUser) {
+                        loginError.style.display = 'none';
+                        localStorage.setItem('empleos_session_user', matchedUser.usuario);
                         authSection.classList.add('hidden');
                         appSection.classList.remove('hidden');
-                        renderContent();
+                        cargarDatosUsuario(matchedUser);
                     } else {
                         loginError.style.display = 'block';
                     }
@@ -1066,9 +1136,10 @@
             const btnLogout = document.getElementById('btn-logout');
             if(btnLogout) {
                 btnLogout.addEventListener('click', () => {
+                    localStorage.removeItem('empleos_session_user');
                     localStorage.removeItem('empleos_session_active');
+                    currentUser = null;
                     appSection.classList.add('hidden');
-                    authSection.classList.add('hidden'); // fallback
                     authSection.classList.remove('hidden');
                     loginForm.reset();
                     loginError.style.display = 'none';
@@ -1157,7 +1228,9 @@
             });
 
             function generarHtmlBloqueo() {
-                if (userData.estadoMembresia === "no_abonado") {
+                if (!currentUser) return null;
+
+                if (currentUser.estadoMembresia === "no_abonado") {
                     return `
                         <div class="membership-lock-box">
                             <h3>Aboná tu membresía y accedé al contenido</h3>
@@ -1165,7 +1238,7 @@
                             <a href="${MP_LINK}" target="_blank" class="btn-mp-pay">Abonar con Mercado Pago</a>
                         </div>
                     `;
-                } else if (userData.estadoMembresia === "vencido") {
+                } else if (currentUser.estadoMembresia === "vencido") {
                     return `
                         <div class="membership-lock-box">
                             <h3>Regularizá tu membresía para acceder al contenido</h3>
@@ -1177,12 +1250,22 @@
                 return null;
             }
 
+            function coincideConIntereses(item) {
+                if (!currentUser || !currentUser.intereses || currentUser.intereses.length === 0) return true;
+                const itemTags = item.tags || [item.category.toLowerCase()];
+                return currentUser.intereses.some(interes => {
+                    const intLower = interes.toLowerCase().trim();
+                    return item.category.toLowerCase().includes(intLower) || 
+                           itemTags.some(tag => tag.toLowerCase().includes(intLower));
+                });
+            }
+
             function renderContent() {
+                if (!currentUser) return;
+
                 const bloqueoHtml = generarHtmlBloqueo();
                 const novedadesGrid = document.getElementById('novedades-grid');
                 const avisosGrid = document.getElementById('avisos-grid');
-                const cvsWrapper = document.getElementById('cvs-content-wrapper');
-                const asesoramientoWrapper = document.getElementById('asesoramiento-content-wrapper');
 
                 if (bloqueoHtml) {
                     if (novedadesGrid) {
@@ -1205,9 +1288,7 @@
                 if(novedadesGrid) {
                     novedadesGrid.style.display = 'grid';
                     novedadesGrid.innerHTML = '';
-                    const novedadesFiltradas = novedadesData.filter(nov => 
-                        userData.intereses.some(interes => nov.category.toLowerCase().includes(interes))
-                    );
+                    const novedadesFiltradas = novedadesData.filter(nov => coincideConIntereses(nov));
 
                     novedadesFiltradas.forEach(item => {
                         const card = document.createElement('div');
@@ -1232,9 +1313,7 @@
                 if(avisosGrid) {
                     avisosGrid.style.display = 'grid';
                     avisosGrid.innerHTML = '';
-                    const avisosFiltrados = avisosExclusivosData.filter(aviso => 
-                        userData.intereses.some(interes => aviso.category.toLowerCase().includes(interes))
-                    );
+                    const avisosFiltrados = avisosExclusivosData.filter(aviso => coincideConIntereses(aviso));
 
                     avisosFiltrados.forEach(item => {
                         const card = document.createElement('div');
@@ -1262,7 +1341,7 @@
             const btnBackToList = document.getElementById('btn-back-to-list');
 
             window.openDetailView = function(id, tipo) {
-                if (userData.estadoMembresia !== "habilitado") return;
+                if (!currentUser || currentUser.estadoMembresia !== "habilitado") return;
 
                 let item = null;
                 if(tipo === 'novedad') {
