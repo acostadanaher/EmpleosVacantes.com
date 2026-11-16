@@ -740,16 +740,18 @@
             <div id="sidebar-update-view" class="account-subview">
                 <button class="btn-back-account" id="back-from-update">&larr; Volver atrás</button>
                 <h4 style="margin-bottom: 16px;">Actualizar Datos</h4>
+                <!-- Elfsight Contact Form | Untitled Contact Form -->
                 <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div class="elfsight-app-25c50845-bf94-4f9b-9879-2f5da5469520" data-elfsight-app-lazy></div>
+                <div class="elfsight-app-fe88d4bc-7b91-4ae9-a89c-d58164437272" data-elfsight-app-lazy></div>
             </div>
 
             <!-- Vista: Eliminar Cuenta -->
             <div id="sidebar-delete-view" class="account-subview">
                 <button class="btn-back-account" id="back-from-delete">&larr; Volver atrás</button>
                 <h4 style="margin-bottom: 16px; color: #d93838;">Eliminar Cuenta</h4>
+                <!-- Elfsight Contact Form | Untitled Contact Form -->
                 <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div class="elfsight-app-25c50845-bf94-4f9b-9879-2f5da5469520" data-elfsight-app-lazy></div>
+                <div class="elfsight-app-99abec78-07a4-42a8-88cc-da6bb14bc07e" data-elfsight-app-lazy></div>
             </div>
         </div>
 
@@ -844,8 +846,71 @@
 
     <!-- ================= JAVASCRIPT ================= -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        (function() {
             const MP_LINK = "https://mpago.la/1oNLzRZ";
+            const SESSION_KEY = "empleos_vacantes_member_email_v2";
+
+            // =========================================================================
+            // PERSISTENCIA BLINDADA DE SESIÓN (localStorage + sessionStorage + Cookies)
+            // =========================================================================
+            function guardarSesion(email) {
+                if (!email) return;
+                const valor = String(email).trim().toLowerCase();
+                try {
+                    localStorage.setItem(SESSION_KEY, valor);
+                } catch (e) {}
+                try {
+                    sessionStorage.setItem(SESSION_KEY, valor);
+                } catch (e) {}
+                try {
+                    const fechaExpiracion = new Date();
+                    fechaExpiracion.setTime(fechaExpiracion.getTime() + (30 * 24 * 60 * 60 * 1000));
+                    document.cookie = `${SESSION_KEY}=${encodeURIComponent(valor)}; expires=${fechaExpiracion.toUTCString()}; path=/; SameSite=Lax`;
+                } catch (e) {}
+            }
+
+            function obtenerSesion() {
+                let valor = null;
+                try {
+                    valor = localStorage.getItem(SESSION_KEY);
+                } catch (e) {}
+                if (!valor) {
+                    try {
+                        valor = sessionStorage.getItem(SESSION_KEY);
+                    } catch (e) {}
+                }
+                if (!valor) {
+                    try {
+                        const cookies = document.cookie ? document.cookie.split(';') : [];
+                        for (let i = 0; i < cookies.length; i++) {
+                            const c = cookies[i].trim();
+                            if (c.indexOf(SESSION_KEY + '=') === 0) {
+                                valor = decodeURIComponent(c.substring(SESSION_KEY.length + 1));
+                                break;
+                            }
+                        }
+                    } catch (e) {}
+                }
+                // Si se recuperó de sessionStorage o cookie, sincronizar de vuelta en todos los almacenes
+                if (valor) {
+                    guardarSesion(valor);
+                }
+                return valor;
+            }
+
+            function borrarSesion() {
+                try {
+                    localStorage.removeItem(SESSION_KEY);
+                    localStorage.removeItem('empleos_session_user');
+                    localStorage.removeItem('empleos_session_active');
+                } catch (e) {}
+                try {
+                    sessionStorage.removeItem(SESSION_KEY);
+                } catch (e) {}
+                try {
+                    document.cookie = `${SESSION_KEY}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`;
+                } catch (e) {}
+            }
 
             // =========================================================================
             // BASE DE DATOS DE USUARIOS (Agrega aquí todos los usuarios que necesites)
@@ -978,412 +1043,429 @@
                 }
             ];
 
-            // Guardar copia original de los contenedores de CV y Asesoramiento para restaurarlos al cambiar de usuario
-            const cvsWrapper = document.getElementById('cvs-content-wrapper');
-            const asesoramientoWrapper = document.getElementById('asesoramiento-content-wrapper');
-            const originalCvsHtml = cvsWrapper ? cvsWrapper.innerHTML : '';
-            const originalAsesoramientoHtml = asesoramientoWrapper ? asesoramientoWrapper.innerHTML : '';
+            function initApp() {
+                const cvsWrapper = document.getElementById('cvs-content-wrapper');
+                const asesoramientoWrapper = document.getElementById('asesoramiento-content-wrapper');
+                const originalCvsHtml = cvsWrapper ? cvsWrapper.innerHTML : '';
+                const originalAsesoramientoHtml = asesoramientoWrapper ? asesoramientoWrapper.innerHTML : '';
 
-            function capitalizarTexto(texto) {
-                return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
-            }
-
-            function calcularProximoDebito() {
-                const now = new Date();
-                let mes = now.getMonth() + 1;
-                let anio = now.getFullYear();
-                if (mes > 11) {
-                    mes = 0;
-                    anio++;
-                }
-                const mesesNombres = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-                return `1 de ${mesesNombres[mes]} de ${anio}`;
-            }
-
-            function inicializarEventosAsesoramiento() {
-                const btnToggleCv = document.getElementById('btn-toggle-cv-form');
-                const cvWrapper = document.getElementById('cv-form-embed-wrapper');
-                if(btnToggleCv && cvWrapper) {
-                    btnToggleCv.onclick = () => {
-                        const isOpen = cvWrapper.classList.toggle('expanded');
-                        btnToggleCv.textContent = isOpen ? 'Cerrar solicitud' : 'Solicitar Revisión';
-                    };
+                function capitalizarTexto(texto) {
+                    return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
                 }
 
-                const btnToggleBooking = document.getElementById('btn-toggle-booking-form');
-                const bookingWrapper = document.getElementById('booking-form-embed-wrapper');
-                if(btnToggleBooking && bookingWrapper) {
-                    btnToggleBooking.onclick = () => {
-                        const isOpen = bookingWrapper.classList.toggle('expanded');
-                        btnToggleBooking.textContent = isOpen ? 'Cerrar solicitud' : 'Agendar Sesión';
-                    };
+                function calcularProximoDebito() {
+                    const now = new Date();
+                    let mes = now.getMonth() + 1;
+                    let anio = now.getFullYear();
+                    if (mes > 11) {
+                        mes = 0;
+                        anio++;
+                    }
+                    const mesesNombres = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+                    return `1 de ${mesesNombres[mes]} de ${anio}`;
                 }
-            }
 
-            function cargarDatosUsuario(user) {
-                currentUser = user;
+                function inicializarEventosAsesoramiento() {
+                    const btnToggleCv = document.getElementById('btn-toggle-cv-form');
+                    const cvWrapper = document.getElementById('cv-form-embed-wrapper');
+                    if(btnToggleCv && cvWrapper) {
+                        btnToggleCv.onclick = () => {
+                            const isOpen = cvWrapper.classList.toggle('expanded');
+                            btnToggleCv.textContent = isOpen ? 'Cerrar solicitud' : 'Solicitar Revisión';
+                        };
+                    }
 
-                // Actualizar saludo superior
-                const greetingEl = document.getElementById('header-greeting-title');
-                if(greetingEl) greetingEl.textContent = `Hola, ${user.nombre}`;
+                    const btnToggleBooking = document.getElementById('btn-toggle-booking-form');
+                    const bookingWrapper = document.getElementById('booking-form-embed-wrapper');
+                    if(btnToggleBooking && bookingWrapper) {
+                        btnToggleBooking.onclick = () => {
+                            const isOpen = bookingWrapper.classList.toggle('expanded');
+                            btnToggleBooking.textContent = isOpen ? 'Cerrar solicitud' : 'Agendar Sesión';
+                        };
+                    }
+                }
 
-                // Actualizar datos en el menú lateral
-                const nameEl = document.getElementById('acc-name');
-                const lastNameEl = document.getElementById('acc-lastname');
-                const locEl = document.getElementById('acc-location');
-                const emailEl = document.getElementById('acc-email');
-                const debitEl = document.getElementById('acc-next-debit');
+                function cargarDatosUsuario(user) {
+                    currentUser = user;
 
-                if(nameEl) nameEl.textContent = user.nombre;
-                if(lastNameEl) lastNameEl.textContent = user.apellido;
-                if(locEl) locEl.textContent = user.ubicacion;
-                if(emailEl) emailEl.textContent = user.usuario;
-                if(debitEl) debitEl.textContent = calcularProximoDebito();
+                    // Actualizar saludo superior
+                    const greetingEl = document.getElementById('header-greeting-title');
+                    if(greetingEl) greetingEl.textContent = `Hola, ${user.nombre}`;
 
-                // Cargar temas de interés
-                const interestsContainer = document.getElementById('acc-interests');
-                if (interestsContainer) {
-                    interestsContainer.innerHTML = '';
-                    user.intereses.forEach(interes => {
-                        const badge = document.createElement('span');
-                        badge.className = 'interest-badge';
-                        badge.textContent = capitalizarTexto(interes);
-                        interestsContainer.appendChild(badge);
+                    // Actualizar datos en el menú lateral
+                    const nameEl = document.getElementById('acc-name');
+                    const lastNameEl = document.getElementById('acc-lastname');
+                    const locEl = document.getElementById('acc-location');
+                    const emailEl = document.getElementById('acc-email');
+                    const debitEl = document.getElementById('acc-next-debit');
+
+                    if(nameEl) nameEl.textContent = user.nombre;
+                    if(lastNameEl) lastNameEl.textContent = user.apellido;
+                    if(locEl) locEl.textContent = user.ubicacion;
+                    if(emailEl) emailEl.textContent = user.usuario;
+                    if(debitEl) debitEl.textContent = calcularProximoDebito();
+
+                    // Cargar temas de interés
+                    const interestsContainer = document.getElementById('acc-interests');
+                    if (interestsContainer) {
+                        interestsContainer.innerHTML = '';
+                        user.intereses.forEach(interes => {
+                            const badge = document.createElement('span');
+                            badge.className = 'interest-badge';
+                            badge.textContent = capitalizarTexto(interes);
+                            interestsContainer.appendChild(badge);
+                        });
+                    }
+
+                    // Actualizar estado de cuenta
+                    const statusBox = document.getElementById('acc-status-box');
+                    if(statusBox) {
+                        if (user.estadoMembresia === "no_abonado") {
+                            statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Pendiente de activación (No abonado)</span>`;
+                        } else if (user.estadoMembresia === "vencido" || user.mesesAdeudados > 0) {
+                            statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Membresía vencida / Pago pendiente</span>`;
+                        } else {
+                            statusBox.innerHTML = `<span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span>`;
+                        }
+                    }
+
+                    // Restaurar contenido original de CVs y Asesoramiento antes de evaluar estado
+                    if (cvsWrapper) cvsWrapper.innerHTML = originalCvsHtml;
+                    if (asesoramientoWrapper) asesoramientoWrapper.innerHTML = originalAsesoramientoHtml;
+
+                    const cvCountEl = document.getElementById('cv-count-display');
+                    const bookingCountEl = document.getElementById('booking-count-display');
+                    if(cvCountEl) cvCountEl.textContent = user.revisionesCvRestantes;
+                    if(bookingCountEl) bookingCountEl.textContent = user.sesionesAgendarRestantes;
+
+                    inicializarEventosAsesoramiento();
+                    renderContent();
+                }
+
+                const togglePassBtn = document.getElementById('toggle-pass-btn');
+                const loginPassInput = document.getElementById('login-pass');
+                if(togglePassBtn && loginPassInput) {
+                    togglePassBtn.addEventListener('click', () => {
+                        if (loginPassInput.type === 'password') {
+                            loginPassInput.type = 'text';
+                            togglePassBtn.textContent = 'Ocultar';
+                        } else {
+                            loginPassInput.type = 'password';
+                            togglePassBtn.textContent = 'Ver';
+                        }
                     });
                 }
 
-                // Actualizar estado de cuenta
-                const statusBox = document.getElementById('acc-status-box');
-                if(statusBox) {
-                    if (user.estadoMembresia === "no_abonado") {
-                        statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Pendiente de activación (No abonado)</span>`;
-                    } else if (user.estadoMembresia === "vencido" || user.mesesAdeudados > 0) {
-                        statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Membresía vencida / Pago pendiente</span>`;
-                    } else {
-                        statusBox.innerHTML = `<span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span>`;
+                const authSection = document.getElementById('auth-section');
+                const appSection = document.getElementById('app-section');
+                const loginForm = document.getElementById('login-form');
+                const loginUser = document.getElementById('login-user');
+                const loginError = document.getElementById('login-error');
+
+                function restaurarSesionSiExiste() {
+                    const savedUserEmail = obtenerSesion();
+                    if (savedUserEmail) {
+                        const foundSavedUser = usuariosDB.find(u => u.usuario.toLowerCase() === savedUserEmail.toLowerCase());
+                        if (foundSavedUser) {
+                            authSection.classList.add('hidden');
+                            appSection.classList.remove('hidden');
+                            cargarDatosUsuario(foundSavedUser);
+                            return true;
+                        } else {
+                            borrarSesion();
+                        }
                     }
+                    return false;
                 }
 
-                // Restaurar contenido original de CVs y Asesoramiento antes de evaluar estado
-                if (cvsWrapper) cvsWrapper.innerHTML = originalCvsHtml;
-                if (asesoramientoWrapper) asesoramientoWrapper.innerHTML = originalAsesoramientoHtml;
-
-                const cvCountEl = document.getElementById('cv-count-display');
-                const bookingCountEl = document.getElementById('booking-count-display');
-                if(cvCountEl) cvCountEl.textContent = user.revisionesCvRestantes;
-                if(bookingCountEl) bookingCountEl.textContent = user.sesionesAgendarRestantes;
-
-                inicializarEventosAsesoramiento();
-                renderContent();
-            }
-
-            const togglePassBtn = document.getElementById('toggle-pass-btn');
-            const loginPassInput = document.getElementById('login-pass');
-            if(togglePassBtn && loginPassInput) {
-                togglePassBtn.addEventListener('click', () => {
-                    if (loginPassInput.type === 'password') {
-                        loginPassInput.type = 'text';
-                        togglePassBtn.textContent = 'Ocultar';
-                    } else {
-                        loginPassInput.type = 'password';
-                        togglePassBtn.textContent = 'Ver';
+                // Ejecutar verificación al cargar y también al restaurar página desde caché (bfcache en móviles)
+                restaurarSesionSiExiste();
+                window.addEventListener('pageshow', function() {
+                    if (!currentUser) {
+                        restaurarSesionSiExiste();
                     }
                 });
-            }
 
-            const authSection = document.getElementById('auth-section');
-            const appSection = document.getElementById('app-section');
-            const loginForm = document.getElementById('login-form');
-            const loginUser = document.getElementById('login-user');
-            const loginError = document.getElementById('login-error');
+                if(loginForm) {
+                    loginForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const userVal = loginUser.value.trim().toLowerCase();
+                        const passVal = loginPassInput.value.trim();
 
-            // Verificar si hay sesión guardada y cargar el usuario correspondiente
-            const savedUserEmail = localStorage.getItem('empleos_session_user');
-            if (savedUserEmail) {
-                const foundSavedUser = usuariosDB.find(u => u.usuario.toLowerCase() === savedUserEmail.toLowerCase());
-                if (foundSavedUser) {
-                    authSection.classList.add('hidden');
-                    appSection.classList.remove('hidden');
-                    cargarDatosUsuario(foundSavedUser);
-                } else {
-                    localStorage.removeItem('empleos_session_user');
+                        const matchedUser = usuariosDB.find(u => 
+                            (u.usuario.toLowerCase() === userVal || u.nombre.toLowerCase() === userVal) && 
+                            u.contrasena === passVal
+                        );
+
+                        if (matchedUser) {
+                            loginError.style.display = 'none';
+                            guardarSesion(matchedUser.usuario);
+                            authSection.classList.add('hidden');
+                            appSection.classList.remove('hidden');
+                            cargarDatosUsuario(matchedUser);
+                        } else {
+                            loginError.style.display = 'block';
+                        }
+                    });
                 }
-            }
 
-            if(loginForm) {
-                loginForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const userVal = loginUser.value.trim().toLowerCase();
-                    const passVal = loginPassInput.value.trim();
-
-                    const matchedUser = usuariosDB.find(u => 
-                        (u.usuario.toLowerCase() === userVal || u.nombre.toLowerCase() === userVal) && 
-                        u.contrasena === passVal
-                    );
-
-                    if (matchedUser) {
+                const btnLogout = document.getElementById('btn-logout');
+                if(btnLogout) {
+                    btnLogout.addEventListener('click', () => {
+                        borrarSesion();
+                        currentUser = null;
+                        appSection.classList.add('hidden');
+                        authSection.classList.remove('hidden');
+                        loginForm.reset();
                         loginError.style.display = 'none';
-                        localStorage.setItem('empleos_session_user', matchedUser.usuario);
-                        authSection.classList.add('hidden');
-                        appSection.classList.remove('hidden');
-                        cargarDatosUsuario(matchedUser);
-                    } else {
-                        loginError.style.display = 'block';
-                    }
-                });
-            }
+                        closeMenu();
+                    });
+                }
 
-            const btnLogout = document.getElementById('btn-logout');
-            if(btnLogout) {
-                btnLogout.addEventListener('click', () => {
-                    localStorage.removeItem('empleos_session_user');
-                    localStorage.removeItem('empleos_session_active');
-                    currentUser = null;
-                    appSection.classList.add('hidden');
-                    authSection.classList.remove('hidden');
-                    loginForm.reset();
-                    loginError.style.display = 'none';
-                    closeMenu();
-                });
-            }
+                const menuToggleBtn = document.getElementById('menu-toggle-btn');
+                const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+                const sidebarMenu = document.getElementById('sidebar-menu');
+                const menuBackdrop = document.getElementById('menu-backdrop');
+                const sidebarMainView = document.getElementById('sidebar-main-view');
+                const sidebarUpdateView = document.getElementById('sidebar-update-view');
+                const sidebarDeleteView = document.getElementById('sidebar-delete-view');
 
-            const menuToggleBtn = document.getElementById('menu-toggle-btn');
-            const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-            const sidebarMenu = document.getElementById('sidebar-menu');
-            const menuBackdrop = document.getElementById('menu-backdrop');
-            const sidebarMainView = document.getElementById('sidebar-main-view');
-            const sidebarUpdateView = document.getElementById('sidebar-update-view');
-            const sidebarDeleteView = document.getElementById('sidebar-delete-view');
-
-            function openMenu() {
-                if(sidebarMenu) sidebarMenu.classList.add('active');
-                if(menuBackdrop) menuBackdrop.style.display = 'block';
-                if(sidebarMainView) sidebarMainView.classList.remove('hidden');
-                if(sidebarUpdateView) sidebarUpdateView.classList.remove('active');
-                if(sidebarDeleteView) sidebarDeleteView.classList.remove('active');
-            }
-
-            function closeMenu() {
-                if(sidebarMenu) sidebarMenu.classList.remove('active');
-                if(menuBackdrop) menuBackdrop.style.display = 'none';
-            }
-
-            if(menuToggleBtn) menuToggleBtn.addEventListener('click', openMenu);
-            if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
-            if(menuBackdrop) menuBackdrop.addEventListener('click', closeMenu);
-
-            const navUpdateData = document.getElementById('nav-update-data');
-            const navDeleteAccount = document.getElementById('nav-delete-account');
-            const backFromUpdate = document.getElementById('back-from-update');
-            const backFromDelete = document.getElementById('back-from-delete');
-
-            if(navUpdateData) {
-                navUpdateData.addEventListener('click', () => {
-                    if(sidebarMainView) sidebarMainView.classList.add('hidden');
-                    if(sidebarUpdateView) sidebarUpdateView.classList.add('active');
-                });
-            }
-
-            if(navDeleteAccount) {
-                navDeleteAccount.addEventListener('click', () => {
-                    if(sidebarMainView) sidebarMainView.classList.add('hidden');
-                    if(sidebarDeleteView) sidebarDeleteView.classList.add('active');
-                });
-            }
-
-            if(backFromUpdate) {
-                backFromUpdate.addEventListener('click', () => {
+                function openMenu() {
+                    if(sidebarMenu) sidebarMenu.classList.add('active');
+                    if(menuBackdrop) menuBackdrop.style.display = 'block';
+                    if(sidebarMainView) sidebarMainView.classList.remove('hidden');
                     if(sidebarUpdateView) sidebarUpdateView.classList.remove('active');
-                    if(sidebarMainView) sidebarMainView.classList.remove('hidden');
-                });
-            }
-
-            if(backFromDelete) {
-                backFromDelete.addEventListener('click', () => {
                     if(sidebarDeleteView) sidebarDeleteView.classList.remove('active');
-                    if(sidebarMainView) sidebarMainView.classList.remove('hidden');
-                });
-            }
-
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabPanes = document.querySelectorAll('.tab-pane');
-
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const targetId = btn.getAttribute('data-target');
-                    document.getElementById('detail-view-section').classList.remove('active');
-
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    tabPanes.forEach(p => {
-                        if (p.id !== 'detail-view-section') p.classList.remove('active');
-                    });
-
-                    btn.classList.add('active');
-                    const targetPane = document.getElementById(targetId);
-                    if(targetPane) targetPane.classList.add('active');
-                    
-                    const container = document.getElementById('main-content-container');
-                    if(container) container.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-            });
-
-            function generarHtmlBloqueo() {
-                if (!currentUser) return null;
-
-                if (currentUser.estadoMembresia === "no_abonado") {
-                    return `
-                        <div class="membership-lock-box">
-                            <h3>Aboná tu membresía y accedé al contenido</h3>
-                            <p>Tu cuenta ya está registrada, pero aún falta activar tu suscripción mensual para desbloquear todas las novedades, avisos exclusivos, modelos de CV y asesoramiento.</p>
-                            <a href="${MP_LINK}" target="_blank" class="btn-mp-pay">Abonar con Mercado Pago</a>
-                        </div>
-                    `;
-                } else if (currentUser.estadoMembresia === "vencido") {
-                    return `
-                        <div class="membership-lock-box">
-                            <h3>Regularizá tu membresía para acceder al contenido</h3>
-                            <p>Tu suscripción mensual se encuentra vencida. Realizá el pago pendiente para volver a disfrutar de todos los beneficios exclusivos del portal.</p>
-                            <a href="${MP_LINK}" target="_blank" class="btn-mp-pay">Regularizar con Mercado Pago</a>
-                        </div>
-                    `;
-                }
-                return null;
-            }
-
-            function coincideConIntereses(item) {
-                if (!currentUser || !currentUser.intereses || currentUser.intereses.length === 0) return true;
-                const itemTags = item.tags || [item.category.toLowerCase()];
-                return currentUser.intereses.some(interes => {
-                    const intLower = interes.toLowerCase().trim();
-                    return item.category.toLowerCase().includes(intLower) || 
-                           itemTags.some(tag => tag.toLowerCase().includes(intLower));
-                });
-            }
-
-            function renderContent() {
-                if (!currentUser) return;
-
-                const bloqueoHtml = generarHtmlBloqueo();
-                const novedadesGrid = document.getElementById('novedades-grid');
-                const avisosGrid = document.getElementById('avisos-grid');
-
-                if (bloqueoHtml) {
-                    if (novedadesGrid) {
-                        novedadesGrid.style.display = 'block';
-                        novedadesGrid.innerHTML = bloqueoHtml;
-                    }
-                    if (avisosGrid) {
-                        avisosGrid.style.display = 'block';
-                        avisosGrid.innerHTML = bloqueoHtml;
-                    }
-                    if (cvsWrapper) {
-                        cvsWrapper.innerHTML = bloqueoHtml;
-                    }
-                    if (asesoramientoWrapper) {
-                        asesoramientoWrapper.innerHTML = bloqueoHtml;
-                    }
-                    return;
                 }
 
-                if(novedadesGrid) {
-                    novedadesGrid.style.display = 'grid';
-                    novedadesGrid.innerHTML = '';
-                    const novedadesFiltradas = novedadesData.filter(nov => coincideConIntereses(nov));
+                function closeMenu() {
+                    if(sidebarMenu) sidebarMenu.classList.remove('active');
+                    if(menuBackdrop) menuBackdrop.style.display = 'none';
+                }
 
-                    novedadesFiltradas.forEach(item => {
-                        const card = document.createElement('div');
-                        card.className = 'item-card';
-                        card.addEventListener('click', () => openDetailView(item.id, 'novedad'));
-                        card.innerHTML = `
-                            <img src="${item.image}" alt="${item.title}">
-                            <div class="item-card-body">
-                                <div class="tags-container">
-                                    <span class="item-tag">★ Exclusivo Miembro</span>
-                                    <span class="item-tag">🏷️ ${item.categoryName}</span>
-                                </div>
-                                <h4>${item.title}</h4>
-                                <p>${item.desc}</p>
-                                <button class="btn-card-action" type="button">Leer noticia</button>
-                            </div>
-                        `;
-                        novedadesGrid.appendChild(card);
+                if(menuToggleBtn) menuToggleBtn.addEventListener('click', openMenu);
+                if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+                if(menuBackdrop) menuBackdrop.addEventListener('click', closeMenu);
+
+                const navUpdateData = document.getElementById('nav-update-data');
+                const navDeleteAccount = document.getElementById('nav-delete-account');
+                const backFromUpdate = document.getElementById('back-from-update');
+                const backFromDelete = document.getElementById('back-from-delete');
+
+                if(navUpdateData) {
+                    navUpdateData.addEventListener('click', () => {
+                        if(sidebarMainView) sidebarMainView.classList.add('hidden');
+                        if(sidebarUpdateView) sidebarUpdateView.classList.add('active');
                     });
                 }
 
-                if(avisosGrid) {
-                    avisosGrid.style.display = 'grid';
-                    avisosGrid.innerHTML = '';
-                    const avisosFiltrados = avisosExclusivosData.filter(aviso => coincideConIntereses(aviso));
-
-                    avisosFiltrados.forEach(item => {
-                        const card = document.createElement('div');
-                        card.className = 'item-card';
-                        card.addEventListener('click', () => openDetailView(item.id, 'aviso'));
-                        card.innerHTML = `
-                            <img src="${item.image}" alt="${item.title}">
-                            <div class="item-card-body">
-                                <div class="tags-container">
-                                    <span class="item-tag">★ Exclusivo Miembro</span>
-                                    <span class="item-tag">🏷️ ${item.categoryName}</span>
-                                </div>
-                                <h4>${item.title}</h4>
-                                <p>${item.desc}</p>
-                                <button class="btn-card-action" type="button">Ver aviso</button>
-                            </div>
-                        `;
-                        avisosGrid.appendChild(card);
+                if(navDeleteAccount) {
+                    navDeleteAccount.addEventListener('click', () => {
+                        if(sidebarMainView) sidebarMainView.classList.add('hidden');
+                        if(sidebarDeleteView) sidebarDeleteView.classList.add('active');
                     });
                 }
-            }
 
-            const detailViewSection = document.getElementById('detail-view-section');
-            const detailContentBox = document.getElementById('detail-content-box');
-            const btnBackToList = document.getElementById('btn-back-to-list');
-
-            window.openDetailView = function(id, tipo) {
-                if (!currentUser || currentUser.estadoMembresia !== "habilitado") return;
-
-                let item = null;
-                if(tipo === 'novedad') {
-                    item = novedadesData.find(n => n.id === id);
-                } else {
-                    item = avisosExclusivosData.find(a => a.id === id);
+                if(backFromUpdate) {
+                    backFromUpdate.addEventListener('click', () => {
+                        if(sidebarUpdateView) sidebarUpdateView.classList.remove('active');
+                        if(sidebarMainView) sidebarMainView.classList.remove('hidden');
+                    });
                 }
-                if (!item) return;
 
-                tabPanes.forEach(p => p.classList.remove('active'));
-
-                if(detailContentBox) {
-                    detailContentBox.innerHTML = `
-                        <img src="${item.image}" alt="${item.title}">
-                        <h2>${item.title}</h2>
-                        <p><strong>Detalle completo:</strong></p>
-                        <p>${item.fullText}</p>
-                        ${item.contacto ? `<p style="margin-top: 16px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>` : ''}
-                        ${tipo === 'aviso' ? `<div style="margin-top: 24px;"><a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 12px 24px; display: inline-block; text-align: center; width: auto;">Contactar con el empleador</a></div>` : ''}
-                    `;
+                if(backFromDelete) {
+                    backFromDelete.addEventListener('click', () => {
+                        if(sidebarDeleteView) sidebarDeleteView.classList.remove('active');
+                        if(sidebarMainView) sidebarMainView.classList.remove('hidden');
+                    });
                 }
-                if(detailViewSection) {
-                    detailViewSection.classList.add('active');
-                    const container = document.getElementById('main-content-container');
-                    if(container) container.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            }
 
-            if(btnBackToList) {
-                btnBackToList.addEventListener('click', () => {
-                    if(detailViewSection) detailViewSection.classList.remove('active');
-                    const activeTabBtn = document.querySelector('.tab-btn.active');
-                    if(activeTabBtn) {
-                        const targetId = activeTabBtn.getAttribute('data-target');
+                const tabBtns = document.querySelectorAll('.tab-btn');
+                const tabPanes = document.querySelectorAll('.tab-pane');
+
+                tabBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const targetId = btn.getAttribute('data-target');
+                        document.getElementById('detail-view-section').classList.remove('active');
+
+                        tabBtns.forEach(b => b.classList.remove('active'));
+                        tabPanes.forEach(p => {
+                            if (p.id !== 'detail-view-section') p.classList.remove('active');
+                        });
+
+                        btn.classList.add('active');
                         const targetPane = document.getElementById(targetId);
                         if(targetPane) targetPane.classList.add('active');
-                    }
-                    const container = document.getElementById('main-content-container');
-                    if(container) container.scrollTo({ top: 0, behavior: 'smooth' });
+                        
+                        const container = document.getElementById('main-content-container');
+                        if(container) container.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
                 });
+
+                function generarHtmlBloqueo() {
+                    if (!currentUser) return null;
+
+                    if (currentUser.estadoMembresia === "no_abonado") {
+                        return `
+                            <div class="membership-lock-box">
+                                <h3>Aboná tu membresía y accedé al contenido</h3>
+                                <p>Tu cuenta ya está registrada, pero aún falta activar tu suscripción mensual para desbloquear todas las novedades, avisos exclusivos, modelos de CV y asesoramiento.</p>
+                                <a href="${MP_LINK}" target="_blank" class="btn-mp-pay">Abonar con Mercado Pago</a>
+                            </div>
+                        `;
+                    } else if (currentUser.estadoMembresia === "vencido") {
+                        return `
+                            <div class="membership-lock-box">
+                                <h3>Regularizá tu membresía para acceder al contenido</h3>
+                                <p>Tu suscripción mensual se encuentra vencida. Realizá el pago pendiente para volver a disfrutar de todos los beneficios exclusivos del portal.</p>
+                                <a href="${MP_LINK}" target="_blank" class="btn-mp-pay">Regularizar con Mercado Pago</a>
+                            </div>
+                        `;
+                    }
+                    return null;
+                }
+
+                function coincideConIntereses(item) {
+                    if (!currentUser || !currentUser.intereses || currentUser.intereses.length === 0) return true;
+                    const itemTags = item.tags || [item.category.toLowerCase()];
+                    return currentUser.intereses.some(interes => {
+                        const intLower = interes.toLowerCase().trim();
+                        return item.category.toLowerCase().includes(intLower) || 
+                               itemTags.some(tag => tag.toLowerCase().includes(intLower));
+                    });
+                }
+
+                function renderContent() {
+                    if (!currentUser) return;
+
+                    const bloqueoHtml = generarHtmlBloqueo();
+                    const novedadesGrid = document.getElementById('novedades-grid');
+                    const avisosGrid = document.getElementById('avisos-grid');
+
+                    if (bloqueoHtml) {
+                        if (novedadesGrid) {
+                            novedadesGrid.style.display = 'block';
+                            novedadesGrid.innerHTML = bloqueoHtml;
+                        }
+                        if (avisosGrid) {
+                            avisosGrid.style.display = 'block';
+                            avisosGrid.innerHTML = bloqueoHtml;
+                        }
+                        if (cvsWrapper) {
+                            cvsWrapper.innerHTML = bloqueoHtml;
+                        }
+                        if (asesoramientoWrapper) {
+                            asesoramientoWrapper.innerHTML = bloqueoHtml;
+                        }
+                        return;
+                    }
+
+                    if(novedadesGrid) {
+                        novedadesGrid.style.display = 'grid';
+                        novedadesGrid.innerHTML = '';
+                        const novedadesFiltradas = novedadesData.filter(nov => coincideConIntereses(nov));
+
+                        novedadesFiltradas.forEach(item => {
+                            const card = document.createElement('div');
+                            card.className = 'item-card';
+                            card.addEventListener('click', () => openDetailView(item.id, 'novedad'));
+                            card.innerHTML = `
+                                <img src="${item.image}" alt="${item.title}">
+                                <div class="item-card-body">
+                                    <div class="tags-container">
+                                        <span class="item-tag">★ Exclusivo Miembro</span>
+                                        <span class="item-tag">🏷️ ${item.categoryName}</span>
+                                    </div>
+                                    <h4>${item.title}</h4>
+                                    <p>${item.desc}</p>
+                                    <button class="btn-card-action" type="button">Leer noticia</button>
+                                </div>
+                            `;
+                            novedadesGrid.appendChild(card);
+                        });
+                    }
+
+                    if(avisosGrid) {
+                        avisosGrid.style.display = 'grid';
+                        avisosGrid.innerHTML = '';
+                        const avisosFiltrados = avisosExclusivosData.filter(aviso => coincideConIntereses(aviso));
+
+                        avisosFiltrados.forEach(item => {
+                            const card = document.createElement('div');
+                            card.className = 'item-card';
+                            card.addEventListener('click', () => openDetailView(item.id, 'aviso'));
+                            card.innerHTML = `
+                                <img src="${item.image}" alt="${item.title}">
+                                <div class="item-card-body">
+                                    <div class="tags-container">
+                                        <span class="item-tag">★ Exclusivo Miembro</span>
+                                        <span class="item-tag">🏷️ ${item.categoryName}</span>
+                                    </div>
+                                    <h4>${item.title}</h4>
+                                    <p>${item.desc}</p>
+                                    <button class="btn-card-action" type="button">Ver aviso</button>
+                                </div>
+                            `;
+                            avisosGrid.appendChild(card);
+                        });
+                    }
+                }
+
+                const detailViewSection = document.getElementById('detail-view-section');
+                const detailContentBox = document.getElementById('detail-content-box');
+                const btnBackToList = document.getElementById('btn-back-to-list');
+
+                window.openDetailView = function(id, tipo) {
+                    if (!currentUser || currentUser.estadoMembresia !== "habilitado") return;
+
+                    let item = null;
+                    if(tipo === 'novedad') {
+                        item = novedadesData.find(n => n.id === id);
+                    } else {
+                        item = avisosExclusivosData.find(a => a.id === id);
+                    }
+                    if (!item) return;
+
+                    tabPanes.forEach(p => p.classList.remove('active'));
+
+                    if(detailContentBox) {
+                        detailContentBox.innerHTML = `
+                            <img src="${item.image}" alt="${item.title}">
+                            <h2>${item.title}</h2>
+                            <p><strong>Detalle completo:</strong></p>
+                            <p>${item.fullText}</p>
+                            ${item.contacto ? `<p style="margin-top: 16px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>` : ''}
+                            ${tipo === 'aviso' ? `<div style="margin-top: 24px;"><a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 12px 24px; display: inline-block; text-align: center; width: auto;">Contactar con el empleador</a></div>` : ''}
+                        `;
+                    }
+                    if(detailViewSection) {
+                        detailViewSection.classList.add('active');
+                        const container = document.getElementById('main-content-container');
+                        if(container) container.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+
+                if(btnBackToList) {
+                    btnBackToList.addEventListener('click', () => {
+                        if(detailViewSection) detailViewSection.classList.remove('active');
+                        const activeTabBtn = document.querySelector('.tab-btn.active');
+                        if(activeTabBtn) {
+                            const targetId = activeTabBtn.getAttribute('data-target');
+                            const targetPane = document.getElementById(targetId);
+                            if(targetPane) targetPane.classList.add('active');
+                        }
+                        const container = document.getElementById('main-content-container');
+                        if(container) container.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
+                }
             }
-        });
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", initApp);
+            } else {
+                initApp();
+            }
+        })();
     </script>
 </body>
 </html>
