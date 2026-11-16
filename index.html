@@ -196,20 +196,19 @@
             border: none;
             cursor: pointer;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 26px;
-            height: 20px;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
             padding: 0;
+            color: var(--text-color);
+            border-radius: 6px;
+            transition: background 0.2s;
         }
 
-        .menu-toggle span {
-            display: block;
-            width: 100%;
-            height: 3px;
-            background-color: var(--text-color);
-            border-radius: 2px;
-            transition: 0.3s;
+        .menu-toggle:hover {
+            background: #f4f6f8;
+            color: var(--primary);
         }
 
         #menu-backdrop {
@@ -271,6 +270,10 @@
             color: var(--text-muted);
             line-height: 1.6;
             margin-bottom: 24px;
+        }
+
+        .account-details p {
+            margin-bottom: 10px;
         }
 
         .account-details strong {
@@ -465,6 +468,13 @@
             flex: 1;
         }
 
+        .item-tags-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
         .item-tag {
             display: inline-block;
             background: #eef4ff;
@@ -473,8 +483,12 @@
             font-weight: 600;
             padding: 4px 10px;
             border-radius: 20px;
-            margin-bottom: 12px;
             align-self: flex-start;
+        }
+
+        .item-tag-category {
+            background: #f1f5f9;
+            color: #475569;
         }
 
         .item-card h4 {
@@ -630,9 +644,10 @@
                 <a href="#" class="brand-logo" id="header-greeting-title">Hola, Mauricio David</a>
                 <div class="user-nav-area">
                     <button class="menu-toggle" id="menu-toggle-btn" aria-label="Menú">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -659,10 +674,10 @@
                     <p><strong>Apellido:</strong> <span id="acc-lastname">Acosta Danaher</span></p>
                     <p><strong>Ubicación:</strong> <span id="acc-location">Capital Federal</span></p>
                     <p><strong>Correo electrónico:</strong> <span id="acc-email">mauricioacostacom@gmail.com</span></p>
-                    <p style="margin-top: 8px;"><strong>Temas de interés:</strong><br><span id="acc-interests"></span></p>
-                    <p style="margin-top: 8px;"><strong>Medio de Pago:</strong> Mercado Pago</p>
-                    <p><strong>Próximo débito:</strong> <span id="acc-next-debit">1 de diciembre de 2026</span></p>
-                    <p><strong>Estado de la cuenta:</strong> <span id="acc-status-box"><span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span></span></p>
+                    <p style="margin-top: 12px;"><strong>Temas de interés:</strong><br><span id="acc-interests"></span></p>
+                    <p style="margin-top: 12px;"><strong>Medio de Pago:</strong> Mercado Pago</p>
+                    <p style="margin-top: 8px;"><strong>Próximo débito:</strong> <span id="acc-next-debit">1 de diciembre de 2026</span></p>
+                    <p style="margin-top: 8px;"><strong>Estado de la cuenta:</strong> <span id="acc-status-box"><span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span></span></p>
                 </div>
 
                 <div class="sidebar-actions">
@@ -810,7 +825,8 @@
                 {
                     id: 201,
                     title: "Tendencias de Empleo en el sector de Supermercados para 2026",
-                    category: "supermercados",
+                    category: "Supermercados",
+                    categoryKey: "supermercados",
                     image: "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&w=600&q=80",
                     desc: "Análisis sobre la alta demanda de personal operativo y logístico en cadenas de retail.",
                     fullText: "El sector de supermercados experimenta una transformación digital y logística sin precedentes. La demanda de puestos operativos con flexibilidad horaria y turnos mañana lidera el ranking de contratación en Capital Federal y GBA. Las empresas valoran fuertemente la adaptabilidad y el compromiso."
@@ -818,7 +834,8 @@
                 {
                     id: 202,
                     title: "Transformación Digital y Nuevos Roles Administrativos",
-                    category: "digital",
+                    category: "Empresas",
+                    categoryKey: "digital",
                     image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80",
                     desc: "Cómo la automatización reconfigura los puestos administrativos de lunes a viernes.",
                     fullText: "Los perfiles administrativos tradicionales incorporan herramientas digitales avanzadas. Las empresas buscan talentos capaces de gestionar planillas inteligentes y procesos automatizados manteniendo el esquema clásico de lunes a viernes en jornada full-time."
@@ -826,7 +843,8 @@
                 {
                     id: 203,
                     title: "Oportunidades laborales en Apps de Delivery",
-                    category: "delivery",
+                    category: "Delivery",
+                    categoryKey: "delivery",
                     image: "https://images.unsplash.com/photo-1526367460867-13a5a4b1bb12?auto=format&fit=crop&w=600&q=80",
                     desc: "Nuevas condiciones y beneficios para repartidores en la región metropolitana.",
                     fullText: "El mercado de aplicaciones de delivery ofrece esquicios flexibles de horarios y ganancias competitivas."
@@ -837,7 +855,8 @@
                 {
                     id: 101,
                     title: "Administrativo Comercial FullTime - Turno Mañana",
-                    category: "administrativo",
+                    category: "Empresas",
+                    categoryKey: "administrativo",
                     image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=600&q=80",
                     desc: "Importante empresa corporativa busca administrativo con Lunes a Viernes de 8 a 17 hs.",
                     fullText: "Buscamos colaborador para el área administrativa con sólida experiencia en gestión de órdenes, atención a proveedores y manejo de planillas. Requisitos: Residencia en Capital Federal, modalidad FullTime, turno mañana.",
@@ -846,7 +865,8 @@
                 {
                     id: 102,
                     title: "Operario de Logística y Supermercados",
-                    category: "supermercados",
+                    category: "Supermercados",
+                    categoryKey: "supermercados",
                     image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80",
                     desc: "Selección para cadena de supermercados líder. Turno mañana, Lunes a Viernes.",
                     fullText: "Incorporación inmediata para tareas de control de stock, recepción de mercadería y atención en salón. Jornada laboral FullTime en turno matutino.",
@@ -855,7 +875,8 @@
                 {
                     id: 103,
                     title: "Asistente Digital Administrativo Remoto/Presencial",
-                    category: "digital",
+                    category: "Empresas",
+                    categoryKey: "digital",
                     image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80",
                     desc: "Puesto enfocado en transformación digital para empresas de servicios.",
                     fullText: "Empresa de tecnología busca asistente administrativo digital. Requisitos excluyentes: manejo fluido de herramientas informáticas y disponibilidad en turno mañana.",
@@ -864,7 +885,8 @@
                 {
                     id: 104,
                     title: "Delivery Staff - Apps de Reparto y Logística Express",
-                    category: "delivery",
+                    category: "Delivery",
+                    categoryKey: "delivery",
                     image: "https://images.unsplash.com/photo-1617347454431-f4987ff5fc3b?auto=format&fit=crop&w=600&q=80",
                     desc: "Búsqueda activa de repartidores con vehículo propio para aplicaciones de delivery.",
                     fullText: "Seleccionamos repartidores para importante app de delivery con excelentes incentivos por objetivos.",
@@ -966,7 +988,7 @@
                 btnLogout.addEventListener('click', () => {
                     localStorage.removeItem('empleos_session_active');
                     appSection.classList.add('hidden');
-                    authSection.classList.remove('hidden');
+                    authSection.classList.add('hidden');
                     loginForm.reset();
                     loginError.style.display = 'none';
                     closeMenu();
@@ -1058,7 +1080,7 @@
                 if(novedadesGrid) {
                     novedadesGrid.innerHTML = '';
                     const novedadesFiltradas = novedadesData.filter(nov => 
-                        userData.intereses.some(interes => nov.category.toLowerCase().includes(interes))
+                        userData.intereses.some(interes => nov.categoryKey.toLowerCase().includes(interes))
                     );
 
                     novedadesFiltradas.forEach(item => {
@@ -1068,7 +1090,10 @@
                         card.innerHTML = `
                             <img src="${item.image}" alt="${item.title}">
                             <div class="item-card-body">
-                                <span class="item-tag">Novedad Laboral</span>
+                                <div class="item-tags-wrapper">
+                                    <span class="item-tag">★ Exclusivo Miembro</span>
+                                    <span class="item-tag item-tag-category">${item.category}</span>
+                                </div>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
                                 <button class="btn-card-action" type="button">Leer noticia</button>
@@ -1082,7 +1107,7 @@
                 if(avisosGrid) {
                     avisosGrid.innerHTML = '';
                     const avisosFiltrados = avisosExclusivosData.filter(aviso => 
-                        userData.intereses.some(interes => aviso.category.toLowerCase().includes(interes))
+                        userData.intereses.some(interes => aviso.categoryKey.toLowerCase().includes(interes))
                     );
 
                     avisosFiltrados.forEach(item => {
@@ -1092,7 +1117,10 @@
                         card.innerHTML = `
                             <img src="${item.image}" alt="${item.title}">
                             <div class="item-card-body">
-                                <span class="item-tag">Exclusivo Miembro</span>
+                                <div class="item-tags-wrapper">
+                                    <span class="item-tag">★ Exclusivo Miembro</span>
+                                    <span class="item-tag item-tag-category">${item.category}</span>
+                                </div>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
                                 <button class="btn-card-action" type="button">Ver aviso</button>
