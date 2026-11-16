@@ -38,7 +38,7 @@
             margin: 0 auto;
         }
 
-        /* Pantalla de Login / Registro posicionada arriba */
+        /* Pantalla de Login / Registro posicionada bien arriba */
         #auth-section {
             width: 100%;
             padding: 40px 24px 20px 24px;
@@ -91,7 +91,6 @@
             border-color: var(--primary);
         }
 
-        /* Botón para ver contraseña */
         .toggle-password {
             position: absolute;
             right: 14px;
@@ -207,7 +206,6 @@
             transition: 0.3s;
         }
 
-        /* Backdrop */
         #menu-backdrop {
             position: fixed;
             top: 0;
@@ -219,7 +217,6 @@
             display: none;
         }
 
-        /* Menú lateral desplegable */
         .sidebar-menu {
             position: fixed;
             top: 0;
@@ -330,7 +327,6 @@
             gap: 6px;
         }
 
-        /* Navegación Principal (Tabs) */
         .main-nav-tabs {
             background: #ffffff;
             border-bottom: 1px solid var(--border-color);
@@ -828,264 +824,303 @@
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT FORZADO Y CORREGIDO ================= -->
+    <!-- ================= JAVASCRIPT CORREGIDO Y ROBUSTO ================= -->
     <script>
-        const userData = {
-            usuario: "mauricioacostacom@gmail.com",
-            contrasena: "auto333",
-            nombre: "Mauricio David",
-            apellido: "Acosta Danaher",
-            ubicacion: "Capital Federal",
-            intereses: ["supermercados", "digital", "lunes a viernes", "fulltime", "turno mañana", "empresas", "administrativo"],
-            activo: true
-        };
+        document.addEventListener("DOMContentLoaded", function() {
+            const userData = {
+                usuario: "mauricioacostacom@gmail.com",
+                contrasena: "auto333",
+                nombre: "Mauricio David",
+                apellido: "Acosta Danaher",
+                ubicacion: "Capital Federal",
+                intereses: ["supermercados", "digital", "lunes a viernes", "fulltime", "turno mañana", "empresas", "administrativo"],
+                activo: true
+            };
 
-        const novedadesData = [
-            {
-                id: 1,
-                title: "Nuevas aperturas de cadenas de supermercados en CABA",
-                tag: "Supermercados",
-                image: "https://images.unsplash.com/photo-1534723452862-4c874018d66d?auto=format&fit=crop&w=600&q=80",
-                desc: "Conoce las marcas que lideran la contratación masiva de personal de salón y caja para esta temporada.",
-                fullText: "Las principales cadenas de supermercados han anunciado un plan de expansión en Capital Federal, generando más de 300 puestos de trabajo directos. Se buscan perfiles con disponibilidad horaria FullTime y turno mañana, priorizando candidatos con residencia en CABA y experiencia previa en atención al público o reposición."
-            },
-            {
-                id: 2,
-                title: "Tendencias del empleo digital y remoto en 2026",
-                tag: "Digital",
-                image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-                desc: "Habilidades tecnológicas más valoradas por las empresas modernas para puestos administrativos.",
-                fullText: "El mercado administrativo ha evolucionado hacia entornos 100% digitales. Las herramientas de gestión en la nube y la automatización de procesos se han vuelto requisitos indispensables. Esta novedad detalla los cursos express recomendados para certificar tus conocimientos."
+            const novedadesData = [
+                {
+                    id: 1,
+                    title: "Nuevas aperturas de cadenas de supermercados en CABA",
+                    tag: "Supermercados",
+                    image: "https://images.unsplash.com/photo-1534723452862-4c874018d66d?auto=format&fit=crop&w=600&q=80",
+                    desc: "Conoce las marcas que lideran la contratación masiva de personal de salón y caja para esta temporada.",
+                    fullText: "Las principales cadenas de supermercados han anunciado un plan de expansión en Capital Federal, generando más de 300 puestos de trabajo directos. Se buscan perfiles con disponibilidad horaria FullTime y turno mañana, priorizando candidatos con residencia en CABA y experiencia previa en atención al público o reposición."
+                },
+                {
+                    id: 2,
+                    title: "Tendencias del empleo digital y remoto en 2026",
+                    tag: "Digital",
+                    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
+                    desc: "Habilidades tecnológicas más valoradas por las empresas modernas para puestos administrativos.",
+                    fullText: "El mercado administrativo ha evolucionado hacia entornos 100% digitales. Las herramientas de gestión en la nube y la automatización de procesos se han vuelto requisitos indispensables. Esta novedad detalla los cursos express recomendados para certificar tus conocimientos."
+                }
+            ];
+
+            const avisosExclusivosData = [
+                {
+                    id: 101,
+                    title: "Administrativo Comercial FullTime - Turno Mañana",
+                    category: "administrativo",
+                    image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=600&q=80",
+                    desc: "Importante empresa corporativa busca administrativo con Lunes a Viernes de 8 a 17 hs.",
+                    fullText: "Buscamos colaborador para el área administrativa con sólida experiencia en gestión de órdenes, atención a proveedores y manejo de planillas. Requisitos: Residencia en Capital Federal, modalidad FullTime, turno mañana. Ofrecemos incorporación inmediata, sueldo competitivo y excelente clima laboral dentro de un entorno corporativo consolidado.",
+                    contacto: "rrhh@empresadigital.com.ar"
+                },
+                {
+                    id: 102,
+                    title: "Operario de Logística y Supermercados",
+                    category: "supermercados",
+                    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80",
+                    desc: "Selección para cadena de supermercados líder. Turno mañana, Lunes a Viernes.",
+                    fullText: "Incorporación inmediata para tareas de control de stock, recepción de mercadería y atención en salón. Jornada laboral FullTime en turno matutino. Se valora dinamismo, compromiso y buena predisposición para el trato con clientes y equipos de trabajo.",
+                    contacto: "seleccion@supermercadoslider.com"
+                },
+                {
+                    id: 103,
+                    title: "Asistente Digital Administrativo Remoto/Presencial",
+                    category: "digital",
+                    image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80",
+                    desc: "Puesto enfocado en transformación digital para empresas de servicios.",
+                    fullText: "Empresa de tecnología busca asistente administrativo digital. Requisitos excluyentes: manejo fluido de herramientas informáticas, excelente redacción y disponibilidad en turno mañana de lunes a viernes. Excelente oportunidad de crecimiento en el sector digital.",
+                    contacto: "talento@digitaljobsa.com"
+                }
+            ];
+
+            // Fecha actual
+            const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateEl = document.getElementById('current-date-display');
+            if(dateEl) dateEl.textContent = new Date().toLocaleDateString('es-AR', optionsDate);
+
+            // Ver contraseña
+            const togglePassBtn = document.getElementById('toggle-pass-btn');
+            const loginPassInput = document.getElementById('login-pass');
+            if(togglePassBtn && loginPassInput) {
+                togglePassBtn.addEventListener('click', () => {
+                    if (loginPassInput.type === 'password') {
+                        loginPassInput.type = 'text';
+                        togglePassBtn.textContent = 'Ocultar';
+                    } else {
+                        loginPassInput.type = 'password';
+                        togglePassBtn.textContent = 'Ver';
+                    }
+                });
             }
-        ];
 
-        const avisosExclusivosData = [
-            {
-                id: 101,
-                title: "Administrativo Comercial FullTime - Turno Mañana",
-                category: "administrativo",
-                image: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=600&q=80",
-                desc: "Importante empresa corporativa busca administrativo con Lunes a Viernes de 8 a 17 hs.",
-                fullText: "Buscamos colaborador para el área administrativa con sólida experiencia en gestión de órdenes, atención a proveedores y manejo de planillas. Requisitos: Residencia en Capital Federal, modalidad FullTime, turno mañana. Ofrecemos incorporación inmediata, sueldo competitivo y excelente clima laboral dentro de un entorno corporativo consolidado.",
-                contacto: "rrhh@empresadigital.com.ar"
-            },
-            {
-                id: 102,
-                title: "Operario de Logística y Supermercados",
-                category: "supermercados",
-                image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80",
-                desc: "Selección para cadena de supermercados líder. Turno mañana, Lunes a Viernes.",
-                fullText: "Incorporación inmediata para tareas de control de stock, recepción de mercadería y atención en salón. Jornada laboral FullTime en turno matutino. Se valora dinamismo, compromiso y buena predisposición para el trato con clientes y equipos de trabajo.",
-                contacto: "seleccion@supermercadoslider.com"
-            },
-            {
-                id: 103,
-                title: "Asistente Digital Administrativo Remoto/Presencial",
-                category: "digital",
-                image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80",
-                desc: "Puesto enfocado en transformación digital para empresas de servicios.",
-                fullText: "Empresa de tecnología busca asistente administrativo digital. Requisitos excluyentes: manejo fluido de herramientas informáticas, excelente redacción y disponibilidad en turno mañana de lunes a viernes. Excelente oportunidad de crecimiento en el sector digital.",
-                contacto: "talento@digitaljobsa.com"
+            // Login Handler
+            const authSection = document.getElementById('auth-section');
+            const appSection = document.getElementById('app-section');
+            const loginForm = document.getElementById('login-form');
+            const loginUser = document.getElementById('login-user');
+            const loginError = document.getElementById('login-error');
+
+            if(loginForm) {
+                loginForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const userVal = loginUser.value.trim().toLowerCase();
+                    const passVal = loginPassInput.value.trim();
+
+                    if ((userVal === userData.usuario || userVal === "mauricio david") && passVal === userData.contrasena) {
+                        authSection.classList.add('hidden');
+                        appSection.classList.remove('hidden');
+                        renderContent();
+                    } else {
+                        loginError.style.display = 'block';
+                    }
+                });
             }
-        ];
 
-        // Fecha actual
-        const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('current-date-display').textContent = new Date().toLocaleDateString('es-AR', optionsDate);
-
-        // Ver contraseña
-        const togglePassBtn = document.getElementById('toggle-pass-btn');
-        const loginPassInput = document.getElementById('login-pass');
-        togglePassBtn.addEventListener('click', () => {
-            if (loginPassInput.type === 'password') {
-                loginPassInput.type = 'text';
-                togglePassBtn.textContent = 'Ocultar';
-            } else {
-                loginPassInput.type = 'password';
-                togglePassBtn.textContent = 'Ver';
+            // Cerrar sesión
+            const btnLogout = document.getElementById('btn-logout');
+            if(btnLogout) {
+                btnLogout.addEventListener('click', () => {
+                    appSection.classList.add('hidden');
+                    authSection.classList.remove('hidden');
+                    loginForm.reset();
+                    loginError.style.display = 'none';
+                    closeMenu();
+                });
             }
-        });
 
-        // Login Handler
-        const authSection = document.getElementById('auth-section');
-        const appSection = document.getElementById('app-section');
-        const loginForm = document.getElementById('login-form');
-        const loginUser = document.getElementById('login-user');
-        const loginError = document.getElementById('login-error');
+            // Menú lateral (3 rayitas)
+            const menuToggleBtn = document.getElementById('menu-toggle-btn');
+            const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+            const sidebarMenu = document.getElementById('sidebar-menu');
+            const menuBackdrop = document.getElementById('menu-backdrop');
+            const sidebarMainView = document.getElementById('sidebar-main-view');
+            const sidebarUpdateView = document.getElementById('sidebar-update-view');
+            const sidebarDeleteView = document.getElementById('sidebar-delete-view');
 
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const userVal = loginUser.value.trim().toLowerCase();
-            const passVal = loginPassInput.value.trim();
-
-            if ((userVal === userData.usuario || userVal === "mauricio david") && passVal === userData.contrasena) {
-                authSection.classList.add('hidden');
-                appSection.classList.remove('hidden');
-                renderContent();
-            } else {
-                loginError.style.display = 'block';
+            function openMenu() {
+                if(sidebarMenu) sidebarMenu.classList.add('active');
+                if(menuBackdrop) menuBackdrop.style.display = 'block';
+                if(sidebarMainView) sidebarMainView.classList.remove('hidden');
+                if(sidebarUpdateView) sidebarUpdateView.classList.remove('active');
+                if(sidebarDeleteView) sidebarDeleteView.classList.remove('active');
             }
-        });
 
-        // Cerrar sesión
-        document.getElementById('btn-logout').addEventListener('click', () => {
-            appSection.classList.add('hidden');
-            authSection.classList.remove('hidden');
-            loginForm.reset();
-            loginError.style.display = 'none';
-            closeMenu();
-        });
+            function closeMenu() {
+                if(sidebarMenu) sidebarMenu.classList.remove('active');
+                if(menuBackdrop) menuBackdrop.style.display = 'none';
+            }
 
-        // Menú lateral (3 rayitas)
-        const menuToggleBtn = document.getElementById('menu-toggle-btn');
-        const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-        const sidebarMenu = document.getElementById('sidebar-menu');
-        const menuBackdrop = document.getElementById('menu-backdrop');
-        const sidebarMainView = document.getElementById('sidebar-main-view');
-        const sidebarUpdateView = document.getElementById('sidebar-update-view');
-        const sidebarDeleteView = document.getElementById('sidebar-delete-view');
+            if(menuToggleBtn) menuToggleBtn.addEventListener('click', openMenu);
+            if(closeSidebarBtn) closeSidebarBtn.addEventListener('click', closeMenu);
+            if(menuBackdrop) menuBackdrop.addEventListener('click', closeMenu);
 
-        function openMenu() {
-            sidebarMenu.classList.add('active');
-            menuBackdrop.style.display = 'block';
-            sidebarMainView.classList.remove('hidden');
-            sidebarUpdateView.classList.remove('active');
-            sidebarDeleteView.classList.remove('active');
-        }
+            const navUpdateData = document.getElementById('nav-update-data');
+            const navDeleteAccount = document.getElementById('nav-delete-account');
+            const backFromUpdate = document.getElementById('back-from-update');
+            const backFromDelete = document.getElementById('back-from-delete');
 
-        function closeMenu() {
-            sidebarMenu.classList.remove('active');
-            menuBackdrop.style.display = 'none';
-        }
+            if(navUpdateData) {
+                navUpdateData.addEventListener('click', () => {
+                    if(sidebarMainView) sidebarMainView.classList.add('hidden');
+                    if(sidebarUpdateView) sidebarUpdateView.classList.add('active');
+                });
+            }
 
-        menuToggleBtn.addEventListener('click', openMenu);
-        closeSidebarBtn.addEventListener('click', closeMenu);
-        menuBackdrop.addEventListener('click', closeMenu);
+            if(navDeleteAccount) {
+                navDeleteAccount.addEventListener('click', () => {
+                    if(sidebarMainView) sidebarMainView.classList.add('hidden');
+                    if(sidebarDeleteView) sidebarDeleteView.classList.add('active');
+                });
+            }
 
-        document.getElementById('nav-update-data').addEventListener('click', () => {
-            sidebarMainView.classList.add('hidden');
-            sidebarUpdateView.classList.add('active');
-        });
+            if(backFromUpdate) {
+                backFromUpdate.addEventListener('click', () => {
+                    if(sidebarUpdateView) sidebarUpdateView.classList.remove('active');
+                    if(sidebarMainView) sidebarMainView.classList.remove('hidden');
+                });
+            }
 
-        document.getElementById('nav-delete-account').addEventListener('click', () => {
-            sidebarMainView.classList.add('hidden');
-            sidebarDeleteView.classList.add('active');
-        });
+            if(backFromDelete) {
+                backFromDelete.addEventListener('click', () => {
+                    if(sidebarDeleteView) sidebarDeleteView.classList.remove('active');
+                    if(sidebarMainView) sidebarMainView.classList.remove('hidden');
+                });
+            }
 
-        document.getElementById('back-from-update').addEventListener('click', () => {
-            sidebarUpdateView.classList.remove('active');
-            sidebarMainView.classList.remove('hidden');
-        });
+            // Pestañas (Tabs) con evento robusto
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
 
-        document.getElementById('back-from-delete').addEventListener('click', () => {
-            sidebarDeleteView.classList.remove('active');
-            sidebarMainView.classList.remove('hidden');
-        });
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+                    
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabPanes.forEach(p => p.classList.remove('active'));
 
-        // Pestañas (Tabs) Forzadas
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabPanes = document.querySelectorAll('.tab-pane');
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                tabBtns.forEach(b => b.classList.remove('active'));
-                tabPanes.forEach(p => p.classList.remove('active'));
-
-                btn.classList.add('active');
-                const targetId = btn.getAttribute('data-target');
-                document.getElementById(targetId).classList.add('active');
+                    btn.classList.add('active');
+                    const targetPane = document.getElementById(targetId);
+                    if(targetPane) targetPane.classList.add('active');
+                });
             });
-        });
 
-        // Renderizar contenidos
-        function renderContent() {
-            const novGrid = document.getElementById('novedades-grid');
-            novGrid.innerHTML = '';
-            novedadesData.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'item-card';
-                card.innerHTML = `
-                    <img src="${item.image}" alt="${item.title}">
-                    <div class="item-card-body">
-                        <span class="item-tag">${item.tag}</span>
-                        <h4>${item.title}</h4>
-                        <p>${item.desc}</p>
-                        <button class="btn-card-action" onclick="openModalNovedad(${item.id})">Leer más</button>
-                    </div>
-                `;
-                novGrid.appendChild(card);
-            });
+            // Renderizar contenidos
+            function renderContent() {
+                const novGrid = document.getElementById('novedades-grid');
+                if(novGrid) {
+                    novGrid.innerHTML = '';
+                    novedadesData.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'item-card';
+                        card.innerHTML = `
+                            <img src="${item.image}" alt="${item.title}">
+                            <div class="item-card-body">
+                                <span class="item-tag">${item.tag}</span>
+                                <h4>${item.title}</h4>
+                                <p>${item.desc}</p>
+                                <button class="btn-card-action" onclick="openModalNovedad(${item.id})">Leer más</button>
+                            </div>
+                        `;
+                        novGrid.appendChild(card);
+                    });
+                }
 
-            const avisosGrid = document.getElementById('avisos-grid');
-            avisosGrid.innerHTML = '';
-            const avisosFiltrados = avisosExclusivosData.filter(aviso => 
-                userData.intereses.some(interes => aviso.category.toLowerCase().includes(interes))
-            );
+                const avisosGrid = document.getElementById('avisos-grid');
+                if(avisosGrid) {
+                    avisosGrid.innerHTML = '';
+                    const avisosFiltrados = avisosExclusivosData.filter(aviso => 
+                        userData.intereses.some(interes => aviso.category.toLowerCase().includes(interes))
+                    );
 
-            avisosFiltrados.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'item-card';
-                card.innerHTML = `
-                    <img src="${item.image}" alt="${item.title}">
-                    <div class="item-card-body">
-                        <span class="item-tag">Exclusivo Miembro</span>
-                        <h4>${item.title}</h4>
-                        <p>${item.desc}</p>
-                        <button class="btn-card-action" onclick="openModalAviso(${item.id})">Ver aviso</button>
-                    </div>
-                `;
-                avisosGrid.appendChild(card);
-            });
-        }
+                    avisosFiltrados.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'item-card';
+                        card.innerHTML = `
+                            <img src="${item.image}" alt="${item.title}">
+                            <div class="item-card-body">
+                                <span class="item-tag">Exclusivo Miembro</span>
+                                <h4>${item.title}</h4>
+                                <p>${item.desc}</p>
+                                <button class="btn-card-action" onclick="openModalAviso(${item.id})">Ver aviso</button>
+                            </div>
+                        `;
+                        avisosGrid.appendChild(card);
+                    });
+                }
+            }
 
-        // Modales
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBodyContent = document.getElementById('modal-body-content');
-        const modalFooterActions = document.getElementById('modal-footer-actions');
-        const modalClose = document.getElementById('modal-close');
+            // Modales globales
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBodyContent = document.getElementById('modal-body-content');
+            const modalFooterActions = document.getElementById('modal-footer-actions');
+            const modalClose = document.getElementById('modal-close');
 
-        window.openModalNovedad = function(id) {
-            const item = novedadesData.find(n => n.id === id);
-            if (!item) return;
+            window.openModalNovedad = function(id) {
+                const item = novedadesData.find(n => n.id === id);
+                if (!item) return;
 
-            modalTitle.textContent = item.title;
-            modalBodyContent.innerHTML = `
-                <img src="${item.image}" alt="${item.title}">
-                <p><strong>Categoría:</strong> ${item.tag}</p>
-                <p>${item.fullText}</p>
-            `;
-            modalFooterActions.innerHTML = `
-                <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Cerrar</button>
-            `;
-            modalOverlay.style.display = 'flex';
-        }
+                if(modalTitle) modalTitle.textContent = item.title;
+                if(modalBodyContent) {
+                    modalBodyContent.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}">
+                        <p><strong>Categoría:</strong> ${item.tag}</p>
+                        <p>${item.fullText}</p>
+                    `;
+                }
+                if(modalFooterActions) {
+                    modalFooterActions.innerHTML = `
+                        <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Cerrar</button>
+                    `;
+                }
+                if(modalOverlay) modalOverlay.style.display = 'flex';
+            }
 
-        window.openModalAviso = function(id) {
-            const item = avisosExclusivosData.find(a => a.id === id);
-            if (!item) return;
+            window.openModalAviso = function(id) {
+                const item = avisosExclusivosData.find(a => a.id === id);
+                if (!item) return;
 
-            modalTitle.textContent = item.title;
-            modalBodyContent.innerHTML = `
-                <img src="${item.image}" alt="${item.title}">
-                <p><strong>Detalle del aviso laboral:</strong></p>
-                <p>${item.fullText}</p>
-                <p style="margin-top: 12px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>
-            `;
-            modalFooterActions.innerHTML = `
-                <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 10px 20px; display: inline-block; text-align: center;">Contactar con el empleador</a>
-                <button class="btn-sidebar-action" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Cerrar</button>
-            `;
-            modalOverlay.style.display = 'flex';
-        }
+                if(modalTitle) modalTitle.textContent = item.title;
+                if(modalBodyContent) {
+                    modalBodyContent.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}">
+                        <p><strong>Detalle del aviso laboral:</strong></p>
+                        <p>${item.fullText}</p>
+                        <p style="margin-top: 12px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>
+                    `;
+                }
+                if(modalFooterActions) {
+                    modalFooterActions.innerHTML = `
+                        <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 10px 20px; display: inline-block; text-align: center;">Contactar con el empleador</a>
+                        <button class="btn-sidebar-action" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Cerrar</button>
+                    `;
+                }
+                if(modalOverlay) modalOverlay.style.display = 'flex';
+            }
 
-        function closeModal() {
-            modalOverlay.style.display = 'none';
-        }
+            window.closeModal = function() {
+                if(modalOverlay) modalOverlay.style.display = 'none';
+            }
 
-        modalClose.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
+            if(modalClose) modalClose.addEventListener('click', closeModal);
+            if(modalOverlay) {
+                modalOverlay.addEventListener('click', (e) => {
+                    if (e.target === modalOverlay) closeModal();
+                });
+            }
         });
     </script>
 </body>
