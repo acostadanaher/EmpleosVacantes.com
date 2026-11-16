@@ -24,11 +24,10 @@
         body, html {
             background-color: var(--bg-color) !important;
             color: var(--text-color) !important;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden !important;
             display: flex;
             flex-direction: column;
-            overflow-y: auto !important;
-            height: auto !important;
         }
 
         .hidden { display: none !important; }
@@ -40,12 +39,15 @@
             margin: 0 auto;
         }
 
-        /* Pantalla de Login / Registro posicionada arriba */
+        /* Pantalla de Login / Registro */
         #auth-section {
             width: 100%;
-            padding: 40px 24px 20px 24px;
+            height: 100vh;
+            padding: 40px 24px;
             display: flex;
             justify-content: flex-start;
+            align-items: flex-start;
+            overflow-y: auto;
         }
 
         .auth-card {
@@ -146,18 +148,19 @@
             display: none;
         }
 
-        /* Panel Principal de la App */
+        /* Panel Principal de la App (Estructura Unificada con un solo Scroll Vertical General) */
         #app-section {
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
         }
 
         header {
             background: #ffffff;
             border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
+            flex-shrink: 0;
             z-index: 100;
         }
 
@@ -267,17 +270,17 @@
             color: var(--text-color);
         }
 
-        /* Estilo de botones para Temas de Interés */
+        /* Estilo de botones para Temas de Interés (Capitalizados) */
         .interest-badge {
             display: inline-block;
             background: #f8fafc;
             border: 1px solid var(--border-color);
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 16px;
             font-size: 12px;
             font-weight: 500;
             color: var(--text-color);
-            margin: 2px 3px;
+            margin: 3px 4px;
         }
 
         .sidebar-actions {
@@ -340,6 +343,7 @@
             background: #ffffff;
             border-bottom: 1px solid var(--border-color);
             padding: 0 24px;
+            flex-shrink: 0;
         }
 
         .tabs-list {
@@ -378,8 +382,11 @@
             background-color: var(--primary);
         }
 
+        /* Contenedor con scroll unificado general vertical para todo el contenido interior */
         .tab-content-area {
             flex: 1;
+            overflow-y: auto !important;
+            overflow-x: hidden;
             padding: 40px 24px;
             max-width: 1400px;
             margin: 0 auto;
@@ -404,14 +411,6 @@
             color: var(--text-muted);
             margin-bottom: 32px;
             font-size: 15px;
-        }
-
-        /* Scroll exclusivo para Avisos y Novedades */
-        .scrollable-avisos-container {
-            max-height: 650px;
-            overflow-y: auto !important;
-            padding-right: 8px;
-            padding-bottom: 20px;
         }
 
         .cards-grid {
@@ -493,17 +492,26 @@
             background-color: var(--primary-hover);
         }
 
+        /* Estilos de expansión/deslizamiento suave para formularios de asesoramiento */
         .service-embed-container {
-            max-height: 500px;
-            overflow-y: auto !important;
-            border: 1px solid var(--border-color);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            border: 0 solid var(--border-color);
             border-radius: 8px;
-            padding: 16px;
-            margin-top: 16px;
+            padding: 0 16px;
+            margin-top: 0;
             background: #fafafa;
         }
 
-        /* Modal Superpuesto */
+        .service-embed-container.expanded {
+            max-height: 800px;
+            border: 1px solid var(--border-color);
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        /* Modal Superpuesto genérico para Avisos y Novedades */
         #modal-overlay {
             position: fixed;
             top: 0;
@@ -599,7 +607,7 @@
 
             <form id="login-form">
                 <div class="form-group">
-                    <label for="login-user">Usuario o Correo electrónico</label>
+                    <label for="login-user">Correo electrónico</label>
                     <input type="text" id="login-user" required placeholder="ejemplo@empleosvacantes.com">
                 </div>
                 <div class="form-group">
@@ -645,7 +653,7 @@
 
             <!-- Vista Principal del Menú -->
             <div id="sidebar-main-view">
-                <!-- Banner de Membresía e Informes en la Cuenta -->
+                <!-- Banner de Membresía -->
                 <div style="background: #eef4ff; border-left: 4px solid var(--primary); padding: 12px 14px; border-radius: 0 6px 6px 0; margin-bottom: 20px;">
                     <p style="font-size: 13px; color: var(--text-color); line-height: 1.4;">
                         🚀 <strong>¡Buenas noticias!</strong> Mantendremos tu membresía exclusiva a solo <strong>$990 por mes</strong> para potenciar tu carrera.
@@ -697,27 +705,21 @@
             </ul>
         </nav>
 
-        <!-- Contenido Central -->
+        <!-- Contenido Central con scroll general unificado -->
         <main class="tab-content-area">
 
-            <!-- TAB 1: NOVEDADES (WIDGET ELFSIGHT Y SCROLL) -->
+            <!-- TAB 1: NOVEDADES (Filtradas por categorías del usuario y con apertura en Modal estilo pantalla grande) -->
             <div id="tab-novedades" class="tab-pane active">
                 <h2 class="section-title">Novedades del Mercado Laboral</h2>
-                <p class="section-desc">Últimas actualizaciones, tendencias y noticias de empleo en Argentina.</p>
-                <div class="scrollable-avisos-container">
-                    <!-- Elfsight Blog | Untitled Blog -->
-                    <script src="https://elfsightcdn.com/platform.js" async></script>
-                    <div class="elfsight-app-ee85d7d8-827c-4c97-8da7-5861eb79eddb" data-elfsight-app-lazy></div>
-                </div>
+                <p class="section-desc">Últimas actualizaciones, tendencias y noticias de empleo adaptadas a tus intereses.</p>
+                <div class="cards-grid" id="novedades-grid"></div>
             </div>
 
-            <!-- TAB 2: AVISOS EXCLUSIVOS (CON SCROLL INTERNO) -->
+            <!-- TAB 2: AVISOS EXCLUSIVOS (Filtrados por categorías del usuario) -->
             <div id="tab-avisos" class="tab-pane">
                 <h2 class="section-title">Avisos Exclusivos por Categorías</h2>
                 <p class="section-desc">Búsquedas filtradas automáticamente según tus intereses y disponibilidad.</p>
-                <div class="scrollable-avisos-container">
-                    <div class="cards-grid" id="avisos-grid"></div>
-                </div>
+                <div class="cards-grid" id="avisos-grid"></div>
             </div>
 
             <!-- TAB 3: MODELOS DE CV (ELFSIGHT) -->
@@ -728,7 +730,7 @@
                 <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
             </div>
 
-            <!-- TAB 4: ASESORAMIENTO -->
+            <!-- TAB 4: ASESORAMIENTO (Con efecto de deslizamiento para abrir/cerrar formularios) -->
             <div id="tab-asesoramiento" class="tab-pane">
                 <h2 class="section-title">Asesoramiento Exclusivo para Miembros</h2>
                 <p class="section-desc">Beneficios incluidos en tu membresía mensual para potenciar tu empleabilidad.</p>
@@ -742,7 +744,7 @@
                             <p>Envía tu CV actual y recibe devoluciones detalladas. Te quedan <strong id="cv-count-display">3</strong> revisiones disponibles este mes.</p>
                             <button class="btn-card-action" id="btn-toggle-cv-form">Solicitar Revisión</button>
                             
-                            <div id="cv-form-embed-wrapper" class="service-embed-container hidden">
+                            <div id="cv-form-embed-wrapper" class="service-embed-container">
                                 <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Completa el formulario para enviar tu CV a revisión:</p>
                                 <script src="https://elfsightcdn.com/platform.js" async></script>
                                 <div class="elfsight-app-79c64a07-6a5d-4ed6-9c22-934db37640e2" data-elfsight-app-lazy></div>
@@ -758,7 +760,7 @@
                             <p>Práctica personalizada y técnicas de oratoria. Te queda <strong id="booking-count-display">1</strong> sesión disponible este mes.</p>
                             <button class="btn-card-action" id="btn-toggle-booking-form">Agendar Sesión</button>
                             
-                            <div id="booking-form-embed-wrapper" class="service-embed-container hidden">
+                            <div id="booking-form-embed-wrapper" class="service-embed-container">
                                 <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Selecciona día y horario para tu simulación online:</p>
                                 <script src="https://elfsightcdn.com/platform.js" async></script>
                                 <div class="elfsight-app-ffa002ec-4da5-4992-a45b-2feebb7e7fbf" data-elfsight-app-lazy></div>
@@ -776,7 +778,7 @@
     <div id="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
-                <h3 id="modal-title">Título del Aviso</h3>
+                <h3 id="modal-title">Título</h3>
                 <button class="modal-close-btn" id="modal-close">&times;</button>
             </div>
             <div class="modal-body" id="modal-body-content"></div>
@@ -801,6 +803,52 @@
                 sesionesAgendarRestantes: 1
             };
 
+            // Función para capitalizar la primera letra de cada tema de interés
+            function capitalizarTexto(texto) {
+                return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+            }
+
+            // Renderizar intereses con iniciales en mayúscula
+            const interestsContainer = document.getElementById('acc-interests');
+            if (interestsContainer) {
+                interestsContainer.innerHTML = '';
+                userData.intereses.forEach(interes => {
+                    const badge = document.createElement('span');
+                    badge.className = 'interest-badge';
+                    badge.textContent = capitalizarTexto(interes);
+                    interestsContainer.appendChild(badge);
+                });
+            }
+
+            // Base de datos de Novedades filtrables por categoría
+            const novedadesData = [
+                {
+                    id: 201,
+                    title: "Tendencias de Empleo en el sector de Supermercados para 2026",
+                    category: "supermercados",
+                    image: "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&w=600&q=80",
+                    desc: "Análisis sobre la alta demanda de personal operativo y logístico en cadenas de retail.",
+                    fullText: "El sector de supermercados experimenta una transformación digital y logística sin precedentes. La demanda de puestos operativos con flexibilidad horaria y turnos mañana lidera el ranking de contratación en Capital Federal y GBA. Las empresas valoran fuertemente la adaptabilidad y el compromiso."
+                },
+                {
+                    id: 202,
+                    title: "Transformación Digital y Nuevos Roles Administrativos",
+                    category: "digital",
+                    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80",
+                    desc: "Cómo la automatización reconfigura los puestos administrativos de lunes a viernes.",
+                    fullText: "Los perfiles administrativos tradicionales incorporan herramientas digitales avanzadas. Las empresas buscan talentos capaces de gestionar planillas inteligentes y procesos automatizados manteniendo el esquema clásico de lunes a viernes en jornada full-time."
+                },
+                {
+                    id: 203,
+                    title: "Oportunidades laborales en Apps de Delivery",
+                    category: "delivery",
+                    image: "https://images.unsplash.com/photo-1526367460867-13a5a4b1bb12?auto=format&fit=crop&w=600&q=80",
+                    desc: "Nuevas condiciones y beneficios para repartidores en la región metropolitana.",
+                    fullText: "El mercado de aplicaciones de delivery ofrece esquicios flexibles de horarios y ganancias competitivas. Nota: Si no posees esta categoría activa en tus intereses, esta noticia no aparecerá de forma destacada en tu panel."
+                }
+            ];
+
+            // Base de datos de Avisos Exclusivos filtrables por categoría
             const avisosExclusivosData = [
                 {
                     id: 101,
@@ -828,20 +876,17 @@
                     desc: "Puesto enfocado en transformación digital para empresas de servicios.",
                     fullText: "Empresa de tecnología busca asistente administrativo digital. Requisitos excluyentes: manejo fluido de herramientas informáticas, excelente redacción y disponibilidad en turno mañana de lunes a viernes. Excelente oportunidad de crecimiento en el sector digital.",
                     contacto: "talento@digitaljobsa.com"
+                },
+                {
+                    id: 104,
+                    title: "Delivery Staff - Apps de Reparto y Logística Express",
+                    category: "delivery",
+                    image: "https://images.unsplash.com/photo-1617347454431-f4987ff5fc3b?auto=format&fit=crop&w=600&q=80",
+                    desc: "Búsqueda activa de repartidores con vehículo propio para aplicaciones de delivery.",
+                    fullText: "Seleccionamos repartidores para importante app de delivery con excelentes incentivos por objetivos y horarios flexibles. Requisito: contar con movilidad propia y documentación al día.",
+                    contacto: "empleo@deliveryexpress.com.ar"
                 }
             ];
-
-            // Renderizar intereses con formato de botones estilizados
-            const interestsContainer = document.getElementById('acc-interests');
-            if (interestsContainer) {
-                interestsContainer.innerHTML = '';
-                userData.intereses.forEach(interes => {
-                    const badge = document.createElement('span');
-                    badge.className = 'interest-badge';
-                    badge.textContent = interes;
-                    interestsContainer.appendChild(badge);
-                });
-            }
 
             // Cálculo dinámico del próximo débito con año actual
             function calcularProximoDebito() {
@@ -884,12 +929,13 @@
             if(cvCountEl) cvCountEl.textContent = userData.revisionesCvRestantes;
             if(bookingCountEl) bookingCountEl.textContent = userData.sesionesAgendarRestantes;
 
-            // Toggles para formularios de asesoramiento
+            // Efecto de deslizamiento con botón dinámico ("Solicitar Revisión" / "Cerrar solicitud")
             const btnToggleCv = document.getElementById('btn-toggle-cv-form');
             const cvWrapper = document.getElementById('cv-form-embed-wrapper');
             if(btnToggleCv && cvWrapper) {
                 btnToggleCv.addEventListener('click', () => {
-                    cvWrapper.classList.toggle('hidden');
+                    const isOpen = cvWrapper.classList.toggle('expanded');
+                    btnToggleCv.textContent = isOpen ? 'Cerrar solicitud' : 'Solicitar Revisión';
                 });
             }
 
@@ -897,7 +943,8 @@
             const bookingWrapper = document.getElementById('booking-form-embed-wrapper');
             if(btnToggleBooking && bookingWrapper) {
                 btnToggleBooking.addEventListener('click', () => {
-                    bookingWrapper.classList.toggle('hidden');
+                    const isOpen = bookingWrapper.classList.toggle('expanded');
+                    btnToggleBooking.textContent = isOpen ? 'Cerrar solicitud' : 'Agendar Sesión';
                 });
             }
 
@@ -1034,7 +1081,33 @@
                 });
             });
 
+            // Función de renderizado filtrada por las categorías/intereses del usuario
             function renderContent() {
+                // Renderizar Novedades filtradas
+                const novedadesGrid = document.getElementById('novedades-grid');
+                if(novedadesGrid) {
+                    novedadesGrid.innerHTML = '';
+                    const novedadesFiltradas = novedadesData.filter(nov => 
+                        userData.intereses.some(interes => nov.category.toLowerCase().includes(interes))
+                    );
+
+                    novedadesFiltradas.forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'item-card';
+                        card.innerHTML = `
+                            <img src="${item.image}" alt="${item.title}">
+                            <div class="item-card-body">
+                                <span class="item-tag">Novedad Laboral</span>
+                                <h4>${item.title}</h4>
+                                <p>${item.desc}</p>
+                                <button class="btn-card-action" onclick="openModalDetalle(${item.id}, 'novedad')">Leer noticia</button>
+                            </div>
+                        `;
+                        novedadesGrid.appendChild(card);
+                    });
+                }
+
+                // Renderizar Avisos Exclusivos filtrados
                 const avisosGrid = document.getElementById('avisos-grid');
                 if(avisosGrid) {
                     avisosGrid.innerHTML = '';
@@ -1051,7 +1124,7 @@
                                 <span class="item-tag">Exclusivo Miembro</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="openModalAviso(${item.id})">Ver aviso</button>
+                                <button class="btn-card-action" onclick="openModalDetalle(${item.id}, 'aviso')">Ver aviso</button>
                             </div>
                         `;
                         avisosGrid.appendChild(card);
@@ -1059,31 +1132,42 @@
                 }
             }
 
-            // Modales
+            // Modales unificados con opción de volver y visualización completa
             const modalOverlay = document.getElementById('modal-overlay');
             const modalTitle = document.getElementById('modal-title');
             const modalBodyContent = document.getElementById('modal-body-content');
             const modalFooterActions = document.getElementById('modal-footer-actions');
             const modalClose = document.getElementById('modal-close');
 
-            window.openModalAviso = function(id) {
-                const item = avisosExclusivosData.find(a => a.id === id);
+            window.openModalDetalle = function(id, tipo) {
+                let item = null;
+                if(tipo === 'novedad') {
+                    item = novedadesData.find(n => n.id === id);
+                } else {
+                    item = avisosExclusivosData.find(a => a.id === id);
+                }
                 if (!item) return;
 
                 if(modalTitle) modalTitle.textContent = item.title;
                 if(modalBodyContent) {
                     modalBodyContent.innerHTML = `
                         <img src="${item.image}" alt="${item.title}">
-                        <p><strong>Detalle del aviso laboral:</strong></p>
+                        <p><strong>Detalle completo:</strong></p>
                         <p>${item.fullText}</p>
-                        <p style="margin-top: 12px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>
+                        ${item.contacto ? `<p style="margin-top: 12px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>` : ''}
                     `;
                 }
                 if(modalFooterActions) {
-                    modalFooterActions.innerHTML = `
-                        <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 10px 20px; display: inline-block; text-align: center;">Contactar con el empleador</a>
-                        <button class="btn-sidebar-action" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Cerrar</button>
-                    `;
+                    if(tipo === 'aviso') {
+                        modalFooterActions.innerHTML = `
+                            <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 10px 20px; display: inline-block; text-align: center;">Contactar con el empleador</a>
+                            <button class="btn-sidebar-action" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Volver atrás</button>
+                        `;
+                    } else {
+                        modalFooterActions.innerHTML = `
+                            <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Volver atrás</button>
+                        `;
+                    }
                 }
                 if(modalOverlay) modalOverlay.style.display = 'flex';
             }
