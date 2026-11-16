@@ -30,7 +30,6 @@
         }
 
         .hidden { display: none !important; }
-        .w-full { width: 100%; }
 
         .container {
             width: 100%;
@@ -39,20 +38,18 @@
             margin: 0 auto;
         }
 
-        /* Pantalla de Login */
+        /* Pantalla de Login / Registro posicionada arriba */
         #auth-section {
-            flex: 1;
+            width: 100%;
+            padding: 40px 24px 20px 24px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 24px;
+            justify-content: flex-start;
         }
 
         .auth-card {
             width: 100%;
             max-width: 440px;
             background: #ffffff;
-            padding: 32px 0;
         }
 
         .auth-card h2 {
@@ -70,6 +67,7 @@
 
         .form-group {
             margin-bottom: 20px;
+            position: relative;
         }
 
         .form-group label {
@@ -81,7 +79,7 @@
 
         .form-group input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 14px 45px 14px 16px;
             font-size: 16px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -91,6 +89,19 @@
 
         .form-group input:focus {
             border-color: var(--primary);
+        }
+
+        /* Botón para ver contraseña */
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 42px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 600;
         }
 
         .btn-primary {
@@ -112,7 +123,7 @@
 
         .auth-footer {
             margin-top: 24px;
-            text-align: center;
+            text-align: left;
             font-size: 14px;
             color: var(--text-muted);
         }
@@ -134,7 +145,7 @@
             display: none;
         }
 
-        /* Panel Principal */
+        /* Panel Principal de la App */
         #app-section {
             display: flex;
             flex-direction: column;
@@ -157,7 +168,7 @@
         }
 
         .brand-logo {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
@@ -172,6 +183,7 @@
         .user-greeting {
             font-weight: 600;
             font-size: 15px;
+            color: var(--text-color);
         }
 
         .menu-toggle {
@@ -184,7 +196,6 @@
             width: 26px;
             height: 20px;
             padding: 0;
-            z-index: 1001;
         }
 
         .menu-toggle span {
@@ -196,6 +207,7 @@
             transition: 0.3s;
         }
 
+        /* Backdrop */
         #menu-backdrop {
             position: fixed;
             top: 0;
@@ -207,6 +219,7 @@
             display: none;
         }
 
+        /* Menú lateral desplegable */
         .sidebar-menu {
             position: fixed;
             top: 0;
@@ -317,6 +330,7 @@
             gap: 6px;
         }
 
+        /* Navegación Principal (Tabs) */
         .main-nav-tabs {
             background: #ffffff;
             border-bottom: 1px solid var(--border-color);
@@ -513,6 +527,7 @@
             border-color: var(--primary);
         }
 
+        /* Modal Superpuesto */
         #modal-overlay {
             position: fixed;
             top: 0;
@@ -620,7 +635,7 @@
 </head>
 <body>
 
-    <!-- SECCIÓN DE INICIO DE SESIÓN -->
+    <!-- ================= SECCIÓN DE INICIO DE SESIÓN (ARRIBA) ================= -->
     <section id="auth-section">
         <div class="auth-card">
             <h2>Iniciar Sesión</h2>
@@ -636,6 +651,7 @@
                 <div class="form-group">
                     <label for="login-pass">Contraseña</label>
                     <input type="password" id="login-pass" required placeholder="••••••••">
+                    <button type="button" class="toggle-password" id="toggle-pass-btn">Ver</button>
                 </div>
                 <button type="submit" class="btn-primary">Ingresar</button>
             </form>
@@ -646,16 +662,18 @@
         </div>
     </section>
 
-    <!-- PANEL PRINCIPAL -->
+    <!-- ================= PANEL PRINCIPAL (OCULTO HASTA LOGIN) ================= -->
     <section id="app-section" class="hidden">
         
+        <!-- Backdrop para bloquear clics exteriores -->
         <div id="menu-backdrop"></div>
 
+        <!-- Header Superior -->
         <header>
             <div class="container header-content">
-                <a href="#" class="brand-logo" id="header-welcome-title">Hola Mauricio David</a>
+                <a href="#" class="brand-logo" id="header-greeting-title">Hola, Mauricio David</a>
                 <div class="user-nav-area">
-                    <span class="user-greeting" id="header-user-display">Mauricio David Acosta Danaher</span>
+                    <span class="user-greeting">Acosta Danaher</span>
                     <button class="menu-toggle" id="menu-toggle-btn" aria-label="Menú">
                         <span></span>
                         <span></span>
@@ -672,6 +690,7 @@
                 <button class="close-sidebar" id="close-sidebar-btn">&times;</button>
             </div>
 
+            <!-- Vista Principal del Menú -->
             <div id="sidebar-main-view">
                 <div class="account-details">
                     <p><strong>Nombre y Apellido:</strong> <span id="acc-name">Mauricio David Acosta Danaher</span></p>
@@ -690,6 +709,7 @@
                 </div>
             </div>
 
+            <!-- Vista: Actualizar Datos -->
             <div id="sidebar-update-view" class="account-subview">
                 <button class="btn-back-account" id="back-from-update">&larr; Volver atrás</button>
                 <h4 style="margin-bottom: 16px;">Actualizar Datos</h4>
@@ -698,6 +718,7 @@
                 <div class="elfsight-app-25c50845-bf94-4f9b-9879-2f5da5469520" data-elfsight-app-lazy></div>
             </div>
 
+            <!-- Vista: Eliminar Cuenta -->
             <div id="sidebar-delete-view" class="account-subview">
                 <button class="btn-back-account" id="back-from-delete">&larr; Volver atrás</button>
                 <h4 style="margin-bottom: 16px; color: #d93838;">Eliminar Cuenta</h4>
@@ -707,6 +728,7 @@
             </div>
         </div>
 
+        <!-- Navegación de Secciones (Tabs) -->
         <nav class="main-nav-tabs">
             <ul class="tabs-list">
                 <li><button class="tab-btn active" data-target="tab-novedades">Novedades</button></li>
@@ -716,8 +738,10 @@
             </ul>
         </nav>
 
+        <!-- Contenido Central -->
         <main class="tab-content-area">
 
+            <!-- Banner de Membresía -->
             <div class="membership-banner">
                 <p>Disfrutas de servicios exclusivos para miembros por solo <strong>$990 por mes</strong> (Precio súper accesible). Fecha de hoy: <span id="current-date-display"></span></p>
             </div>
@@ -792,7 +816,7 @@
         </main>
     </section>
 
-    <!-- MODAL SUPERPUESTO -->
+    <!-- ================= MODAL SUPERPUESTO (POP-UP) ================= -->
     <div id="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
@@ -804,7 +828,7 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT -->
+    <!-- ================= JAVASCRIPT FORZADO Y CORREGIDO ================= -->
     <script>
         const userData = {
             usuario: "mauricioacostacom@gmail.com",
@@ -865,44 +889,34 @@
             }
         ];
 
+        // Fecha actual
         const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('current-date-display').textContent = new Date().toLocaleDateString('es-AR', optionsDate);
 
+        // Ver contraseña
+        const togglePassBtn = document.getElementById('toggle-pass-btn');
+        const loginPassInput = document.getElementById('login-pass');
+        togglePassBtn.addEventListener('click', () => {
+            if (loginPassInput.type === 'password') {
+                loginPassInput.type = 'text';
+                togglePassBtn.textContent = 'Ocultar';
+            } else {
+                loginPassInput.type = 'password';
+                togglePassBtn.textContent = 'Ver';
+            }
+        });
+
+        // Login Handler
         const authSection = document.getElementById('auth-section');
         const appSection = document.getElementById('app-section');
         const loginForm = document.getElementById('login-form');
         const loginUser = document.getElementById('login-user');
-        const loginPass = document.getElementById('login-pass');
         const loginError = document.getElementById('login-error');
 
-        const menuToggleBtn = document.getElementById('menu-toggle-btn');
-        const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-        const sidebarMenu = document.getElementById('sidebar-menu');
-        const menuBackdrop = document.getElementById('menu-backdrop');
-
-        const sidebarMainView = document.getElementById('sidebar-main-view');
-        const sidebarUpdateView = document.getElementById('sidebar-update-view');
-        const sidebarDeleteView = document.getElementById('sidebar-delete-view');
-        const navUpdateData = document.getElementById('nav-update-data');
-        const navDeleteAccount = document.getElementById('nav-delete-account');
-        const backFromUpdate = document.getElementById('back-from-update');
-        const backFromDelete = document.getElementById('back-from-delete');
-        const btnLogout = document.getElementById('btn-logout');
-
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabPanes = document.querySelectorAll('.tab-pane');
-
-        const modalOverlay = document.getElementById('modal-overlay');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBodyContent = document.getElementById('modal-body-content');
-        const modalFooterActions = document.getElementById('modal-footer-actions');
-        const modalClose = document.getElementById('modal-close');
-
-        // Login Handler
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const userVal = loginUser.value.trim().toLowerCase();
-            const passVal = loginPass.value.trim();
+            const passVal = loginPassInput.value.trim();
 
             if ((userVal === userData.usuario || userVal === "mauricio david") && passVal === userData.contrasena) {
                 authSection.classList.add('hidden');
@@ -913,8 +927,8 @@
             }
         });
 
-        // Logout Handler
-        btnLogout.addEventListener('click', () => {
+        // Cerrar sesión
+        document.getElementById('btn-logout').addEventListener('click', () => {
             appSection.classList.add('hidden');
             authSection.classList.remove('hidden');
             loginForm.reset();
@@ -922,7 +936,15 @@
             closeMenu();
         });
 
-        // Sidebar / Menú hamburguesa
+        // Menú lateral (3 rayitas)
+        const menuToggleBtn = document.getElementById('menu-toggle-btn');
+        const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+        const sidebarMenu = document.getElementById('sidebar-menu');
+        const menuBackdrop = document.getElementById('menu-backdrop');
+        const sidebarMainView = document.getElementById('sidebar-main-view');
+        const sidebarUpdateView = document.getElementById('sidebar-update-view');
+        const sidebarDeleteView = document.getElementById('sidebar-delete-view');
+
         function openMenu() {
             sidebarMenu.classList.add('active');
             menuBackdrop.style.display = 'block';
@@ -940,27 +962,30 @@
         closeSidebarBtn.addEventListener('click', closeMenu);
         menuBackdrop.addEventListener('click', closeMenu);
 
-        navUpdateData.addEventListener('click', () => {
+        document.getElementById('nav-update-data').addEventListener('click', () => {
             sidebarMainView.classList.add('hidden');
             sidebarUpdateView.classList.add('active');
         });
 
-        navDeleteAccount.addEventListener('click', () => {
+        document.getElementById('nav-delete-account').addEventListener('click', () => {
             sidebarMainView.classList.add('hidden');
             sidebarDeleteView.classList.add('active');
         });
 
-        backFromUpdate.addEventListener('click', () => {
+        document.getElementById('back-from-update').addEventListener('click', () => {
             sidebarUpdateView.classList.remove('active');
             sidebarMainView.classList.remove('hidden');
         });
 
-        backFromDelete.addEventListener('click', () => {
+        document.getElementById('back-from-delete').addEventListener('click', () => {
             sidebarDeleteView.classList.remove('active');
             sidebarMainView.classList.remove('hidden');
         });
 
-        // Tabs Navegación
+        // Pestañas (Tabs) Forzadas
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 tabBtns.forEach(b => b.classList.remove('active'));
@@ -972,7 +997,7 @@
             });
         });
 
-        // Render Cards
+        // Renderizar contenidos
         function renderContent() {
             const novGrid = document.getElementById('novedades-grid');
             novGrid.innerHTML = '';
@@ -993,7 +1018,6 @@
 
             const avisosGrid = document.getElementById('avisos-grid');
             avisosGrid.innerHTML = '';
-            
             const avisosFiltrados = avisosExclusivosData.filter(aviso => 
                 userData.intereses.some(interes => aviso.category.toLowerCase().includes(interes))
             );
@@ -1015,6 +1039,12 @@
         }
 
         // Modales
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBodyContent = document.getElementById('modal-body-content');
+        const modalFooterActions = document.getElementById('modal-footer-actions');
+        const modalClose = document.getElementById('modal-close');
+
         window.openModalNovedad = function(id) {
             const item = novedadesData.find(n => n.id === id);
             if (!item) return;
@@ -1043,7 +1073,7 @@
                 <p style="margin-top: 12px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>
             `;
             modalFooterActions.innerHTML = `
-                <a href="mailto:${item.contacto}?subject=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 10px 20px; display: inline-block; text-align: center;">Contactar con el empleador</a>
+                <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 10px 20px; display: inline-block; text-align: center;">Contactar con el empleador</a>
                 <button class="btn-sidebar-action" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Cerrar</button>
             `;
             modalOverlay.style.display = 'flex';
