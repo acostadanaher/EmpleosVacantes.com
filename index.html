@@ -526,6 +526,47 @@
             background-color: var(--primary-hover);
         }
 
+        /* Bloqueo / Aviso de Membresía */
+        .membership-lock-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px 24px;
+            text-align: center;
+            max-width: 540px;
+            margin: 20px auto;
+        }
+
+        .membership-lock-box h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+
+        .membership-lock-box p {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .btn-mp-pay {
+            display: inline-block;
+            background-color: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-mp-pay:hover {
+            background-color: var(--primary-hover);
+        }
+
         /* Sección de Detalle Completo */
         #detail-view-section {
             display: none;
@@ -736,48 +777,52 @@
             <div id="tab-cvs" class="tab-pane">
                 <h2 class="section-title">Modelos de CV Listos para Descargar</h2>
                 <p class="section-desc">Formatos profesionales diseñados por expertos en recursos humanos para distintos perfiles.</p>
-                <script src="https://elfsightcdn.com/platform.js" async></script>
-                <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
+                <div id="cvs-content-wrapper">
+                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                    <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
+                </div>
             </div>
 
             <!-- TAB 4: ASESORAMIENTO -->
             <div id="tab-asesoramiento" class="tab-pane">
                 <h2 class="section-title">Asesoramiento Exclusivo para Miembros</h2>
                 <p class="section-desc">Beneficios incluidos en tu membresía mensual para potenciar tu empleabilidad.</p>
-                <div class="cards-grid">
-                    
-                    <!-- Tarjeta Revisión de Currículum -->
-                    <div class="item-card" style="cursor: default;">
-                        <div class="item-card-body">
-                            <span class="item-tag">3 Revisiones / mes</span>
-                            <h4>Revisión de Currículum</h4>
-                            <p>Envía tu CV actual y recibe devoluciones detalladas. Te quedan <strong id="cv-count-display">3</strong> revisiones disponibles este mes.</p>
-                            <button class="btn-card-action" id="btn-toggle-cv-form">Solicitar Revisión</button>
-                            
-                            <div id="cv-form-embed-wrapper" class="service-embed-container">
-                                <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Completa el formulario para enviar tu CV a revisión:</p>
-                                <script src="https://elfsightcdn.com/platform.js" async></script>
-                                <div class="elfsight-app-79c64a07-6a5d-4ed6-9c22-934db37640e2" data-elfsight-app-lazy></div>
+                <div id="asesoramiento-content-wrapper">
+                    <div class="cards-grid">
+                        
+                        <!-- Tarjeta Revisión de Currículum -->
+                        <div class="item-card" style="cursor: default;">
+                            <div class="item-card-body">
+                                <span class="item-tag">3 Revisiones / mes</span>
+                                <h4>Revisión de Currículum</h4>
+                                <p>Envía tu CV actual y recibe devoluciones detalladas. Te quedan <strong id="cv-count-display">3</strong> revisiones disponibles este mes.</p>
+                                <button class="btn-card-action" id="btn-toggle-cv-form">Solicitar Revisión</button>
+                                
+                                <div id="cv-form-embed-wrapper" class="service-embed-container">
+                                    <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Completa el formulario para enviar tu CV a revisión:</p>
+                                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                                    <div class="elfsight-app-79c64a07-6a5d-4ed6-9c22-934db37640e2" data-elfsight-app-lazy></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Tarjeta Simulacro de Entrevista -->
-                    <div class="item-card" style="cursor: default;">
-                        <div class="item-card-body">
-                            <span class="item-tag">1 Sesión / mes</span>
-                            <h4>Simulacro de Entrevista y Asesoramiento Online</h4>
-                            <p>Práctica personalizada y técnicas de oratoria. Te queda <strong id="booking-count-display">1</strong> sesión disponible este mes.</p>
-                            <button class="btn-card-action" id="btn-toggle-booking-form">Agendar Sesión</button>
-                            
-                            <div id="booking-form-embed-wrapper" class="service-embed-container">
-                                <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Selecciona día y horario para tu simulación online:</p>
-                                <script src="https://elfsightcdn.com/platform.js" async></script>
-                                <div class="elfsight-app-ffa002ec-4da5-4992-a45b-2feebb7e7fbf" data-elfsight-app-lazy></div>
+                        <!-- Tarjeta Simulacro de Entrevista -->
+                        <div class="item-card" style="cursor: default;">
+                            <div class="item-card-body">
+                                <span class="item-tag">1 Sesión / mes</span>
+                                <h4>Simulacro de Entrevista y Asesoramiento Online</h4>
+                                <p>Práctica personalizada y técnicas de oratoria. Te queda <strong id="booking-count-display">1</strong> sesión disponible este mes.</p>
+                                <button class="btn-card-action" id="btn-toggle-booking-form">Agendar Sesión</button>
+                                
+                                <div id="booking-form-embed-wrapper" class="service-embed-container">
+                                    <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Selecciona día y horario para tu simulación online:</p>
+                                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                                    <div class="elfsight-app-ffa002ec-4da5-4992-a45b-2feebb7e7fbf" data-elfsight-app-lazy></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
 
@@ -793,6 +838,8 @@
     <!-- ================= JAVASCRIPT ================= -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            const MP_LINK = "https://mpago.la/1oNLzRZ";
+
             const userData = {
                 usuario: "mauricioacostacom@gmail.com",
                 contrasena: "auto333",
@@ -800,6 +847,14 @@
                 apellido: "Acosta Danaher",
                 ubicacion: "Capital Federal",
                 intereses: ["supermercados", "digital", "lunes a viernes", "fulltime", "turno mañana", "empresas", "administrativo"],
+                
+                // CONTROL DE ESTADO DE MEMBRESÍA:
+                // Opciones: 
+                // "habilitado"   -> Acceso total al contenido
+                // "no_abonado"   -> Se registró pero nunca abonó (Muestra: "Aboná tu membresía y accedé al contenido")
+                // "vencido"      -> Se le venció la membresía y no abonó (Muestra: "Regularizá tu membresía para acceder al contenido")
+                estadoMembresia: "habilitado",
+
                 activo: true,
                 mesesAdeudados: 0, 
                 montoDeuda: 1980,
@@ -911,8 +966,10 @@
 
             const statusBox = document.getElementById('acc-status-box');
             if(statusBox) {
-                if (userData.mesesAdeudados > 0) {
-                    statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Tienes un pago pendiente de $${userData.montoDeuda}</span>`;
+                if (userData.estadoMembresia === "no_abonado") {
+                    statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Pendiente de activación (No abonado)</span>`;
+                } else if (userData.estadoMembresia === "vencido" || userData.mesesAdeudados > 0) {
+                    statusBox.innerHTML = `<span style="color: #d93838; font-weight: 600;">Membresía vencida / Pago pendiente</span>`;
                 } else {
                     statusBox.innerHTML = `<span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span>`;
                 }
@@ -1077,9 +1134,54 @@
                 });
             });
 
+            function generarHtmlBloqueo() {
+                if (userData.estadoMembresia === "no_abonado") {
+                    return `
+                        <div class="membership-lock-box">
+                            <h3>Aboná tu membresía y accedé al contenido</h3>
+                            <p>Tu cuenta ya está registrada, pero aún falta activar tu suscripción mensual para desbloquear todas las novedades, avisos exclusivos, modelos de CV y asesoramiento.</p>
+                            <a href="${MP_LINK}" target="_blank" class="btn-mp-pay">Abonar con Mercado Pago</a>
+                        </div>
+                    `;
+                } else if (userData.estadoMembresia === "vencido") {
+                    return `
+                        <div class="membership-lock-box">
+                            <h3>Regularizá tu membresía para acceder al contenido</h3>
+                            <p>Tu suscripción mensual se encuentra vencida. Realizá el pago pendiente para volver a disfrutar de todos los beneficios exclusivos del portal.</p>
+                            <a href="${MP_LINK}" target="_blank" class="btn-mp-pay">Regularizar con Mercado Pago</a>
+                        </div>
+                    `;
+                }
+                return null;
+            }
+
             function renderContent() {
+                const bloqueoHtml = generarHtmlBloqueo();
                 const novedadesGrid = document.getElementById('novedades-grid');
+                const avisosGrid = document.getElementById('avisos-grid');
+                const cvsWrapper = document.getElementById('cvs-content-wrapper');
+                const asesoramientoWrapper = document.getElementById('asesoramiento-content-wrapper');
+
+                if (bloqueoHtml) {
+                    if (novedadesGrid) {
+                        novedadesGrid.style.display = 'block';
+                        novedadesGrid.innerHTML = bloqueoHtml;
+                    }
+                    if (avisosGrid) {
+                        avisosGrid.style.display = 'block';
+                        avisosGrid.innerHTML = bloqueoHtml;
+                    }
+                    if (cvsWrapper) {
+                        cvsWrapper.innerHTML = bloqueoHtml;
+                    }
+                    if (asesoramientoWrapper) {
+                        asesoramientoWrapper.innerHTML = bloqueoHtml;
+                    }
+                    return;
+                }
+
                 if(novedadesGrid) {
+                    novedadesGrid.style.display = 'grid';
                     novedadesGrid.innerHTML = '';
                     const novedadesFiltradas = novedadesData.filter(nov => 
                         userData.intereses.some(interes => nov.category.toLowerCase().includes(interes))
@@ -1105,8 +1207,8 @@
                     });
                 }
 
-                const avisosGrid = document.getElementById('avisos-grid');
                 if(avisosGrid) {
+                    avisosGrid.style.display = 'grid';
                     avisosGrid.innerHTML = '';
                     const avisosFiltrados = avisosExclusivosData.filter(aviso => 
                         userData.intereses.some(interes => aviso.category.toLowerCase().includes(interes))
@@ -1138,6 +1240,8 @@
             const btnBackToList = document.getElementById('btn-back-to-list');
 
             window.openDetailView = function(id, tipo) {
+                if (userData.estadoMembresia !== "habilitado") return;
+
                 let item = null;
                 if(tipo === 'novedad') {
                     item = novedadesData.find(n => n.id === id);
