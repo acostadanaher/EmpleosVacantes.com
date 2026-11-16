@@ -21,12 +21,14 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+        body, html {
+            background-color: var(--bg-color) !important;
+            color: var(--text-color) !important;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-y: auto !important;
+            height: auto !important;
         }
 
         .hidden { display: none !important; }
@@ -225,7 +227,7 @@
             display: flex;
             flex-direction: column;
             padding: 24px;
-            overflow-y: auto;
+            overflow-y: auto !important;
         }
 
         .sidebar-menu.active {
@@ -236,7 +238,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
         }
@@ -263,6 +265,19 @@
 
         .account-details strong {
             color: var(--text-color);
+        }
+
+        /* Estilo de botones para Temas de Interés */
+        .interest-badge {
+            display: inline-block;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-color);
+            margin: 2px 3px;
         }
 
         .sidebar-actions {
@@ -391,10 +406,10 @@
             font-size: 15px;
         }
 
-        /* Scroll exclusivo para Avisos */
+        /* Scroll exclusivo para Avisos y Novedades */
         .scrollable-avisos-container {
             max-height: 650px;
-            overflow-y: auto;
+            overflow-y: auto !important;
             padding-right: 8px;
             padding-bottom: 20px;
         }
@@ -478,10 +493,9 @@
             background-color: var(--primary-hover);
         }
 
-        /* Contenedor con scroll para widgets integrados en Asesoramiento */
         .service-embed-container {
             max-height: 500px;
-            overflow-y: auto;
+            overflow-y: auto !important;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 16px;
@@ -539,7 +553,7 @@
 
         .modal-body {
             padding: 24px;
-            overflow-y: auto;
+            overflow-y: auto !important;
         }
 
         .modal-body img {
@@ -566,28 +580,6 @@
             gap: 12px;
         }
 
-        .membership-banner {
-            background: #eef4ff;
-            border-left: 4px solid var(--primary);
-            padding: 16px 20px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .membership-banner p {
-            font-size: 14px;
-            color: var(--text-color);
-        }
-
-        .membership-banner strong {
-            color: var(--primary);
-        }
-
         @media (max-width: 768px) {
             .cards-grid {
                 grid-template-columns: 1fr;
@@ -601,7 +593,7 @@
     <section id="auth-section">
         <div class="auth-card">
             <h2>Iniciar Sesión</h2>
-            <p class="subtitle">Ingresa con tu usuario, correo y contraseña</p>
+            <p class="subtitle">Ingresa con tu correo electrónico y contraseña</p>
             
             <div id="login-error" class="error-msg">Correo o contraseña incorrectos.</div>
 
@@ -653,14 +645,21 @@
 
             <!-- Vista Principal del Menú -->
             <div id="sidebar-main-view">
+                <!-- Banner de Membresía e Informes en la Cuenta -->
+                <div style="background: #eef4ff; border-left: 4px solid var(--primary); padding: 12px 14px; border-radius: 0 6px 6px 0; margin-bottom: 20px;">
+                    <p style="font-size: 13px; color: var(--text-color); line-height: 1.4;">
+                        🚀 <strong>¡Buenas noticias!</strong> Mantendremos tu membresía exclusiva a solo <strong>$990 por mes</strong> para potenciar tu carrera.
+                    </p>
+                </div>
+
                 <div class="account-details">
                     <p><strong>Nombre:</strong> <span id="acc-name">Mauricio David</span></p>
                     <p><strong>Apellido:</strong> <span id="acc-lastname">Acosta Danaher</span></p>
                     <p><strong>Ubicación:</strong> <span id="acc-location">Capital Federal</span></p>
                     <p><strong>Correo electrónico:</strong> <span id="acc-email">mauricioacostacom@gmail.com</span></p>
-                    <p><strong>Temas de interés:</strong> <span id="acc-interests">supermercados, digital, Lunes a Viernes, FullTime, Turno mañana, Empresas, Administrativo</span></p>
-                    <p><strong>Medio de Pago:</strong> Mercado pago</p>
-                    <p><strong>Próximo débito:</strong> <span id="acc-next-debit">1 de diciembre</span></p>
+                    <p style="margin-top: 8px;"><strong>Temas de interés:</strong><br><span id="acc-interests"></span></p>
+                    <p style="margin-top: 8px;"><strong>Medio de Pago:</strong> Mercado Pago</p>
+                    <p><strong>Próximo débito:</strong> <span id="acc-next-debit">1 de diciembre de 2026</span></p>
                     <p><strong>Estado de la cuenta:</strong> <span id="acc-status-box"><span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span></span></p>
                 </div>
 
@@ -675,7 +674,6 @@
             <div id="sidebar-update-view" class="account-subview">
                 <button class="btn-back-account" id="back-from-update">&larr; Volver atrás</button>
                 <h4 style="margin-bottom: 16px;">Actualizar Datos</h4>
-                <!-- Elfsight Form Builder -->
                 <script src="https://elfsightcdn.com/platform.js" async></script>
                 <div class="elfsight-app-25c50845-bf94-4f9b-9879-2f5da5469520" data-elfsight-app-lazy></div>
             </div>
@@ -684,7 +682,6 @@
             <div id="sidebar-delete-view" class="account-subview">
                 <button class="btn-back-account" id="back-from-delete">&larr; Volver atrás</button>
                 <h4 style="margin-bottom: 16px; color: #d93838;">Eliminar Cuenta</h4>
-                <!-- Elfsight Form Builder -->
                 <script src="https://elfsightcdn.com/platform.js" async></script>
                 <div class="elfsight-app-25c50845-bf94-4f9b-9879-2f5da5469520" data-elfsight-app-lazy></div>
             </div>
@@ -703,16 +700,15 @@
         <!-- Contenido Central -->
         <main class="tab-content-area">
 
-            <!-- Banner Viral Positivo -->
-            <div class="membership-banner">
-                <p>🚀 <strong>¡Buenas noticias!</strong> Mantendremos tu membresía exclusiva a solo <strong>$990 por mes</strong> para que sigas potenciando tu carrera sin límites. Fecha de hoy: <span id="current-date-display"></span></p>
-            </div>
-
-            <!-- TAB 1: NOVEDADES -->
+            <!-- TAB 1: NOVEDADES (WIDGET ELFSIGHT Y SCROLL) -->
             <div id="tab-novedades" class="tab-pane active">
                 <h2 class="section-title">Novedades del Mercado Laboral</h2>
                 <p class="section-desc">Últimas actualizaciones, tendencias y noticias de empleo en Argentina.</p>
-                <div class="cards-grid" id="novedades-grid"></div>
+                <div class="scrollable-avisos-container">
+                    <!-- Elfsight Blog | Untitled Blog -->
+                    <script src="https://elfsightcdn.com/platform.js" async></script>
+                    <div class="elfsight-app-ee85d7d8-827c-4c97-8da7-5861eb79eddb" data-elfsight-app-lazy></div>
+                </div>
             </div>
 
             <!-- TAB 2: AVISOS EXCLUSIVOS (CON SCROLL INTERNO) -->
@@ -728,19 +724,17 @@
             <div id="tab-cvs" class="tab-pane">
                 <h2 class="section-title">Modelos de CV Listos para Descargar</h2>
                 <p class="section-desc">Formatos profesionales diseñados por expertos en recursos humanos para distintos perfiles.</p>
-                
-                <!-- Elfsight File Embed | Untitled File Embed -->
                 <script src="https://elfsightcdn.com/platform.js" async></script>
                 <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
             </div>
 
-            <!-- TAB 4: ASESORAMIENTO (CON LÍMITES MENSUALES Y SCROLL EN WIDGETS) -->
+            <!-- TAB 4: ASESORAMIENTO -->
             <div id="tab-asesoramiento" class="tab-pane">
                 <h2 class="section-title">Asesoramiento Exclusivo para Miembros</h2>
                 <p class="section-desc">Beneficios incluidos en tu membresía mensual para potenciar tu empleabilidad.</p>
                 <div class="cards-grid">
                     
-                    <!-- Tarjeta Revisión de Currículum (Hasta 3 al mes) -->
+                    <!-- Tarjeta Revisión de Currículum -->
                     <div class="item-card">
                         <div class="item-card-body">
                             <span class="item-tag">3 Revisiones / mes</span>
@@ -748,17 +742,15 @@
                             <p>Envía tu CV actual y recibe devoluciones detalladas. Te quedan <strong id="cv-count-display">3</strong> revisiones disponibles este mes.</p>
                             <button class="btn-card-action" id="btn-toggle-cv-form">Solicitar Revisión</button>
                             
-                            <!-- Contenedor con Scroll para el Formulario de Revisión -->
                             <div id="cv-form-embed-wrapper" class="service-embed-container hidden">
                                 <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Completa el formulario para enviar tu CV a revisión:</p>
-                                <!-- Elfsight Form Builder | Untitled Form Builder -->
                                 <script src="https://elfsightcdn.com/platform.js" async></script>
                                 <div class="elfsight-app-79c64a07-6a5d-4ed6-9c22-934db37640e2" data-elfsight-app-lazy></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Tarjeta Simulacro de Entrevista y Asesoramiento Online (1 al mes) -->
+                    <!-- Tarjeta Simulacro de Entrevista -->
                     <div class="item-card">
                         <div class="item-card-body">
                             <span class="item-tag">1 Sesión / mes</span>
@@ -766,10 +758,8 @@
                             <p>Práctica personalizada y técnicas de oratoria. Te queda <strong id="booking-count-display">1</strong> sesión disponible este mes.</p>
                             <button class="btn-card-action" id="btn-toggle-booking-form">Agendar Sesión</button>
                             
-                            <!-- Contenedor con Scroll para el Agendamiento -->
                             <div id="booking-form-embed-wrapper" class="service-embed-container hidden">
                                 <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Selecciona día y horario para tu simulación online:</p>
-                                <!-- Elfsight Appointment Booking | Untitled Appointment Booking -->
                                 <script src="https://elfsightcdn.com/platform.js" async></script>
                                 <div class="elfsight-app-ffa002ec-4da5-4992-a45b-2feebb7e7fbf" data-elfsight-app-lazy></div>
                             </div>
@@ -782,7 +772,7 @@
         </main>
     </section>
 
-    <!-- ================= MODAL SUPERPUESTO (POP-UP) ================= -->
+    <!-- ================= MODAL SUPERPUESTO ================= -->
     <div id="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
@@ -794,7 +784,7 @@
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT CON LÓGICA DE PAGOS Y LIMITES MENSUALES ================= -->
+    <!-- ================= JAVASCRIPT ================= -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const userData = {
@@ -805,31 +795,11 @@
                 ubicacion: "Capital Federal",
                 intereses: ["supermercados", "digital", "lunes a viernes", "fulltime", "turno mañana", "empresas", "administrativo"],
                 activo: true,
-                // Configuración manual de deuda (Ejemplo: 0 para al día, o número de meses adeudados ej: 2 y monto total ej: 1980)
                 mesesAdeudados: 0, 
                 montoDeuda: 1980,
                 revisionesCvRestantes: 3,
                 sesionesAgendarRestantes: 1
             };
-
-            const novedadesData = [
-                {
-                    id: 1,
-                    title: "Nuevas aperturas de cadenas de supermercados en CABA",
-                    tag: "Supermercados",
-                    image: "https://images.unsplash.com/photo-1534723452862-4c874018d66d?auto=format&fit=crop&w=600&q=80",
-                    desc: "Conoce las marcas que lideran la contratación masiva de personal de salón y caja para esta temporada.",
-                    fullText: "Las principales cadenas de supermercados han anunciado un plan de expansión en Capital Federal, generando más de 300 puestos de trabajo directos. Se buscan perfiles con disponibilidad horaria FullTime y turno mañana, priorizando candidatos con residencia en CABA y experiencia previa en atención al público o reposición."
-                },
-                {
-                    id: 2,
-                    title: "Tendencias del empleo digital y remoto en 2026",
-                    tag: "Digital",
-                    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-                    desc: "Habilidades tecnológicas más valoradas por las empresas modernas para puestos administrativos.",
-                    fullText: "El mercado administrativo ha evolucionado hacia entornos 100% digitales. Las herramientas de gestión en la nube y la automatización de procesos se han vuelto requisitos indispensables. Esta novedad detalla los cursos express recomendados para certificar tus conocimientos."
-                }
-            ];
 
             const avisosExclusivosData = [
                 {
@@ -861,26 +831,34 @@
                 }
             ];
 
-            // Fecha actual y cálculo dinámico del próximo débito (1 del siguiente mes)
-            const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const dateEl = document.getElementById('current-date-display');
-            if(dateEl) dateEl.textContent = new Date().toLocaleDateString('es-AR', optionsDate);
+            // Renderizar intereses con formato de botones estilizados
+            const interestsContainer = document.getElementById('acc-interests');
+            if (interestsContainer) {
+                interestsContainer.innerHTML = '';
+                userData.intereses.forEach(interes => {
+                    const badge = document.createElement('span');
+                    badge.className = 'interest-badge';
+                    badge.textContent = interes;
+                    interestsContainer.appendChild(badge);
+                });
+            }
 
+            // Cálculo dinámico del próximo débito con año actual
             function calcularProximoDebito() {
                 const now = new Date();
-                let mes = now.getMonth() + 1; // siguiente mes
+                let mes = now.getMonth() + 1;
                 let anio = now.getFullYear();
                 if (mes > 11) {
                     mes = 0;
                     anio++;
                 }
                 const mesesNombres = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
-                return `1 de ${mesesNombres[mes]}`;
+                return `1 de ${mesesNombres[mes]} de ${anio}`;
             }
             const debitEl = document.getElementById('acc-next-debit');
             if(debitEl) debitEl.textContent = calcularProximoDebito();
 
-            // Renderizar estado de cuenta (Al día o con deuda)
+            // Renderizar estado de cuenta
             const statusBox = document.getElementById('acc-status-box');
             if(statusBox) {
                 if (userData.mesesAdeudados > 0) {
@@ -901,13 +879,12 @@
                 }
             }
 
-            // Contadores de revisiones y sesiones
             const cvCountEl = document.getElementById('cv-count-display');
             const bookingCountEl = document.getElementById('booking-count-display');
             if(cvCountEl) cvCountEl.textContent = userData.revisionesCvRestantes;
             if(bookingCountEl) bookingCountEl.textContent = userData.sesionesAgendarRestantes;
 
-            // Toggle de formularios con scroll interno en Asesoramiento
+            // Toggles para formularios de asesoramiento
             const btnToggleCv = document.getElementById('btn-toggle-cv-form');
             const cvWrapper = document.getElementById('cv-form-embed-wrapper');
             if(btnToggleCv && cvWrapper) {
@@ -939,7 +916,7 @@
                 });
             }
 
-            // Manejo de Persistencia de Sesión al recargar
+            // Persistencia de sesión
             const authSection = document.getElementById('auth-section');
             const appSection = document.getElementById('app-section');
             const loginForm = document.getElementById('login-form');
@@ -969,7 +946,6 @@
                 });
             }
 
-            // Cerrar sesión
             const btnLogout = document.getElementById('btn-logout');
             if(btnLogout) {
                 btnLogout.addEventListener('click', () => {
@@ -982,7 +958,7 @@
                 });
             }
 
-            // Menú lateral (3 rayitas)
+            // Menú lateral
             const menuToggleBtn = document.getElementById('menu-toggle-btn');
             const closeSidebarBtn = document.getElementById('close-sidebar-btn');
             const sidebarMenu = document.getElementById('sidebar-menu');
@@ -1058,27 +1034,7 @@
                 });
             });
 
-            // Renderizar contenidos
             function renderContent() {
-                const novGrid = document.getElementById('novedades-grid');
-                if(novGrid) {
-                    novGrid.innerHTML = '';
-                    novedadesData.forEach(item => {
-                        const card = document.createElement('div');
-                        card.className = 'item-card';
-                        card.innerHTML = `
-                            <img src="${item.image}" alt="${item.title}">
-                            <div class="item-card-body">
-                                <span class="item-tag">${item.tag}</span>
-                                <h4>${item.title}</h4>
-                                <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="openModalNovedad(${item.id})">Leer más</button>
-                            </div>
-                        `;
-                        novGrid.appendChild(card);
-                    });
-                }
-
                 const avisosGrid = document.getElementById('avisos-grid');
                 if(avisosGrid) {
                     avisosGrid.innerHTML = '';
@@ -1103,32 +1059,12 @@
                 }
             }
 
-            // Modales globales
+            // Modales
             const modalOverlay = document.getElementById('modal-overlay');
             const modalTitle = document.getElementById('modal-title');
             const modalBodyContent = document.getElementById('modal-body-content');
             const modalFooterActions = document.getElementById('modal-footer-actions');
             const modalClose = document.getElementById('modal-close');
-
-            window.openModalNovedad = function(id) {
-                const item = novedadesData.find(n => n.id === id);
-                if (!item) return;
-
-                if(modalTitle) modalTitle.textContent = item.title;
-                if(modalBodyContent) {
-                    modalBodyContent.innerHTML = `
-                        <img src="${item.image}" alt="${item.title}">
-                        <p><strong>Categoría:</strong> ${item.tag}</p>
-                        <p>${item.fullText}</p>
-                    `;
-                }
-                if(modalFooterActions) {
-                    modalFooterActions.innerHTML = `
-                        <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Cerrar</button>
-                    `;
-                }
-                if(modalOverlay) modalOverlay.style.display = 'flex';
-            }
 
             window.openModalAviso = function(id) {
                 const item = avisosExclusivosData.find(a => a.id === id);
