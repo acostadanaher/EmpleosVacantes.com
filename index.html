@@ -148,13 +148,13 @@
             display: none;
         }
 
-        /* Panel Principal de la App (Estructura Unificada con un solo Scroll Vertical General) */
+        /* Panel Principal de la App (Altura fija exacta 100vh sin scroll en la página) */
         #app-section {
             display: flex;
             flex-direction: column;
             height: 100vh;
             width: 100vw;
-            overflow: hidden;
+            overflow: hidden !important;
         }
 
         header {
@@ -162,13 +162,14 @@
             border-bottom: 1px solid var(--border-color);
             flex-shrink: 0;
             z-index: 100;
+            height: 70px;
         }
 
         .header-content {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 70px;
+            height: 100%;
         }
 
         .brand-logo {
@@ -382,9 +383,10 @@
             background-color: var(--primary);
         }
 
-        /* Contenedor con scroll unificado general vertical para todo el contenido interior */
+        /* Contenedor central con scroll interno unificado y altura específica restante */
         .tab-content-area {
             flex: 1;
+            height: calc(100vh - 70px - 53px); /* Altura exacta restando header y tabs */
             overflow-y: auto !important;
             overflow-x: hidden;
             padding: 40px 24px;
@@ -511,81 +513,71 @@
             margin-top: 16px;
         }
 
-        /* Modal Superpuesto genérico para Avisos y Novedades */
-        #modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.5);
+        /* Nueva sección de vista detallada interna (reemplaza ventana flotante modal) */
+        .detail-view-container {
             display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal-box {
             background: #ffffff;
-            width: 100%;
-            max-width: 600px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            display: flex;
-            flex-direction: column;
-            max-height: 90vh;
+            border-radius: 12px;
+            padding: 0;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
-        .modal-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
+        .detail-view-container.active {
+            display: block;
+        }
+
+        .detail-header-bar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .modal-header h3 {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .modal-close-btn {
-            background: none;
+        .btn-back-detail {
+            background: #f4f6f8;
             border: none;
-            font-size: 22px;
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 6px;
             cursor: pointer;
-            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
         }
 
-        .modal-body {
-            padding: 24px;
-            overflow-y: auto !important;
+        .btn-back-detail:hover {
+            background: #e2e8f0;
         }
 
-        .modal-body img {
+        .detail-content-box img {
             width: 100%;
-            height: 220px;
+            max-height: 400px;
             object-fit: cover;
             border-radius: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
         }
 
-        .modal-body p {
-            font-size: 15px;
+        .detail-content-box h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-color);
+        }
+
+        .detail-content-box p {
+            font-size: 16px;
             color: var(--text-muted);
-            line-height: 1.6;
+            line-height: 1.8;
             margin-bottom: 20px;
         }
 
-        .modal-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--border-color);
-            background: #fafafa;
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 768px) {
@@ -705,21 +697,27 @@
             </ul>
         </nav>
 
-        <!-- Contenido Central con scroll general unificado -->
+        <!-- Contenido Central con scroll interno estricto -->
         <main class="tab-content-area">
 
-            <!-- TAB 1: NOVEDADES (Filtradas por categorías del usuario y con apertura en Modal estilo pantalla grande) -->
+            <!-- TAB 1: NOVEDADES -->
             <div id="tab-novedades" class="tab-pane active">
-                <h2 class="section-title">Novedades del Mercado Laboral</h2>
-                <p class="section-desc">Últimas actualizaciones, tendencias y noticias de empleo adaptadas a tus intereses.</p>
-                <div class="cards-grid" id="novedades-grid"></div>
+                <div id="novedades-list-view">
+                    <h2 class="section-title">Novedades del Mercado Laboral</h2>
+                    <p class="section-desc">Últimas actualizaciones, tendencias y noticias de empleo adaptadas a tus intereses.</p>
+                    <div class="cards-grid" id="novedades-grid"></div>
+                </div>
+                <div id="novedades-detail-view" class="detail-view-container"></div>
             </div>
 
-            <!-- TAB 2: AVISOS EXCLUSIVOS (Filtrados por categorías del usuario) -->
+            <!-- TAB 2: AVISOS EXCLUSIVOS -->
             <div id="tab-avisos" class="tab-pane">
-                <h2 class="section-title">Avisos Exclusivos por Categorías</h2>
-                <p class="section-desc">Búsquedas filtradas automáticamente según tus intereses y disponibilidad.</p>
-                <div class="cards-grid" id="avisos-grid"></div>
+                <div id="avisos-list-view">
+                    <h2 class="section-title">Avisos Exclusivos por Categorías</h2>
+                    <p class="section-desc">Búsquedas filtradas automáticamente según tus intereses y disponibilidad.</p>
+                    <div class="cards-grid" id="avisos-grid"></div>
+                </div>
+                <div id="avisos-detail-view" class="detail-view-container"></div>
             </div>
 
             <!-- TAB 3: MODELOS DE CV (ELFSIGHT) -->
@@ -730,7 +728,7 @@
                 <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
             </div>
 
-            <!-- TAB 4: ASESORAMIENTO (Con efecto de deslizamiento para abrir/cerrar formularios) -->
+            <!-- TAB 4: ASESORAMIENTO (Con deslizamiento suave) -->
             <div id="tab-asesoramiento" class="tab-pane">
                 <h2 class="section-title">Asesoramiento Exclusivo para Miembros</h2>
                 <p class="section-desc">Beneficios incluidos en tu membresía mensual para potenciar tu empleabilidad.</p>
@@ -774,18 +772,6 @@
         </main>
     </section>
 
-    <!-- ================= MODAL SUPERPUESTO ================= -->
-    <div id="modal-overlay">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3 id="modal-title">Título</h3>
-                <button class="modal-close-btn" id="modal-close">&times;</button>
-            </div>
-            <div class="modal-body" id="modal-body-content"></div>
-            <div class="modal-footer" id="modal-footer-actions"></div>
-        </div>
-    </div>
-
     <!-- ================= JAVASCRIPT ================= -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -828,7 +814,7 @@
                     category: "supermercados",
                     image: "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&w=600&q=80",
                     desc: "Análisis sobre la alta demanda de personal operativo y logístico en cadenas de retail.",
-                    fullText: "El sector de supermercados experimenta una transformación digital y logística sin precedentes. La demanda de puestos operativos con flexibilidad horaria y turnos mañana lidera el ranking de contratación en Capital Federal y GBA. Las empresas valoran fuertemente la adaptabilidad y el compromiso."
+                    fullText: "El sector de supermercados experimenta una transformación digital y logística sin precedentes. La demanda de puestos operativos con flexibilidad horaria y turnos mañana lidera el ranking de contratación en Capital Federal y GBA. Las empresas valoran fuertemente la adaptabilidad y el compromiso diario de cada postulante en los distintos puntos de venta y centros de distribución."
                 },
                 {
                     id: 202,
@@ -836,7 +822,7 @@
                     category: "digital",
                     image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80",
                     desc: "Cómo la automatización reconfigura los puestos administrativos de lunes a viernes.",
-                    fullText: "Los perfiles administrativos tradicionales incorporan herramientas digitales avanzadas. Las empresas buscan talentos capaces de gestionar planillas inteligentes y procesos automatizados manteniendo el esquema clásico de lunes a viernes en jornada full-time."
+                    fullText: "Los perfiles administrativos tradicionales incorporan herramientas digitales avanzadas. Las empresas buscan talentos capaces de gestionar planillas inteligentes y procesos automatizados manteniendo el esquema clásico de lunes a viernes en jornada full-time, optimizando tiempos y reduciendo márgenes de error operativo."
                 },
                 {
                     id: 203,
@@ -1100,7 +1086,7 @@
                                 <span class="item-tag">Novedad Laboral</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="openModalDetalle(${item.id}, 'novedad')">Leer noticia</button>
+                                <button class="btn-card-action" onclick="showDetailView(${item.id}, 'novedad')">Leer noticia</button>
                             </div>
                         `;
                         novedadesGrid.appendChild(card);
@@ -1124,7 +1110,7 @@
                                 <span class="item-tag">Exclusivo Miembro</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="openModalDetalle(${item.id}, 'aviso')">Ver aviso</button>
+                                <button class="btn-card-action" onclick="showDetailView(${item.id}, 'aviso')">Ver aviso</button>
                             </div>
                         `;
                         avisosGrid.appendChild(card);
@@ -1132,55 +1118,62 @@
                 }
             }
 
-            // Modales unificados con opción de volver y visualización completa
-            const modalOverlay = document.getElementById('modal-overlay');
-            const modalTitle = document.getElementById('modal-title');
-            const modalBodyContent = document.getElementById('modal-body-content');
-            const modalFooterActions = document.getElementById('modal-footer-actions');
-            const modalClose = document.getElementById('modal-close');
-
-            window.openModalDetalle = function(id, tipo) {
+            // Vistas detalladas internas por sección (sin ventanas flotantes modales)
+            window.showDetailView = function(id, tipo) {
                 let item = null;
+                let listView = null;
+                let detailView = null;
+
                 if(tipo === 'novedad') {
                     item = novedadesData.find(n => n.id === id);
+                    listView = document.getElementById('novedades-list-view');
+                    detailView = document.getElementById('novedades-detail-view');
                 } else {
                     item = avisosExclusivosData.find(a => a.id === id);
+                    listView = document.getElementById('avisos-list-view');
+                    detailView = document.getElementById('avisos-detail-view');
                 }
-                if (!item) return;
 
-                if(modalTitle) modalTitle.textContent = item.title;
-                if(modalBodyContent) {
-                    modalBodyContent.innerHTML = `
+                if (!item || !listView || !detailView) return;
+
+                listView.classList.add('hidden');
+                detailView.innerHTML = `
+                    <div class="detail-header-bar">
+                        <button class="btn-back-detail" onclick="hideDetailView('${tipo}')">&larr; Volver atrás</button>
+                        <span style="font-size: 14px; font-weight: 600; color: var(--text-muted);">Detalle de ${tipo === 'novedad' ? 'Novedad' : 'Aviso Exclusivo'}</span>
+                    </div>
+                    <div class="detail-content-box">
                         <img src="${item.image}" alt="${item.title}">
-                        <p><strong>Detalle completo:</strong></p>
+                        <h2>${item.title}</h2>
                         <p>${item.fullText}</p>
-                        ${item.contacto ? `<p style="margin-top: 12px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>` : ''}
-                    `;
-                }
-                if(modalFooterActions) {
-                    if(tipo === 'aviso') {
-                        modalFooterActions.innerHTML = `
-                            <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 10px 20px; display: inline-block; text-align: center;">Contactar con el empleador</a>
-                            <button class="btn-sidebar-action" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Volver atrás</button>
-                        `;
-                    } else {
-                        modalFooterActions.innerHTML = `
-                            <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Volver atrás</button>
-                        `;
-                    }
-                }
-                if(modalOverlay) modalOverlay.style.display = 'flex';
+                        ${item.contacto ? `<p style="margin-top: 16px;"><strong>Contacto empleador:</strong> <a href="mailto:${item.contacto}" style="color: var(--primary);">${item.contacto}</a></p>` : ''}
+                        ${tipo === 'aviso' ? `<div style="margin-top: 24px;"><a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; display: inline-block; width: auto; padding: 12px 24px;">Contactar con el empleador</a></div>` : ''}
+                    </div>
+                `;
+                detailView.classList.add('active');
+
+                // Mantener el scroll al inicio del contenedor interior
+                const contentArea = document.querySelector('.tab-content-area');
+                if(contentArea) contentArea.scrollTop = 0;
             }
 
-            window.closeModal = function() {
-                if(modalOverlay) modalOverlay.style.display = 'none';
-            }
+            window.hideDetailView = function(tipo) {
+                let listView = null;
+                let detailView = null;
 
-            if(modalClose) modalClose.addEventListener('click', closeModal);
-            if(modalOverlay) {
-                modalOverlay.addEventListener('click', (e) => {
-                    if (e.target === modalOverlay) closeModal();
-                });
+                if(tipo === 'novedad') {
+                    listView = document.getElementById('novedades-list-view');
+                    detailView = document.getElementById('novedades-detail-view');
+                } else {
+                    listView = document.getElementById('avisos-list-view');
+                    detailView = document.getElementById('avisos-detail-view');
+                }
+
+                if(detailView) detailView.classList.remove('active');
+                if(listView) listView.classList.remove('hidden');
+
+                const contentArea = document.querySelector('.tab-content-area');
+                if(contentArea) contentArea.scrollTop = 0;
             }
         });
     </script>
