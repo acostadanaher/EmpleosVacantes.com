@@ -21,17 +21,14 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* Bloqueo total del scroll externo de la página web principal */
+        /* Bloqueo total del scroll externo de la página */
         body, html {
             background-color: var(--bg-color) !important;
             color: var(--text-color) !important;
             height: 100vh;
-            max-height: 700px;
+            width: 100vw;
             overflow: hidden !important;
-            display: flex;
-            flex-direction: column;
             position: fixed;
-            width: 100%;
             top: 0;
             left: 0;
         }
@@ -45,16 +42,20 @@
             margin: 0 auto;
         }
 
-        /* Pantalla de Login / Registro */
+        /* Pantalla de Login / Registro con scroll interno propio */
         #auth-section {
-            width: 100%;
+            width: 100vw;
             height: 100vh;
-            max-height: 700px;
             padding: 40px 24px;
             display: flex;
             justify-content: flex-start;
             align-items: flex-start;
             overflow-y: auto !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #ffffff;
+            z-index: 1000;
         }
 
         .auth-card {
@@ -155,14 +156,16 @@
             display: none;
         }
 
-        /* Panel Principal de la App adaptativo para celulares (altura máxima 700px) */
+        /* Panel Principal de la App (Estructura rígida sin scroll de página) */
         #app-section {
             display: flex;
             flex-direction: column;
             height: 100vh;
-            max-height: 700px;
             width: 100vw;
             overflow: hidden !important;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
 
         header {
@@ -176,11 +179,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 60px;
+            height: 70px;
         }
 
         .brand-logo {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
@@ -231,14 +234,13 @@
             width: 380px;
             max-width: 90vw;
             height: 100vh;
-            max-height: 700px;
             background: #ffffff;
             z-index: 999;
             box-shadow: -5px 0 25px rgba(0,0,0,0.1);
             transition: right 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            padding: 24px;
             overflow-y: auto !important;
         }
 
@@ -250,8 +252,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -269,10 +271,10 @@
         }
 
         .account-details {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 20px;
+            line-height: 1.6;
+            margin-bottom: 24px;
         }
 
         .account-details strong {
@@ -284,26 +286,26 @@
             display: inline-block;
             background: #f8fafc;
             border: 1px solid var(--border-color);
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 16px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             color: var(--text-color);
-            margin: 2px 3px;
+            margin: 3px 4px;
         }
 
         .sidebar-actions {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
             margin-top: auto;
-            padding-top: 15px;
+            padding-top: 20px;
             border-top: 1px solid var(--border-color);
         }
 
         .btn-sidebar-action {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: #f4f6f8;
             border: none;
             border-radius: 6px;
@@ -312,7 +314,6 @@
             cursor: pointer;
             text-align: left;
             transition: background 0.2s;
-            font-size: 13px;
         }
 
         .btn-sidebar-action:hover {
@@ -329,7 +330,7 @@
 
         .account-subview {
             display: none;
-            padding: 20px 0;
+            padding: 24px 0;
         }
 
         .account-subview.active {
@@ -342,8 +343,8 @@
             color: var(--primary);
             font-weight: 600;
             cursor: pointer;
-            margin-bottom: 12px;
-            font-size: 13px;
+            margin-bottom: 16px;
+            font-size: 14px;
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -352,13 +353,13 @@
         .main-nav-tabs {
             background: #ffffff;
             border-bottom: 1px solid var(--border-color);
-            padding: 0 20px;
+            padding: 0 24px;
             flex-shrink: 0;
         }
 
         .tabs-list {
             display: flex;
-            gap: 24px;
+            gap: 32px;
             max-width: 1400px;
             margin: 0 auto;
             list-style: none;
@@ -368,8 +369,8 @@
         .tab-btn {
             background: none;
             border: none;
-            padding: 14px 0;
-            font-size: 14px;
+            padding: 16px 0;
+            font-size: 15px;
             font-weight: 600;
             color: var(--text-muted);
             cursor: pointer;
@@ -392,12 +393,12 @@
             background-color: var(--primary);
         }
 
-        /* Contenedor con scroll interno unificado y exclusivo para evitar scroll externo */
+        /* Contenedor con scroll interno exclusivo (único punto de scroll vertical de la app) */
         .tab-content-area {
             flex: 1;
             overflow-y: auto !important;
             overflow-x: hidden;
-            padding: 24px 20px;
+            padding: 40px 24px;
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
@@ -412,21 +413,21 @@
         }
 
         .section-title {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .section-desc {
             color: var(--text-muted);
-            margin-bottom: 24px;
-            font-size: 14px;
+            margin-bottom: 32px;
+            font-size: 15px;
         }
 
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
         }
 
         .item-card {
@@ -441,18 +442,18 @@
 
         .item-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
         }
 
         .item-card img {
             width: 100%;
-            height: 160px;
+            height: 180px;
             object-fit: cover;
             background: #f0f0f0;
         }
 
         .item-card-body {
-            padding: 16px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -462,26 +463,26 @@
             display: inline-block;
             background: #eef4ff;
             color: var(--primary);
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
-            padding: 3px 8px;
+            padding: 4px 10px;
             border-radius: 20px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             align-self: flex-start;
         }
 
         .item-card h4 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: var(--text-color);
         }
 
         .item-card p {
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-muted);
-            margin-bottom: 14px;
-            line-height: 1.4;
+            margin-bottom: 16px;
+            line-height: 1.5;
             flex: 1;
         }
 
@@ -489,8 +490,8 @@
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 10px 14px;
-            font-size: 13px;
+            padding: 10px 16px;
+            font-size: 14px;
             font-weight: 600;
             border-radius: 6px;
             cursor: pointer;
@@ -500,47 +501,6 @@
 
         .btn-card-action:hover {
             background-color: var(--primary-hover);
-        }
-
-        /* Sección de Detalle en Pantalla Completa (Estilo Integrado tipo Asesoramiento sin ventana superpuesta flotante) */
-        .detail-view {
-            display: none;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 24px;
-            border: 1px solid var(--border-color);
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .detail-view.active {
-            display: block;
-        }
-
-        .detail-view img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .detail-view h3 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text-color);
-        }
-
-        .detail-view p {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Estilos de expansión/deslizamiento suave para formularios de asesoramiento */
@@ -560,6 +520,83 @@
             border: 1px solid var(--border-color);
             padding: 16px;
             margin-top: 16px;
+        }
+
+        /* Modal Superpuesto genérico para Avisos y Novedades */
+        #modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto !important;
+        }
+
+        .modal-body img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .modal-body p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-color);
+            background: #fafafa;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
         }
 
         @media (max-width: 768px) {
@@ -628,8 +665,8 @@
             <!-- Vista Principal del Menú -->
             <div id="sidebar-main-view">
                 <!-- Banner de Membresía -->
-                <div style="background: #eef4ff; border-left: 4px solid var(--primary); padding: 10px 12px; border-radius: 0 6px 6px 0; margin-bottom: 15px;">
-                    <p style="font-size: 12px; color: var(--text-color); line-height: 1.4;">
+                <div style="background: #eef4ff; border-left: 4px solid var(--primary); padding: 12px 14px; border-radius: 0 6px 6px 0; margin-bottom: 20px;">
+                    <p style="font-size: 13px; color: var(--text-color); line-height: 1.4;">
                         🚀 <strong>¡Buenas noticias!</strong> Mantendremos tu membresía exclusiva a solo <strong>$990 por mes</strong> para potenciar tu carrera.
                     </p>
                 </div>
@@ -679,33 +716,21 @@
             </ul>
         </nav>
 
-        <!-- Contenido Central con scroll interno estricto sin scroll exterior web -->
+        <!-- Contenido Central con scroll interno exclusivo -->
         <main class="tab-content-area">
 
-            <!-- TAB 1: NOVEDADES (Con vista de detalle integrada sin ventana flotante) -->
+            <!-- TAB 1: NOVEDADES (Filtradas por categorías del usuario y con apertura en Modal estilo pantalla grande) -->
             <div id="tab-novedades" class="tab-pane active">
-                <div id="novedades-list-view">
-                    <h2 class="section-title">Novedades del Mercado Laboral</h2>
-                    <p class="section-desc">Últimas actualizaciones, tendencias y noticias de empleo adaptadas a tus intereses.</p>
-                    <div class="cards-grid" id="novedades-grid"></div>
-                </div>
-                <div id="novedades-detail-view" class="detail-view">
-                    <button class="btn-back-account" onclick="closeDetailView('novedad')">&larr; Volver a Novedades</button>
-                    <div id="novedades-detail-content"></div>
-                </div>
+                <h2 class="section-title">Novedades del Mercado Laboral</h2>
+                <p class="section-desc">Últimas actualizaciones, tendencias y noticias de empleo adaptadas a tus intereses.</p>
+                <div class="cards-grid" id="novedades-grid"></div>
             </div>
 
-            <!-- TAB 2: AVISOS EXCLUSIVOS (Con vista de detalle integrada sin ventana flotante) -->
+            <!-- TAB 2: AVISOS EXCLUSIVOS (Filtrados por categorías del usuario) -->
             <div id="tab-avisos" class="tab-pane">
-                <div id="avisos-list-view">
-                    <h2 class="section-title">Avisos Exclusivos por Categorías</h2>
-                    <p class="section-desc">Búsquedas filtradas automáticamente según tus intereses y disponibilidad.</p>
-                    <div class="cards-grid" id="avisos-grid"></div>
-                </div>
-                <div id="avisos-detail-view" class="detail-view">
-                    <button class="btn-back-account" onclick="closeDetailView('aviso')">&larr; Volver a Avisos</button>
-                    <div id="avisos-detail-content"></div>
-                </div>
+                <h2 class="section-title">Avisos Exclusivos por Categorías</h2>
+                <p class="section-desc">Búsquedas filtradas automáticamente según tus intereses y disponibilidad.</p>
+                <div class="cards-grid" id="avisos-grid"></div>
             </div>
 
             <!-- TAB 3: MODELOS DE CV (ELFSIGHT) -->
@@ -760,6 +785,18 @@
         </main>
     </section>
 
+    <!-- ================= MODAL SUPERPUESTO ================= -->
+    <div id="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modal-title">Título</h3>
+                <button class="modal-close-btn" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body-content"></div>
+            <div class="modal-footer" id="modal-footer-actions"></div>
+        </div>
+    </div>
+
     <!-- ================= JAVASCRIPT ================= -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -777,7 +814,7 @@
                 sesionesAgendarRestantes: 1
             };
 
-            // Función para capitalizar la primera letra de cada tema de interés con precisión
+            // Función para capitalizar la primera letra de cada tema de interés
             function capitalizarTexto(texto) {
                 return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
             }
@@ -1074,7 +1111,7 @@
                                 <span class="item-tag">Novedad Laboral</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="openDetailView(${item.id}, 'novedad')">Leer noticia</button>
+                                <button class="btn-card-action" onclick="openModalDetalle(${item.id}, 'novedad')">Leer noticia</button>
                             </div>
                         `;
                         novedadesGrid.appendChild(card);
@@ -1098,7 +1135,7 @@
                                 <span class="item-tag">Exclusivo Miembro</span>
                                 <h4>${item.title}</h4>
                                 <p>${item.desc}</p>
-                                <button class="btn-card-action" onclick="openDetailView(${item.id}, 'aviso')">Ver aviso</button>
+                                <button class="btn-card-action" onclick="openModalDetalle(${item.id}, 'aviso')">Ver aviso</button>
                             </div>
                         `;
                         avisosGrid.appendChild(card);
@@ -1106,50 +1143,55 @@
                 }
             }
 
-            // Sistema de navegación integrado para Novedades y Avisos (Sin ventana flotante/superpuesta)
-            window.openDetailView = function(id, tipo) {
+            // Modales unificados con opción de volver y visualización completa
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBodyContent = document.getElementById('modal-body-content');
+            const modalFooterActions = document.getElementById('modal-footer-actions');
+            const modalClose = document.getElementById('modal-close');
+
+            window.openModalDetalle = function(id, tipo) {
                 let item = null;
                 if(tipo === 'novedad') {
                     item = novedadesData.find(n => n.id === id);
-                    if(!item) return;
-                    document.getElementById('novedades-list-view').classList.add('hidden');
-                    const detailView = document.getElementById('novedades-detail-view');
-                    const detailContent = document.getElementById('novedades-detail-content');
-                    detailContent.innerHTML = `
-                        <img src="${item.image}" alt="${item.title}">
-                        <h3>${item.title}</h3>
-                        <p><strong>Detalle completo de la novedad:</strong></p>
-                        <p>${item.fullText}</p>
-                    `;
-                    detailView.classList.add('active');
                 } else {
                     item = avisosExclusivosData.find(a => a.id === id);
-                    if(!item) return;
-                    document.getElementById('avisos-list-view').classList.add('hidden');
-                    const detailView = document.getElementById('avisos-detail-view');
-                    const detailContent = document.getElementById('avisos-detail-content');
-                    detailContent.innerHTML = `
-                        <img src="${item.image}" alt="${item.title}">
-                        <h3>${item.title}</h3>
-                        <p><strong>Detalle del aviso laboral:</strong></p>
-                        <p>${item.fullText}</p>
-                        <p style="margin-top: 12px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>
-                        <div style="margin-top: 20px;">
-                            <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 12px 20px; display: inline-block; text-align: center;">Contactar con el empleador</a>
-                        </div>
-                    `;
-                    detailView.classList.add('active');
                 }
+                if (!item) return;
+
+                if(modalTitle) modalTitle.textContent = item.title;
+                if(modalBodyContent) {
+                    modalBodyContent.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}">
+                        <p><strong>Detalle completo:</strong></p>
+                        <p>${item.fullText}</p>
+                        ${item.contacto ? `<p style="margin-top: 12px;"><strong>Contacto empleador:</strong> ${item.contacto}</p>` : ''}
+                    `;
+                }
+                if(modalFooterActions) {
+                    if(tipo === 'aviso') {
+                        modalFooterActions.innerHTML = `
+                            <a href="mailto:${item.contacto}?asunto=Postulación%20para%20${encodeURIComponent(item.title)}" class="btn-primary" style="text-decoration: none; padding: 10px 20px; display: inline-block; text-align: center;">Contactar con el empleador</a>
+                            <button class="btn-sidebar-action" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Volver atrás</button>
+                        `;
+                    } else {
+                        modalFooterActions.innerHTML = `
+                            <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="closeModal()">Volver atrás</button>
+                        `;
+                    }
+                }
+                if(modalOverlay) modalOverlay.style.display = 'flex';
             }
 
-            window.closeDetailView = function(tipo) {
-                if(tipo === 'novedad') {
-                    document.getElementById('novedades-detail-view').classList.remove('active');
-                    document.getElementById('novedades-list-view').classList.remove('hidden');
-                } else {
-                    document.getElementById('avisos-detail-view').classList.remove('active');
-                    document.getElementById('avisos-list-view').classList.remove('hidden');
-                }
+            window.closeModal = function() {
+                if(modalOverlay) modalOverlay.style.display = 'none';
+            }
+
+            if(modalClose) modalClose.addEventListener('click', closeModal);
+            if(modalOverlay) {
+                modalOverlay.addEventListener('click', (e) => {
+                    if (e.target === modalOverlay) closeModal();
+                });
             }
         });
     </script>
