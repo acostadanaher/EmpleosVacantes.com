@@ -38,7 +38,7 @@
             margin: 0 auto;
         }
 
-        /* Pantalla de Login / Registro posicionada bien arriba */
+        /* Pantalla de Login / Registro posicionada arriba */
         #auth-section {
             width: 100%;
             padding: 40px 24px 20px 24px;
@@ -177,12 +177,6 @@
             display: flex;
             align-items: center;
             gap: 16px;
-        }
-
-        .user-greeting {
-            font-weight: 600;
-            font-size: 15px;
-            color: var(--text-color);
         }
 
         .menu-toggle {
@@ -476,53 +470,6 @@
             background-color: var(--primary-hover);
         }
 
-        .cv-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .cv-card {
-            border: 1px solid var(--border-color);
-            padding: 24px;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .cv-card h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .cv-card p {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-        }
-
-        .btn-download {
-            background: #f4f6f8;
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-
-        .btn-download:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
         /* Modal Superpuesto */
         #modal-overlay {
             position: fixed;
@@ -623,7 +570,7 @@
         }
 
         @media (max-width: 768px) {
-            .cards-grid, .cv-grid {
+            .cards-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -631,7 +578,7 @@
 </head>
 <body>
 
-    <!-- ================= SECCIÓN DE INICIO DE SESIÓN (ARRIBA) ================= -->
+    <!-- ================= SECCIÓN DE INICIO DE SESIÓN ================= -->
     <section id="auth-section">
         <div class="auth-card">
             <h2>Iniciar Sesión</h2>
@@ -642,11 +589,11 @@
             <form id="login-form">
                 <div class="form-group">
                     <label for="login-user">Usuario o Correo electrónico</label>
-                    <input type="text" id="login-user" required placeholder="ej: mauricioacostacom@gmail.com">
+                    <input type="text" id="login-user" required placeholder="ejemplo@empleosvacantes.com">
                 </div>
                 <div class="form-group">
                     <label for="login-pass">Contraseña</label>
-                    <input type="password" id="login-pass" required placeholder="••••••••">
+                    <input type="password" id="login-pass" required placeholder="Ingresa tu contraseña">
                     <button type="button" class="toggle-password" id="toggle-pass-btn">Ver</button>
                 </div>
                 <button type="submit" class="btn-primary">Ingresar</button>
@@ -658,18 +605,17 @@
         </div>
     </section>
 
-    <!-- ================= PANEL PRINCIPAL (OCULTO HASTA LOGIN) ================= -->
+    <!-- ================= PANEL PRINCIPAL ================= -->
     <section id="app-section" class="hidden">
         
         <!-- Backdrop para bloquear clics exteriores -->
         <div id="menu-backdrop"></div>
 
-        <!-- Header Superior -->
+        <!-- Header Superior (Sin apellido a la izquierda de las 3 rayitas) -->
         <header>
             <div class="container header-content">
                 <a href="#" class="brand-logo" id="header-greeting-title">Hola, Mauricio David</a>
                 <div class="user-nav-area">
-                    <span class="user-greeting">Acosta Danaher</span>
                     <button class="menu-toggle" id="menu-toggle-btn" aria-label="Menú">
                         <span></span>
                         <span></span>
@@ -737,9 +683,9 @@
         <!-- Contenido Central -->
         <main class="tab-content-area">
 
-            <!-- Banner de Membresía -->
+            <!-- Banner Viral Positivo -->
             <div class="membership-banner">
-                <p>Disfrutas de servicios exclusivos para miembros por solo <strong>$990 por mes</strong> (Precio súper accesible). Fecha de hoy: <span id="current-date-display"></span></p>
+                <p>🚀 <strong>¡Buenas noticias!</strong> Mantendremos tu membresía exclusiva a solo <strong>$990 por mes</strong> para que sigas potenciando tu carrera sin límites. Fecha de hoy: <span id="current-date-display"></span></p>
             </div>
 
             <!-- TAB 1: NOVEDADES -->
@@ -756,33 +702,14 @@
                 <div class="cards-grid" id="avisos-grid"></div>
             </div>
 
-            <!-- TAB 3: MODELOS DE CV -->
+            <!-- TAB 3: MODELOS DE CV (ELFSIGHT) -->
             <div id="tab-cvs" class="tab-pane">
                 <h2 class="section-title">Modelos de CV Listos para Descargar</h2>
                 <p class="section-desc">Formatos profesionales diseñados por expertos en recursos humanos para distintos perfiles.</p>
-                <div class="cv-grid">
-                    <div class="cv-card">
-                        <div>
-                            <h4>CV Ejecutivo / Administrativo</h4>
-                            <p>Ideal para perfiles corporativos, oficinas, atención y administración general.</p>
-                        </div>
-                        <a href="#" class="btn-download" onclick="alert('Descargando modelo Administrativo...'); return false;">Descargar Modelo (.docx)</a>
-                    </div>
-                    <div class="cv-card">
-                        <div>
-                            <h4>CV Comercial / Supermercados y Retail</h4>
-                            <p>Enfoque directo en atención al cliente, caja, reposición y trabajo en equipo.</p>
-                        </div>
-                        <a href="#" class="btn-download" onclick="alert('Descargando modelo Supermercados...'); return false;">Descargar Modelo (.docx)</a>
-                    </div>
-                    <div class="cv-card">
-                        <div>
-                            <h4>CV Digital / Tecnología y Remoto</h4>
-                            <p>Especial para postulaciones digitales, soporte técnico y remoto FullTime.</p>
-                        </div>
-                        <a href="#" class="btn-download" onclick="alert('Descargando modelo Digital...'); return false;">Descargar Modelo (.docx)</a>
-                    </div>
-                </div>
+                
+                <!-- Elfsight File Embed | Untitled File Embed -->
+                <script src="https://elfsightcdn.com/platform.js" async></script>
+                <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
             </div>
 
             <!-- TAB 4: ASESORAMIENTO -->
@@ -824,7 +751,7 @@
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT CORREGIDO Y ROBUSTO ================= -->
+    <!-- ================= JAVASCRIPT CON PERSISTENCIA DE SESIÓN ================= -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const userData = {
@@ -906,12 +833,18 @@
                 });
             }
 
-            // Login Handler
+            // Manejo de Persistencia de Sesión al recargar
             const authSection = document.getElementById('auth-section');
             const appSection = document.getElementById('app-section');
             const loginForm = document.getElementById('login-form');
             const loginUser = document.getElementById('login-user');
             const loginError = document.getElementById('login-error');
+
+            if (localStorage.getItem('empleos_session_active') === 'true') {
+                authSection.classList.add('hidden');
+                appSection.classList.remove('hidden');
+                renderContent();
+            }
 
             if(loginForm) {
                 loginForm.addEventListener('submit', (e) => {
@@ -920,6 +853,7 @@
                     const passVal = loginPassInput.value.trim();
 
                     if ((userVal === userData.usuario || userVal === "mauricio david") && passVal === userData.contrasena) {
+                        localStorage.setItem('empleos_session_active', 'true');
                         authSection.classList.add('hidden');
                         appSection.classList.remove('hidden');
                         renderContent();
@@ -933,6 +867,7 @@
             const btnLogout = document.getElementById('btn-logout');
             if(btnLogout) {
                 btnLogout.addEventListener('click', () => {
+                    localStorage.removeItem('empleos_session_active');
                     appSection.classList.add('hidden');
                     authSection.classList.remove('hidden');
                     loginForm.reset();
@@ -1000,7 +935,7 @@
                 });
             }
 
-            // Pestañas (Tabs) con evento robusto
+            // Pestañas (Tabs)
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabPanes = document.querySelectorAll('.tab-pane');
 
