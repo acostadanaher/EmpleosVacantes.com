@@ -391,6 +391,14 @@
             font-size: 15px;
         }
 
+        /* Scroll exclusivo para Avisos */
+        .scrollable-avisos-container {
+            max-height: 650px;
+            overflow-y: auto;
+            padding-right: 8px;
+            padding-bottom: 20px;
+        }
+
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -468,6 +476,17 @@
 
         .btn-card-action:hover {
             background-color: var(--primary-hover);
+        }
+
+        /* Contenedor con scroll para widgets integrados en Asesoramiento */
+        .service-embed-container {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+            background: #fafafa;
         }
 
         /* Modal Superpuesto */
@@ -611,7 +630,7 @@
         <!-- Backdrop para bloquear clics exteriores -->
         <div id="menu-backdrop"></div>
 
-        <!-- Header Superior (Sin apellido a la izquierda de las 3 rayitas) -->
+        <!-- Header Superior -->
         <header>
             <div class="container header-content">
                 <a href="#" class="brand-logo" id="header-greeting-title">Hola, Mauricio David</a>
@@ -635,13 +654,14 @@
             <!-- Vista Principal del Menú -->
             <div id="sidebar-main-view">
                 <div class="account-details">
-                    <p><strong>Nombre y Apellido:</strong> <span id="acc-name">Mauricio David Acosta Danaher</span></p>
+                    <p><strong>Nombre:</strong> <span id="acc-name">Mauricio David</span></p>
+                    <p><strong>Apellido:</strong> <span id="acc-lastname">Acosta Danaher</span></p>
                     <p><strong>Ubicación:</strong> <span id="acc-location">Capital Federal</span></p>
                     <p><strong>Correo electrónico:</strong> <span id="acc-email">mauricioacostacom@gmail.com</span></p>
                     <p><strong>Temas de interés:</strong> <span id="acc-interests">supermercados, digital, Lunes a Viernes, FullTime, Turno mañana, Empresas, Administrativo</span></p>
                     <p><strong>Medio de Pago:</strong> Mercado pago</p>
-                    <p><strong>Próximo débito:</strong> 1 de cada mes</p>
-                    <p><strong>Estado de la cuenta:</strong> <span id="acc-status" style="color: #0d8a3e; font-weight: 600;">Activa</span></p>
+                    <p><strong>Próximo débito:</strong> <span id="acc-next-debit">1 de diciembre</span></p>
+                    <p><strong>Estado de la cuenta:</strong> <span id="acc-status-box"><span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span></span></p>
                 </div>
 
                 <div class="sidebar-actions">
@@ -695,11 +715,13 @@
                 <div class="cards-grid" id="novedades-grid"></div>
             </div>
 
-            <!-- TAB 2: AVISOS EXCLUSIVOS -->
+            <!-- TAB 2: AVISOS EXCLUSIVOS (CON SCROLL INTERNO) -->
             <div id="tab-avisos" class="tab-pane">
                 <h2 class="section-title">Avisos Exclusivos por Categorías</h2>
                 <p class="section-desc">Búsquedas filtradas automáticamente según tus intereses y disponibilidad.</p>
-                <div class="cards-grid" id="avisos-grid"></div>
+                <div class="scrollable-avisos-container">
+                    <div class="cards-grid" id="avisos-grid"></div>
+                </div>
             </div>
 
             <!-- TAB 3: MODELOS DE CV (ELFSIGHT) -->
@@ -712,27 +734,48 @@
                 <div class="elfsight-app-1b1b2b73-54e3-40d0-816e-a416e03acde0" data-elfsight-app-lazy></div>
             </div>
 
-            <!-- TAB 4: ASESORAMIENTO -->
+            <!-- TAB 4: ASESORAMIENTO (CON LÍMITES MENSUALES Y SCROLL EN WIDGETS) -->
             <div id="tab-asesoramiento" class="tab-pane">
                 <h2 class="section-title">Asesoramiento Exclusivo para Miembros</h2>
                 <p class="section-desc">Beneficios incluidos en tu membresía mensual para potenciar tu empleabilidad.</p>
                 <div class="cards-grid">
+                    
+                    <!-- Tarjeta Revisión de Currículum (Hasta 3 al mes) -->
                     <div class="item-card">
                         <div class="item-card-body">
-                            <span class="item-tag">1 a 1</span>
+                            <span class="item-tag">3 Revisiones / mes</span>
                             <h4>Revisión de Currículum</h4>
-                            <p>Envía tu CV actual y recibe devoluciones detalladas para superar los filtros automáticos de selección de las empresas.</p>
-                            <button class="btn-card-action" onclick="alert('Solicitud de revisión enviada a soporte.');">Solicitar Asesoría</button>
+                            <p>Envía tu CV actual y recibe devoluciones detalladas. Te quedan <strong id="cv-count-display">3</strong> revisiones disponibles este mes.</p>
+                            <button class="btn-card-action" id="btn-toggle-cv-form">Solicitar Revisión</button>
+                            
+                            <!-- Contenedor con Scroll para el Formulario de Revisión -->
+                            <div id="cv-form-embed-wrapper" class="service-embed-container hidden">
+                                <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Completa el formulario para enviar tu CV a revisión:</p>
+                                <!-- Elfsight Form Builder | Untitled Form Builder -->
+                                <script src="https://elfsightcdn.com/platform.js" async></script>
+                                <div class="elfsight-app-79c64a07-6a5d-4ed6-9c22-934db37640e2" data-elfsight-app-lazy></div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Tarjeta Simulacro de Entrevista y Asesoramiento Online (1 al mes) -->
                     <div class="item-card">
                         <div class="item-card-body">
-                            <span class="item-tag">Entrevista</span>
-                            <h4>Simulacro de Entrevista Laboral</h4>
-                            <p>Práctica personalizada de preguntas frecuentes y técnicas de oratoria para entrevistas presenciales y virtuales.</p>
-                            <button class="btn-card-action" onclick="alert('Agendando simulacro de entrevista...');">Agendar Sesión</button>
+                            <span class="item-tag">1 Sesión / mes</span>
+                            <h4>Simulacro de Entrevista y Asesoramiento Online</h4>
+                            <p>Práctica personalizada y técnicas de oratoria. Te queda <strong id="booking-count-display">1</strong> sesión disponible este mes.</p>
+                            <button class="btn-card-action" id="btn-toggle-booking-form">Agendar Sesión</button>
+                            
+                            <!-- Contenedor con Scroll para el Agendamiento -->
+                            <div id="booking-form-embed-wrapper" class="service-embed-container hidden">
+                                <p style="font-size: 13px; margin-bottom: 10px; color: var(--text-muted);">Selecciona día y horario para tu simulación online:</p>
+                                <!-- Elfsight Appointment Booking | Untitled Appointment Booking -->
+                                <script src="https://elfsightcdn.com/platform.js" async></script>
+                                <div class="elfsight-app-ffa002ec-4da5-4992-a45b-2feebb7e7fbf" data-elfsight-app-lazy></div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -751,7 +794,7 @@
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT CON PERSISTENCIA DE SESIÓN ================= -->
+    <!-- ================= JAVASCRIPT CON LÓGICA DE PAGOS Y LIMITES MENSUALES ================= -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const userData = {
@@ -761,7 +804,12 @@
                 apellido: "Acosta Danaher",
                 ubicacion: "Capital Federal",
                 intereses: ["supermercados", "digital", "lunes a viernes", "fulltime", "turno mañana", "empresas", "administrativo"],
-                activo: true
+                activo: true,
+                // Configuración manual de deuda (Ejemplo: 0 para al día, o número de meses adeudados ej: 2 y monto total ej: 1980)
+                mesesAdeudados: 0, 
+                montoDeuda: 1980,
+                revisionesCvRestantes: 3,
+                sesionesAgendarRestantes: 1
             };
 
             const novedadesData = [
@@ -813,10 +861,68 @@
                 }
             ];
 
-            // Fecha actual
+            // Fecha actual y cálculo dinámico del próximo débito (1 del siguiente mes)
             const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const dateEl = document.getElementById('current-date-display');
             if(dateEl) dateEl.textContent = new Date().toLocaleDateString('es-AR', optionsDate);
+
+            function calcularProximoDebito() {
+                const now = new Date();
+                let mes = now.getMonth() + 1; // siguiente mes
+                let anio = now.getFullYear();
+                if (mes > 11) {
+                    mes = 0;
+                    anio++;
+                }
+                const mesesNombres = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+                return `1 de ${mesesNombres[mes]}`;
+            }
+            const debitEl = document.getElementById('acc-next-debit');
+            if(debitEl) debitEl.textContent = calcularProximoDebito();
+
+            // Renderizar estado de cuenta (Al día o con deuda)
+            const statusBox = document.getElementById('acc-status-box');
+            if(statusBox) {
+                if (userData.mesesAdeudados > 0) {
+                    statusBox.innerHTML = `
+                        <span style="color: #d93838; font-weight: 600; display: block; margin-top: 4px;">Tienes un pago pendiente de $${userData.montoDeuda} (${userData.mesesAdeudados} meses)</span>
+                        <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+                            <button class="btn-primary" style="padding: 8px; font-size: 13px;" onclick="alert('Redirigiendo a Mercado Pago para regularizar cuenta...');">Pagar con Mercado Pago</button>
+                            <div style="font-size: 12px; color: var(--text-muted); background: #f4f6f8; padding: 8px; border-radius: 6px;">
+                                <strong>Pagar por transferencia CVU:</strong><br>
+                                Alias: <code>empleosvacantes.com</code><br>
+                                <em>Si ya transferiste, envianos tu comprobante a:</em><br>
+                                <a href="mailto:empleosvacantes.com@gmail.com" style="color: var(--primary);">empleosvacantes.com@gmail.com</a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    statusBox.innerHTML = `<span style="color: #0d8a3e; font-weight: 600;">Tu cuenta está al día</span>`;
+                }
+            }
+
+            // Contadores de revisiones y sesiones
+            const cvCountEl = document.getElementById('cv-count-display');
+            const bookingCountEl = document.getElementById('booking-count-display');
+            if(cvCountEl) cvCountEl.textContent = userData.revisionesCvRestantes;
+            if(bookingCountEl) bookingCountEl.textContent = userData.sesionesAgendarRestantes;
+
+            // Toggle de formularios con scroll interno en Asesoramiento
+            const btnToggleCv = document.getElementById('btn-toggle-cv-form');
+            const cvWrapper = document.getElementById('cv-form-embed-wrapper');
+            if(btnToggleCv && cvWrapper) {
+                btnToggleCv.addEventListener('click', () => {
+                    cvWrapper.classList.toggle('hidden');
+                });
+            }
+
+            const btnToggleBooking = document.getElementById('btn-toggle-booking-form');
+            const bookingWrapper = document.getElementById('booking-form-embed-wrapper');
+            if(btnToggleBooking && bookingWrapper) {
+                btnToggleBooking.addEventListener('click', () => {
+                    bookingWrapper.classList.toggle('hidden');
+                });
+            }
 
             // Ver contraseña
             const togglePassBtn = document.getElementById('toggle-pass-btn');
